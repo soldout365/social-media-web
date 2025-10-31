@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className='cursor'>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -21,7 +21,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
+        <p >
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
