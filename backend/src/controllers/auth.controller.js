@@ -5,6 +5,7 @@ import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
+// SIGNUP CONTROLLER
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
@@ -67,6 +68,7 @@ export const signup = async (req, res) => {
   }
 };
 
+// LOGIN CONTROLLER
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -99,11 +101,13 @@ export const login = async (req, res) => {
   }
 };
 
+// LOGOUT CONTROLLER
 export const logout = async (_, res) => {
   res.cookie("jwt", "", { maxAge: 0 });
   res.status(200).json({ message: "Logged out successfully" });
 };
 
+// UPDATE PROFILE CONTROLLER
 export const updateProfile = async (req, res) => {
   try {
     const { profilePic } = req.body;
