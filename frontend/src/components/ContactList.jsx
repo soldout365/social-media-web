@@ -27,7 +27,7 @@ const ContactList = () => {
             // }`}
             >
               <div className="size-14 rounded-full overflow-hidden object-cover">
-                <img src={contact.profilePic || "/avatar.png"} />
+                <img src={contact.profilePic || "/avatar.png"} alt={contact.fullName || "Contact avatar"} />
               </div>
             </div>
             <h4 className="text-slate-200 font-medium">{contact.fullName}</h4>
