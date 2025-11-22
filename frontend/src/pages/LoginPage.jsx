@@ -32,9 +32,7 @@ function LoginPage() {
                   <h2 className="text-2xl font-bold text-slate-200 mb-2">
                     Welcome Back
                   </h2>
-                  <p className="text-slate-400">
-                    Login to access to your account
-                  </p>
+                  <p className="text-slate-400">Đăng nhập</p>
                 </div>
 
                 {/* FORM */}
@@ -52,7 +50,7 @@ function LoginPage() {
                           setFormData({ ...formData, email: e.target.value })
                         }
                         className="input"
-                        placeholder="Enter your email"
+                        placeholder="Nhập email của bạn"
                       />
                     </div>
                   </div>
@@ -70,7 +68,7 @@ function LoginPage() {
                           setFormData({ ...formData, password: e.target.value })
                         }
                         className="input"
-                        placeholder="Enter your password"
+                        placeholder="Nhập mật khẩu của bạn"
                       />
                     </div>
                   </div>
@@ -84,14 +82,14 @@ function LoginPage() {
                     {isLoggingIn ? (
                       <LoaderIcon className="w-full h-5 animate-spin text-center" />
                     ) : (
-                      "Sign In"
+                      "Đăng nhập"
                     )}
                   </button>
                 </form>
 
                 <div className="mt-6 text-center">
                   <Link to="/signup" className="auth-link">
-                    Don't have an account? Sign Up
+                    Chưa có tài khoản? Đăng ký
                   </Link>
                 </div>
               </div>

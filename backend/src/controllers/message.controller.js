@@ -3,6 +3,7 @@ import cloudinary from "../lib/cloudinary.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 
+// Get all contacts except the logged-in user
 export const getAllContacts = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
@@ -17,6 +18,7 @@ export const getAllContacts = async (req, res) => {
   }
 };
 
+//get messages between logged-in user and userToChatId
 export const getMessagesByUserId = async (req, res) => {
   try {
     const myId = req.user._id;
@@ -36,6 +38,7 @@ export const getMessagesByUserId = async (req, res) => {
   }
 };
 
+// Send a message from logged-in user to receiverId
 export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
@@ -78,6 +81,7 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+// Get chat partners of the logged-in user
 export const getChatPartners = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;

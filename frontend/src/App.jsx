@@ -4,9 +4,9 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
 import { useAuthStore } from "./store/auth.store.js";
 import { useEffect } from "react";
-import PageLoader from "./components/PageLoader.jsx";
 
 import { Toaster } from "react-hot-toast";
+import PageLoader from "./components/loads/PageLoader.jsx";
 
 function App() {
   const { checkAuth, isCheckingAuth, authUser } = useAuthStore();
