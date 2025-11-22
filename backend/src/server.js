@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 // CORS - phải đặt trước các middleware khác
 app.use(
   cors({
-    origin: ENV.CLIENT_URL,
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
   })
 );
