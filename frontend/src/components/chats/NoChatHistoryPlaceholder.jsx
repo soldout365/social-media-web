@@ -6,11 +6,11 @@ const NoChatHistoryPlaceholder = ({ name }) => {
       <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-cyan-400/10 rounded-full flex items-center justify-center mb-5">
         <MessageCircleIcon className="size-8 text-cyan-400" />
       </div>
-      <h3 className="text-lg font-medium text-slate-200 mb-3">
+      <h3 className="text-lg font-medium text-amber-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]  mb-3">
         Bắt đầu trò chuyện với {name}
       </h3>
       <div className="flex flex-col space-y-3 max-w-md mb-5">
-        <p className="text-slate-400 text-sm">
+        <p className=" text-amber-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] text-sm font-bold">
           Đây là khởi đầu của cuộc trò chuyện của bạn. Gửi tin nhắn để bắt đầu
           trò chuyện!
         </p>
