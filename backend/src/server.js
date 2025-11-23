@@ -1,5 +1,4 @@
 import express from "express";
-import dotnetnv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
@@ -8,8 +7,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { ENV } from "./lib/env.js";
 import { app, server } from "./lib/socket.js";
-
-dotnetnv.config();
 
 const __dirname = path.resolve();
 
