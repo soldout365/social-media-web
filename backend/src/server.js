@@ -7,10 +7,10 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { ENV } from "./lib/env.js";
+import { app, server } from "./lib/socket.js";
 
 dotnetnv.config();
 
-const app = express();
 const __dirname = path.resolve();
 
 const PORT = process.env.PORT || 3000;
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("server dang chay tren port " + PORT);
   connectDB();
 });

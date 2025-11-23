@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useChatStore } from "../../store/chat.store";
 import UsersLoadingSkeleton from "../loads/UsersLoadingSkeleton";
+import { useAuthStore } from "../../store/auth.store";
 
 const ContactList = () => {
   const { getAllContacts, allContacts, setSelectedUser, isUsersLoading } =
     useChatStore();
+  const { onlineUsers } = useAuthStore();
 
   useEffect(() => {
     getAllContacts();
@@ -21,7 +23,6 @@ const ContactList = () => {
           onClick={() => setSelectedUser(contact)}
         >
           <div className="flex items-center gap-4">
-            {/* Avatar với online/offline indicator */}
             <div className="relative flex-shrink-0">
               <div className="size-16 rounded-full overflow-hidden ring-2 ring-cyan-500/30 group-hover:ring-4 group-hover:ring-cyan-400/60 transition-all duration-500 shadow-lg group-hover:shadow-cyan-500/50">
                 <img
@@ -30,13 +31,12 @@ const ContactList = () => {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
-              {/* Online/Offline indicator - uncomment khi cần dùng */}
-              {/* {onlineUsers.includes(contact._id) && (
-            <div className="absolute bottom-0 right-0 size-4 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full ring-2 ring-slate-900 shadow-lg shadow-cyan-500/50"></div>
-          )}
-          {!onlineUsers.includes(contact._id) && (
-            <div className="absolute bottom-0 right-0 size-4 bg-gradient-to-br from-slate-400 to-slate-500 rounded-full ring-2 ring-slate-900 shadow-lg"></div>
-          )} */}
+              {onlineUsers.includes(contact._id) && (
+                <div className="absolute bottom-0 right-0 size-3.5 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full ring-2 ring-slate-900 shadow-lg shadow-cyan-500/50"></div>
+              )}
+              {!onlineUsers.includes(contact._id) && (
+                <div className="absolute bottom-0 right-0 size-3.5 bg-gradient-to-br from-slate-400 to-slate-500 rounded-full ring-2 ring-slate-900 shadow-lg"></div>
+              )}
             </div>
 
             {/* Thông tin contact */}
