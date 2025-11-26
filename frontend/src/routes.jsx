@@ -13,7 +13,9 @@ const routes = createBrowserRouter([
     path: "/login",
     element: (
       <PublicRouter>
-        <LoginPage />
+        <LayoutCover>
+          <LoginPage />
+        </LayoutCover>
       </PublicRouter>
     ),
   },
@@ -21,12 +23,14 @@ const routes = createBrowserRouter([
     path: "/signup",
     element: (
       <PublicRouter>
-        <SignUpPage />
+        <LayoutCover>
+          <SignUpPage />
+        </LayoutCover>
       </PublicRouter>
     ),
   },
   {
-    path: "/home",
+    path: "/",
     element: (
       <PrivateRouter>
         <RootLayout />

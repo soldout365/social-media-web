@@ -1,7 +1,6 @@
-import { Outlet } from "react-router-dom";
 import BackgroundEffect from "../components/BackgroundEffect";
 
-function LayoutCover() {
+function LayoutCover({ children }) {
   return (
     <div className="min-h-screen bg-slate-900 relative flex items-center justify-center p-4 overflow-hidden">
       {/* DECORATORS - GLOW SHAPES */}
@@ -19,8 +18,8 @@ function LayoutCover() {
       {/* BACKGROUND EFFECT */}
       <BackgroundEffect type="particles" />
 
-      {/* OUTLET - Render children routes */}
-      <Outlet />
+      {/* CONTENT - Render children directly */}
+      {children}
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 // Component hiển thị popup khi có cuộc gọi đến
 const IncomingCallModal = ({ caller, callId, onAccept, onReject }) => {
-  const navigate = useNavigate();
   const [countdown, setCountdown] = useState(30); //30s
 
   // Countdown timer

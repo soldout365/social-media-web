@@ -68,7 +68,7 @@ export const useIncomingCall = () => {
 
     try {
       // Chuyển đến trang CallPage với callId
-      navigate(`/home/streams/${incomingCall.callId}`);
+      navigate(`/streams/${incomingCall.callId}`);
       setIncomingCall(null); // Đóng modal
     } catch (error) {
       console.error("Lỗi tham gia cuộc gọi:", error);

@@ -52,7 +52,7 @@ const ChatHeader = () => {
       });
 
       // Navigate đến CallPage - join sẽ xảy ra ở đó
-      navigate(`/home/streams/${callId}`);
+      navigate(`/streams/${callId}`);
     } catch (error) {
       console.error("Lỗi khi bắt đầu cuộc gọi video:", error);
       toast.error("Lỗi khi bắt đầu cuộc gọi video");

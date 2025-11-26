@@ -151,7 +151,7 @@ const CallContent = () => {
   // Theo dõi trạng thái: nếu user bấm "End Call" → callingState = LEFT
   useEffect(() => {
     if (callingState === CallingState.LEFT) {
-      navigate("/home"); // Tự động quay về trang home
+      navigate("/"); // Tự động quay về trang home
     }
   }, [callingState, navigate]);
 
@@ -178,13 +178,13 @@ const CallContent = () => {
 
           // Navigate về home sau 1 giây
           setTimeout(() => {
-            navigate("/home");
+            navigate("/");
           }, 1000);
         } catch (error) {
           console.error("Lỗi khi kết thúc cuộc gọi:", error);
           // Fallback: leave nếu không thể end
           call.leave().catch(console.error);
-          navigate("/home");
+          navigate("/");
         }
       }
     };

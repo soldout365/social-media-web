@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/auth.store";
 
 const PublicRouter = ({ children }) => {
   const { authUser } = useAuthStore();
-  return !authUser ? children : <Navigate to="/home" />;
+  return !authUser ? children : <Navigate to="/" />;
 };
 
 export default PublicRouter;
