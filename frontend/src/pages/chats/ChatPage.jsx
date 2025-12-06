@@ -1,16 +1,16 @@
-import { useChatStore } from "../store/chat.store.js";
-import BorderAnimatedContainer from "../components/BorderAnimatedContainer.jsx";
-import ActiveTabSwitch from "../components/chats/status/ActiveTabSwitch.jsx";
-import ContactList from "../components/chats/lists/ContactList.jsx";
-import ChatContainer from "../components/chats/ChatContainer.jsx";
-import NoConversationPlaceholder from "../components/chats/status/NoConversationPlaceholder.jsx";
-import ProfileHeader from "../components/me/ProfileHeader.jsx";
-import IncomingCallModal from "@/components/modals/IncomingCallModal.jsx";
-import WaitingCallModal from "@/components/modals/WaitingCallModal.jsx";
-import { useIncomingCall } from "@/hooks/streams/useIncomingCall.js";
-import { useVideoCallStore } from "@/store/videoCall.store.js";
-import { useAuthStore } from "@/store/auth.store.js";
-import ChatsList from "@/components/chats/lists/ChatsList.jsx";
+import { useChatStore } from "@/store/chat.store";
+import { useAuthStore } from "@/store/auth.store";
+import { useVideoCallStore } from "@/store/videoCall.store";
+import { useIncomingCall } from "@/hooks/streams/useIncomingCall";
+import BorderAnimatedContainer from "@/components/BorderAnimatedContainer";
+import ActiveTabSwitch from "@/components/chats/status/ActiveTabSwitch";
+import ChatsList from "@/components/chats/lists/ChatsList";
+import ContactList from "@/components/chats/lists/ContactList";
+import ChatContainer from "@/components/chats/ChatContainer";
+import NoConversationPlaceholder from "@/components/chats/status/NoConversationPlaceholder";
+import ProfileHeader from "@/components/me/ProfileHeader";
+import IncomingCallModal from "@/components/modals/IncomingCallModal";
+import WaitingCallModal from "@/components/modals/WaitingCallModal";
 
 function ChatPage() {
   const { activeTab, selectedUser } = useChatStore();
