@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
+import path from "node:path";
+import svgr from "vite-plugin-svgr";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), svgr()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -19,5 +20,16 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "./src/assets"),
       "@types": path.resolve(__dirname, "./src/types"),
     },
+  },
+  server: {
+    watch: {
+      usePolling: true, // Fix cho một số hệ thống file
+    },
+    hmr: {
+      overlay: true, // Hiển thị lỗi trên màn hình
+    },
+  },
+  optimizeDeps: {
+    force: true, // Force re-optimize dependencies khi có thay đổi
   },
 });

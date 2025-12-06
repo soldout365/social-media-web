@@ -26,6 +26,39 @@ const userSchema = new mongoose.Schema(
         ref: "Message",
       },
     ],
+    bio: {
+      type: String,
+      default: "",
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+    },
+
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    posts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+    bookmarks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
   },
   { timestamps: true } // createdAt & updatedAt
 );

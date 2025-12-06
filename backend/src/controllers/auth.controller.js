@@ -5,7 +5,7 @@ import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { upsertStreamUser } from "../lib/stream.js";
-
+import getDataUri from "../lib/datauri.js";
 // SIGNUP CONTROLLER
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -112,6 +112,10 @@ export const login = async (req, res) => {
       fullName: user.fullName,
       email: user.email,
       profilePic: user.profilePic,
+      bio: user.bio,
+      followers: user.followers,
+      following: user.following,
+      posts: user.posts,
     });
   } catch (error) {
     console.log(error);
@@ -128,23 +132,152 @@ export const logout = async (_, res) => {
 // UPDATE PROFILE CONTROLLER
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePic } = req.body;
-    if (!profilePic)
-      return res.status(400).json({ message: "Profile picture is required" });
+    const userId = req.user?._id || req.id;
 
-    const userId = req.user._id;
+    if (!userId) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized - userId missing", success: false });
+    }
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const { profilePic, bio, gender } = req.body; // from chatapp
+    const profilePictureFile = req.file; // from socialapp
 
-    const updateUser = await User.findByIdAndUpdate(
-      userId,
-      { profilePic: uploadResponse.secure_url },
-      { new: true }
-    ).select("-password");
+    const user = await User.findById(userId).select("-password");
 
-    res.status(200).json(updateUser);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false });
+    }
+
+    let cloudResponse;
+
+    if (profilePictureFile) {
+      // from socialapp
+      const fileUri = getDataUri(profilePictureFile);
+      cloudResponse = await cloudinary.uploader.upload(fileUri);
+      user.profilePic = cloudResponse.secure_url;
+    } else if (profilePic) {
+      // from chatapp
+      cloudResponse = await cloudinary.uploader.upload(profilePic);
+      user.profilePic = cloudResponse.secure_url;
+    }
+
+    if (bio !== undefined) user.bio = bio;
+    if (gender !== undefined) user.gender = gender;
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      success: true,
+      user,
+    });
   } catch (error) {
     console.log("error in updateProfile controller : ", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+// GET PROFILE CONTROLLER(chua hoan thien)
+export const getProfile = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    let user = await User.findById(userId).select("-password");
+    return res.status(200).json({
+      user,
+      success: true,
+    });
+  } catch (error) {
+    console.log("error in GetProfile controller : ", error);
+    res.status(500).json({ message: " Internal Server error" });
+  }
+};
+
+// SUGGESTED USERS CONTROLLER
+export const getSuggestedUsers = async (req, res) => {
+  try {
+    const suggestedUsers = await User.find({
+      _id: { $ne: req.id || req.user?._id },
+    })
+      .select("-password")
+      .limit(10);
+    if (!suggestedUsers) {
+      return res.status(400).json({ message: "No suggested users found" });
+    }
+    return res.status(200).json({
+      message: "Suggested users found",
+      users: suggestedUsers,
+      success: true,
+    });
+  } catch (error) {
+    console.log("error in getSuggestUsers controller ", error);
+    res.status(500).json({ message: " Internal Server error" });
+  }
+};
+// follow unfollow controller
+export const followOrUnfollow = async (req, res) => {
+  try {
+    const requestingUserId = req.id; // ID của người dùng đang thực hiện hành động (từ token/middleware)
+    const targetUserId = req.params.id; // ID của người dùng được follow/unfollow (từ URL params)
+
+    // Kiểm tra không cho phép tự follow chính mình
+    if (requestingUserId === targetUserId) {
+      return res.status(400).json({
+        message: "You cannot follow or unfollow yourself",
+        success: false,
+      });
+    }
+
+    // Lấy thông tin cả 2 users song song để tối ưu hiệu suất
+    const [requestingUser, targetUser] = await Promise.all([
+      User.findById(requestingUserId), // Tìm user đang thực hiện hành động
+      User.findById(targetUserId), // Tìm user mục tiêu
+    ]);
+
+    // Kiểm tra xem cả 2 users có tồn tại không
+    if (!requestingUser || !targetUser) {
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false });
+    }
+
+    // Kiểm tra xem user đã follow target chưa (kiểm tra trong mảng following)
+    const isFollowing = requestingUser.following.includes(targetUserId);
+
+    if (isFollowing) {
+      // === TRƯỜNG HỢP UNFOLLOW ===
+      await Promise.all([
+        User.updateOne(
+          { _id: requestingUserId },
+          { $pull: { following: targetUserId } } // Xóa targetUserId khỏi mảng following của requesting user
+        ),
+        User.updateOne(
+          { _id: targetUserId },
+          { $pull: { followers: requestingUserId } } // Xóa requestingUserId khỏi mảng followers của target user
+        ),
+      ]);
+      return res
+        .status(200)
+        .json({ message: "User unfollowed successfully", success: true });
+    } else {
+      // === TRƯỜNG HỢP FOLLOW ===
+      await Promise.all([
+        User.updateOne(
+          { _id: requestingUserId },
+          { $addToSet: { following: targetUserId } } // Thêm targetUserId vào mảng following (addToSet tránh duplicate)
+        ),
+        User.updateOne(
+          { _id: targetUserId },
+          { $addToSet: { followers: requestingUserId } } // Thêm requestingUserId vào mảng followers (addToSet tránh duplicate)
+        ),
+      ]);
+      return res
+        .status(200)
+        .json({ message: "User followed successfully", success: true });
+    }
+  } catch (error) {
+    console.log("error in followOrUnfollow controller ", error); // Log lỗi để debug
+    res.status(500).json({ message: " Internal Server error" }); // Trả về lỗi server
   }
 };

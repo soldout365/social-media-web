@@ -1,12 +1,13 @@
-import ChatPage from "./pages/ChatPage";
-import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
 import PrivateRouter from "./components/PrivateRouter";
 import PublicRouter from "./components/PublicRouter";
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 import CallPage from "./pages/streams/[id]/CallPage";
 import LayoutCover from "./layouts/LayoutCover";
+import LoginPage from "./pages/auth/LoginPage";
+import SignUpPage from "./pages/auth/SignUpPage";
+import ChatPage from "./pages/chats/ChatPage";
+import SocialMediaPage from "./pages/social-media/page";
 
 const routes = createBrowserRouter([
   {
@@ -39,11 +40,23 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <ChatPage />,
+        element: (
+          <LayoutCover>
+            <ChatPage />
+          </LayoutCover>
+        ),
       },
       {
         path: "streams/:id",
-        element: <CallPage />,
+        element: (
+          <LayoutCover>
+            <CallPage />
+          </LayoutCover>
+        ),
+      },
+      {
+        path: "social-media",
+        element: <SocialMediaPage />,
       },
     ],
   },
