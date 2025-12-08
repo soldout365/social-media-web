@@ -113,7 +113,7 @@ const ChatHeader = () => {
 
         // Clear waiting state và navigate
         startCall(callId);
-        navigate(`streams/${callId}`);
+        navigate(`/streams/${callId}`);
       } catch (error) {
         console.error("Error creating Stream call:", error);
         toast.error("Lỗi khi tạo cuộc gọi");
