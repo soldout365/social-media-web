@@ -7,46 +7,16 @@ import Create from "@/assets/create.svg?react";
 import Explore from "@/assets/explore.svg?react";
 import Reels from "@/assets/reels.svg?react";
 import Messenger from "@/assets/messenger.svg?react";
-import Profile from "@/assets/profile.svg?react";
-import { MenuItem } from "./components/MenuItem";
+import { useNavigate } from "react-router-dom";
+import LeftSidebar from "./components/LeftSidebar";
 
 export default function SocialMediaPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex h-screen bg-black text-white">
       {/* SIDEBAR BÊN TRÁI */}
-      <div className="w-64 border-r border-gray-800 p-4 flex flex-col">
-        <img
-          src="/logo.png"
-          alt="Logo"
-          className="w-full h-auto object-contain object-center mb-5 mt-6"
-          style={{ aspectRatio: "auto" }}
-        />
-        {/* Menu phía trên */}
-        <nav className="flex-1 space-y-2">
-          <MenuItem
-            icon={<Home width={24} height={24} />}
-            text="Trang chủ"
-            active
-          />
-          <MenuItem icon={<Search width={24} height={24} />} text="Tìm kiếm" />
-          <MenuItem icon={<Explore width={24} height={24} />} text="Khám phá" />
-          <MenuItem icon={<Reels width={24} height={24} />} text="Reels" />
-          <MenuItem
-            icon={<Messenger width={24} height={24} />}
-            text="Tin nhắn"
-          />
-          <MenuItem icon={<Heart width={24} height={24} />} text="Thông báo" />
-          <MenuItem icon={<Create width={24} height={24} />} text="Tạo" />
-          <MenuItem
-            icon={<Profile width={24} height={24} />}
-            text="Trang cá nhân"
-          />
-        </nav>
-        {/* Menu phía dưới */}
-        <div className="mt-auto">
-          <MenuItem icon={<Menu size={24} />} text="Xem thêm" />
-        </div>
-      </div>
+      <LeftSidebar />
       {/* NỘI DUNG CHÍNH (Feed) */}
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-xl mx-auto py-8">
@@ -136,27 +106,6 @@ export default function SocialMediaPage() {
     </div>
   );
 }
-
-// Component MenuItem - Item trong menu sidebar
-// function MenuItem({ icon, text, active, badge }) {
-//   return (
-//     <div
-//       className={`flex items-center gap-4 px-3 py-3 rounded-lg cursor-pointer hover:bg-gray-900 transition ${
-//         active ? "font-bold" : ""
-//       }`}
-//     >
-//       <div className="relative">
-//         {icon}
-//         {badge && ( // Hiển thị badge nếu có (ví dụ: số tin nhắn chưa đọc)
-//           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-//             {badge}
-//           </span>
-//         )}
-//       </div>
-//       <span className={active ? "font-semibold" : ""}>{text}</span>
-//     </div>
-//   );
-// }
 
 // Component Story - Hiển thị avatar story
 function Story({ username }) {
