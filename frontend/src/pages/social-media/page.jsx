@@ -1,5 +1,4 @@
 import React from "react";
-import { Menu, Send, Bookmark, MessageCircle, Heart } from "lucide-react";
 // import { useNavigate } from "react-router-dom";
 import LeftSidebar from "./components/LeftSidebar";
 import Posts from "./post/Posts";
