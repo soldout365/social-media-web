@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
+import { Heart, MessageCircle, Share2, Loader2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useGetAllCommentsOfPost } from "@/hooks/posts/usePost";
 import Comment from "./Comment";
 
 const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
   const [text, setText] = useState("");
   const { selectedPost } = useSelector((store) => store.post);
-  const [comment, setComment] = useState([]);
 
-  useEffect(() => {
-    if (selectedPost) {
-      setComment(selectedPost.comments);
-    }
-  }, [selectedPost]);
+  // Fetch comments mới nhất khi dialog mở
+  const { data: commentsData, isLoading: isLoadingComments } =
+    useGetAllCommentsOfPost(selectedPost?._id, {
+      enabled: open && !!selectedPost?._id,
+    });
+
+  // Sử dụng comments từ API hoặc fallback về selectedPost.comments
+  const comments = commentsData?.comments || selectedPost?.comments || [];
 
   const changeEventHandler = (e) => {
     const inputText = e.target.value;
@@ -34,7 +37,7 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         onInteractOutside={() => setOpen(false)}
-        className="max-w-4xl p-0 flex flex-col h-[600px] bg-black border-gray-700"
+        className="max-w-4xl p-0 flex flex-col h-[600px] bg-black border-gray-700  "
       >
         <div className="flex flex-1 overflow-hidden">
           {/* ===== PHẦN HÌNH ẢNH (LEFT) ===== */}
@@ -81,8 +84,12 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
 
             {/* COMMENTS SECTION: Danh sách bình luận */}
             <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
-              {comment && comment.length > 0 ? (
-                comment.map((cmt) => (
+              {isLoadingComments ? (
+                <div className="flex justify-center items-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+                </div>
+              ) : comments && comments.length > 0 ? (
+                comments.map((cmt) => (
                   <div key={cmt._id} className="flex gap-2">
                     <Avatar className="w-8 h-8 flex-shrink-0">
                       <AvatarImage

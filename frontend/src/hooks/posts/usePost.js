@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/redux/postSlice";
 import { useAuthStore } from "@/store/auth.store";
+import { userApi } from "@/apis/user.api";
 
 export const useDeletePost = () => {
   const dispatch = useDispatch();
@@ -60,16 +61,18 @@ export const useCreatePost = () => {
 
 export const useGetAllPosts = () => {
   const dispatch = useDispatch();
-  return useQuery({
+
+  const query = useQuery({
     queryKey: [postApi.getAllPosts.name],
-    queryFn: async () => await postApi.getAllPosts(),
-    onSuccess: (data) => {
+    queryFn: async () => {
+      const data = await postApi.getAllPosts();
       dispatch(setPosts(data.posts));
+      return data;
     },
-    onError: (error) => {
-      console.error("Error fetching posts:", error);
-    },
+    staleTime: 5 * 60 * 1000, // Cache 5 phút
   });
+
+  return query;
 };
 
 export const useLikeOrDislikePost = () => {
@@ -138,11 +141,25 @@ export const useAddComment = () => {
 };
 
 export const useBookmarkPost = () => {
+  const { authUser } = useAuthStore();
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationKey: [postApi.bookmarkPost.name],
     mutationFn: (postId) => postApi.bookmarkPost(postId),
-    onSuccess: () => {
-      toast.success("Đã lưu bài viết");
+
+    onMutate: async () => {
+      return { previousBookmarks: authUser?.bookmarks };
+    },
+    onSuccess: (data) => {
+      if (data.type === "saved") {
+        toast.success("Đã lưu bài viết");
+      } else if (data.type === "unsaved") {
+        toast.success("Bỏ lưu bài viết thành công");
+      }
+      queryClient.invalidateQueries({
+        queryKey: [userApi.getUserProfile.name],
+      });
     },
     onError: (error) => {
       toast.error("Có lỗi xảy ra");
@@ -155,10 +172,12 @@ export const useBookmarkPost = () => {
   };
 };
 
-export const useGetAllCommentsOfPost = (postId) => {
+export const useGetAllCommentsOfPost = (postId, options = {}) => {
   return useQuery({
     queryKey: [postApi.getAllCommentsOfPost.name, postId],
     queryFn: async () => await postApi.getAllCommentsOfPost(postId),
+    enabled: options.enabled !== undefined ? options.enabled : !!postId,
+    staleTime: 30 * 1000, // Cache 30s
     onError: (error) => {
       console.log(error);
     },

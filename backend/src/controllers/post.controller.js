@@ -218,9 +218,9 @@ export const getCommentsOfPost = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const postId = req.params.id; // ID bài post cần xóa
-    const authorId = req.user?._id || req.id; // ID user đang đăng nhập
+    const authorId = req.user._id; // ID user đang đăng nhập từ protectRoute middleware
 
-    console.log("🗑️ Deleting post:", { postId, authorId });
+    console.log("🗑️ Deleting post:", { postId, authorId: authorId.toString() });
 
     const post = await Post.findById(postId); // Tìm bài post
     if (!post) {
@@ -234,13 +234,12 @@ export const deletePost = async (req, res) => {
       "📝 Post author:",
       post.author.toString(),
       "Current user:",
-      authorId
+      authorId.toString()
     );
 
     // Kiểm tra có phải chủ bài post không
-    if (post.author.toString() !== authorId) {
-      console.log("❌ Unauthorized - Not the author");
-      return res.status(403).json({ message: "Unauthorized" });
+    if (post.author.toString() !== authorId.toString()) {
+      return res.status(403).json({ message: "Unauthorized", success: false });
     }
 
     // BƯỚC 1: Xóa document Post trong collection "posts"

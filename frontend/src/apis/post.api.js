@@ -10,17 +10,27 @@ export const postApi = {
   },
 
   getAllPosts: async () => {
-    const response = await axiosInstance.get("/post/allposts");
+    const response = await axiosInstance.get("/post/allposts", {
+      withCredentials: true,
+    });
     return response.data;
   },
 
   likeOrDislikePost: async (postId) => {
-    const response = await axiosInstance.put(`/post/${postId}/toggle-like`);
+    const response = await axiosInstance.put(
+      `/post/${postId}/toggle-like`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   },
 
   deletePost: async (postId) => {
-    const response = await axiosInstance.delete(`/post/delete/${postId}`);
+    const response = await axiosInstance.delete(`/post/delete/${postId}`, {
+      withCredentials: true,
+    });
     return response.data;
   },
 

@@ -167,10 +167,10 @@ const Post = ({ post }) => {
           <Bookmark
             onClick={bookmarkHandler}
             size={24}
-            className={`cursor-pointer ${
+            className={`cursor-pointer transition-all duration-200 ${
               isBookmarked
-                ? "fill-current text-gray-500"
-                : "hover:text-gray-400"
+                ? " drop-shadow-sm fill-current text-gray-400 hover:text-gray-500 scale-110"
+                : "hover:text-gray-400 hover:scale-105"
             }`}
           />
         </div>

@@ -179,11 +179,51 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-// GET PROFILE CONTROLLER(chua hoan thien)
+// GET PROFILE CONTROLLER
 export const getProfile = async (req, res) => {
   try {
     const userId = req.params.id;
-    let user = await User.findById(userId).select("-password");
+    let user = await User.findById(userId)
+      .select("-password")
+      .populate({
+        path: "posts",
+        options: { sort: { createdAt: -1 } },
+        populate: [
+          {
+            path: "author",
+            select: "fullName profilePic",
+          },
+          {
+            path: "comments",
+            options: { sort: { createdAt: -1 } },
+            populate: {
+              path: "author",
+              select: "fullName profilePic",
+            },
+          },
+        ],
+      })
+      .populate({
+        path: "bookmarks",
+        options: { sort: { createdAt: -1 } },
+        populate: [
+          {
+            path: "author",
+            select: "fullName profilePic",
+          },
+          {
+            path: "comments",
+            options: { sort: { createdAt: -1 } },
+            populate: {
+              path: "author",
+              select: "fullName profilePic",
+            },
+          },
+        ],
+      })
+      .populate("followers", "fullName profilePic")
+      .populate("following", "fullName profilePic");
+
     return res.status(200).json({
       user,
       success: true,

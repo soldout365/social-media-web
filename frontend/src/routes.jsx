@@ -2,6 +2,7 @@ import PrivateRouter from "./components/PrivateRouter";
 import PublicRouter from "./components/PublicRouter";
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
+import SocialMediaLayout from "./layouts/SocialMediaLayout";
 import CallPage from "./pages/streams/[id]/CallPage";
 import LayoutCover from "./layouts/LayoutCover";
 import LoginPage from "./pages/auth/LoginPage";
@@ -43,21 +44,22 @@ const routes = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
-        element: <SocialMediaPage />,
-      },
-      {
-        path: "profile/:id",
-        element: <Profile />,
-      },
-      {
-        path: "account/edit",
-        element: <EditProfile />,
-      },
-
-      {
-        path: "right-sidebar-test",
-        element: <RightSidebar />,
+        path: "",
+        element: <SocialMediaLayout />,
+        children: [
+          {
+            index: true,
+            element: <SocialMediaPage />,
+          },
+          {
+            path: "profile/:id",
+            element: <Profile />,
+          },
+          {
+            path: "account/edit",
+            element: <EditProfile />,
+          },
+        ],
       },
 
       {

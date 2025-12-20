@@ -7,4 +7,10 @@ export const userApi = {
     });
     return response.data;
   },
+  getUserProfile: async (userId) => {
+    const response = await axiosInstance.get(`/auth/${userId}/profile`, {
+      withCredentials: true,
+    });
+    return response.data;
+  },
 };

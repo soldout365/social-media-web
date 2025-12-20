@@ -1,46 +1,32 @@
 import React from "react";
-import LeftSidebar from "./components/LeftSidebar";
 import Posts from "./post/Posts";
 import RightSidebar from "./components/RightSidebar";
 
 export default function SocialMediaPage() {
   return (
-    <div
-      className="flex h-screen bg-[#0A1014]
-
- text-white"
-    >
-      <div className="w-1/6 flex-shrink-0 border-r border-gray-800">
-        <LeftSidebar />
+    <div className="flex gap-30 py-8 px-20 xl:px-4">
+      {/* FEED (Stories + Posts) */}
+      <div className="w-full max-w-xl mx-auto">
+        {/* Stories - Thanh trượt ngang */}
+        <div className="flex gap-4 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+          <Story username="sim_bs0707" />
+          <Story username="chotutufan" />
+          <Story username="pharacoolboy" />
+          <Story username="naxisneaker" />
+          <Story username="t1lol" />
+          <Story username="jenlisa" />
+          <Story username="mark_zuckerberg" />
+          <Story username="cristiano" />
+          <Story username="natgeo" />
+          <Story username="therock" />
+        </div>
+        {/* Posts */}
+        <Posts />
       </div>
 
-      {/* NỘI DUNG CHÍNH - Feed + Right Sidebar scroll cùng nhau */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="flex gap-30 py-8 px-20 xl:px-4">
-          {/* FEED (Stories + Posts) */}
-          <div className="w-full max-w-xl mx-auto">
-            {/* Stories - Thanh trượt ngang */}
-            <div className="flex gap-4 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-              <Story username="sim_bs0707" />
-              <Story username="chotutufan" />
-              <Story username="pharacoolboy" />
-              <Story username="naxisneaker" />
-              <Story username="t1lol" />
-              <Story username="jenlisa" />
-              <Story username="mark_zuckerberg" />
-              <Story username="cristiano" />
-              <Story username="natgeo" />
-              <Story username="therock" />
-            </div>
-            {/* Posts */}
-            <Posts />
-          </div>
-
-          {/* SIDEBAR BÊN PHẢI - Scroll cùng với posts */}
-          <div className="hidden xl:block w-full max-w-sm flex-shrink-0 mt-8 ">
-            <RightSidebar />
-          </div>
-        </div>
+      {/* SIDEBAR BÊN PHẢI - Scroll cùng với posts */}
+      <div className="hidden xl:block w-full max-w-sm flex-shrink-0 mt-8 ">
+        <RightSidebar />
       </div>
     </div>
   );

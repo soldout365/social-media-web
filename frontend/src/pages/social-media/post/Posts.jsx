@@ -8,6 +8,8 @@ const Posts = () => {
 
   const { posts } = useSelector((store) => store.post);
 
+  console.log(posts);
+
   return (
     <div className="flex-1 my-8 flex flex-col items-center px-[10%]">
       <div>
