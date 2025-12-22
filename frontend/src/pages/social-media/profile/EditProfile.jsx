@@ -67,7 +67,7 @@ const EditProfile = () => {
             className="hidden"
           />
           <Button
-            onClick={() => imageRef?.current.click()}
+            onClick={() => imageRef.current && imageRef.current.click()}
             className="bg-[#0095F6] h-8 hover:bg-[#318bc7]"
           >
             Change photo
