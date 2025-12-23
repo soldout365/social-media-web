@@ -122,10 +122,10 @@ const LeftSidebar = () => {
                     sideOffset={5}
                   >
                     <div className="max-h-[400px] overflow-y-auto">
-                      {likeNotification.map((notification) => {
+                      {likeNotification.map((notification, index) => {
                         return (
                           <div
-                            key={notification.userId}
+                            key={`${notification.userId}-${index}`}
                             className="flex items-center gap-3 p-3 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
                           >
                             <Avatar className="h-10 w-10">
