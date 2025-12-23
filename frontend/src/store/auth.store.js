@@ -19,6 +19,9 @@ export const useAuthStore = create((set, get) => ({
 
   onlineUsers: [],
 
+  // Real-time notification state
+  likeNotification: [],
+
   //connectSocket() → browser gửi cookie → server verify token → connection accepted → server emit getOnlineUsers → client update UI
 
   connectSocket: () => {
@@ -34,6 +37,21 @@ export const useAuthStore = create((set, get) => ({
     //nghe sukien getOnlineUsers tu server
     socket.on("getOnlineUsers", (userIds) => {
       set({ onlineUsers: userIds });
+    });
+
+    // Lắng nghe sự kiện notification (like/dislike)
+    socket.on("notification", (notification) => {
+      const currentNotifications = get().likeNotification;
+
+      if (notification.type === "like") {
+        set({ likeNotification: [...currentNotifications, notification] });
+      } else if (notification.type === "dislike") {
+        set({
+          likeNotification: currentNotifications.filter(
+            (item) => item.userId !== notification.userId
+          ),
+        });
+      }
     });
   },
 
@@ -100,8 +118,9 @@ export const useAuthStore = create((set, get) => ({
     if (socket.connected) socket.disconnect();
 
     socket.off("getOnlineUsers"); // chỉ gỡ listener đã thêm trong connectSocket
+    socket.off("notification"); // gỡ listener notification
 
-    set({ socket: null, onlineUsers: [] });
+    set({ socket: null, onlineUsers: [], likeNotification: [] });
   },
 
   logout: async () => {
@@ -114,5 +133,14 @@ export const useAuthStore = create((set, get) => ({
       console.log(error);
       toast.error("Đăng xuất thất bại. Vui lòng thử lại.");
     }
+  },
+
+  // Actions để quản lý notification thủ công
+  addLikeNotification: (notification) => {
+    const currentNotifications = get().likeNotification;
+    set({ likeNotification: [...currentNotifications, notification] });
+  },
+  clearAllNotifications: () => {
+    set({ likeNotification: [] });
   },
 }));

@@ -137,7 +137,9 @@ export const toggleLikePost = async (req, res) => {
         userId: currentUserId,
         userDetails: currentUser,
         postId,
-        message: isAlreadyLiked ? "disliked your post" : "liked your post",
+        message: isAlreadyLiked
+          ? "disliked your post"
+          : " đã thích bài viết của bạn",
       };
 
       const postAuthorSocketId = getReceiverSocketId(postAuthorId);

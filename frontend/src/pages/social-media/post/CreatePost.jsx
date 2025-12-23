@@ -59,8 +59,13 @@ const CreatePost = ({ open, setOpen }) => {
           <div className="flex gap-3 items-center">
             <Avatar className="h-12 w-12">
               <AvatarImage
-                src={authUser?.profilePicture || "/avatar.png"}
+                src={
+                  authUser?.profilePicture ||
+                  authUser?.profilePic ||
+                  "/avatar.png"
+                }
                 alt="img"
+                className="w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-400 to-pink-600 p-[2px] object-cover "
               />
               <AvatarFallback className="text-sm font-semibold">
                 {authUser?.fullName?.charAt(0).toUpperCase()}
@@ -68,7 +73,7 @@ const CreatePost = ({ open, setOpen }) => {
             </Avatar>
             <div>
               <h1 className="font-semibold text-sm">{authUser?.fullName}</h1>
-              <span className="text-gray-500 text-xs">Tiểu sử...</span>
+              <span className="text-gray-500 text-xs">{authUser?.bio}</span>
             </div>
           </div>
 

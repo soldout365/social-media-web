@@ -5,7 +5,7 @@ import LeftSidebar from "@/pages/social-media/components/LeftSidebar";
 export default function SocialMediaLayout() {
   return (
     <div className="flex h-screen bg-[#0A1014] text-white">
-      <div className="w-[15%] flex-shrink-0 border-r border-gray-800">
+      <div className="w-[15.5%] flex-shrink-0 border-r border-gray-800">
         <LeftSidebar />
       </div>
 
