@@ -3,12 +3,29 @@ import { useAuthStore } from "@/store/auth.store";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import React from "react";
-import { useGetSuggestedUsers } from "@/hooks/users/useUser";
+import React, { useMemo } from "react";
+import {
+  useGetSuggestedUsers,
+  useFollowOrUnfollowUser,
+} from "@/hooks/users/useUser";
 
 const RightSidebar = () => {
   const { authUser } = useAuthStore();
   const { data: suggestedUsers = [], isLoading } = useGetSuggestedUsers();
+  const { mutate: followOrUnfollow, isPending } = useFollowOrUnfollowUser();
+
+  // Lọc chỉ hiển thị những user chưa được follow
+  const unfollowedUsers = useMemo(() => {
+    if (!authUser?.following || !suggestedUsers) return suggestedUsers;
+
+    return suggestedUsers.filter(
+      (user) => !authUser.following.includes(user._id)
+    );
+  }, [suggestedUsers, authUser?.following]);
+
+  const handleFollow = (userId) => {
+    followOrUnfollow(userId);
+  };
 
   return (
     <div className="w-full max-w-[300px]">
@@ -55,10 +72,10 @@ const RightSidebar = () => {
       <div className="flex flex-col gap-2.5">
         {isLoading ? (
           <div className="text-sm text-gray-400">Đang tải...</div>
-        ) : suggestedUsers.length === 0 ? (
+        ) : unfollowedUsers.length === 0 ? (
           <div className="text-sm text-gray-400">Không có gợi ý nào</div>
         ) : (
-          suggestedUsers.slice(0, 6).map((user) => (
+          unfollowedUsers.slice(0, 6).map((user) => (
             <div
               key={user._id}
               className="flex items-center justify-between mb-3"
@@ -83,8 +100,12 @@ const RightSidebar = () => {
                   <span className="text-xs text-gray-400">Gợi ý cho bạn</span>
                 </div>
               </Link>
-              <button className="text-xs font-bold text-[#0095f6] hover:text-white transition-colors">
-                Theo dõi
+              <button
+                onClick={() => handleFollow(user._id)}
+                disabled={isPending}
+                className="text-xs font-bold text-[#0095f6] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isPending ? "Đang xử lý..." : "Theo dõi"}
               </button>
             </div>
           ))

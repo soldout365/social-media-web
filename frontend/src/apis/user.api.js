@@ -24,4 +24,15 @@ export const userApi = {
     });
     return response.data;
   },
+
+  followOrUnfollowUser: async (targetUserId) => {
+    const response = await axiosInstance.post(
+      `/auth/follow-or-unfollow/${targetUserId}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  },
 };

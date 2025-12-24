@@ -59,8 +59,21 @@ export const addNewPost = async (req, res) => {
 //get all posts
 export const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find()
-      .sort({ createdAt: -1 })
+    // Pagination parameters
+    const limit = parseInt(req.query.limit) || 10; // Số bài viết mỗi lần load (default: 10)
+    const cursor = req.query.cursor; // Cursor (postId) của bài viết cuối cùng đã load
+
+    // Build query
+    let query = {};
+    if (cursor) {
+      // Dùng _id thay vì createdAt để tránh collision
+      query._id = { $lt: cursor };
+    }
+
+    // Fetch posts với pagination
+    const posts = await Post.find(query)
+      .sort({ createdAt: -1, _id: -1 }) // Sort by createdAt và _id để đảm bảo order nhất quán
+      .limit(limit + 1) // Load thêm 1 để check hasMore
       .populate({
         path: "author",
         select: "fullName profilePic",
@@ -71,7 +84,19 @@ export const getAllPosts = async (req, res) => {
         populate: { path: "author", select: "fullName profilePic" },
       });
 
-    return res.status(200).json({ posts, success: true });
+    // Check xem còn posts nữa không
+    const hasMore = posts.length > limit;
+    const result = hasMore ? posts.slice(0, limit) : posts;
+
+    // nextCursor là _id của post cuối cùng
+    const nextCursor = result.length > 0 ? result[result.length - 1]._id : null;
+
+    return res.status(200).json({
+      posts: result,
+      nextCursor,
+      hasMore,
+      success: true,
+    });
   } catch (error) {
     console.log("error in getALlpost controller ", error);
     res.status(500).json({ message: "Internal Server error" });

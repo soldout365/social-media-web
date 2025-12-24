@@ -3,6 +3,7 @@ import PublicRouter from "./components/PublicRouter";
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 import SocialMediaLayout from "./layouts/SocialMediaLayout";
+import StreamVideoLayout from "./layouts/StreamVideoLayout";
 import CallPage from "./pages/streams/[id]/CallPage";
 import LayoutCover from "./layouts/LayoutCover";
 import LoginPage from "./pages/auth/LoginPage";
@@ -65,17 +66,21 @@ const routes = createBrowserRouter([
       {
         path: "chat-page",
         element: (
-          <LayoutCover>
-            <ChatPage />
-          </LayoutCover>
+          <StreamVideoLayout>
+            <LayoutCover>
+              <ChatPage />
+            </LayoutCover>
+          </StreamVideoLayout>
         ),
       },
       {
         path: "streams/:id",
         element: (
-          <LayoutCover>
-            <CallPage />
-          </LayoutCover>
+          <StreamVideoLayout>
+            <LayoutCover>
+              <CallPage />
+            </LayoutCover>
+          </StreamVideoLayout>
         ),
       },
     ],

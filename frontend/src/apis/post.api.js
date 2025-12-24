@@ -9,10 +9,17 @@ export const postApi = {
     return response.data;
   },
 
-  getAllPosts: async () => {
-    const response = await axiosInstance.get("/post/allposts", {
-      withCredentials: true,
-    });
+  getAllPosts: async ({ cursor, limit = 10 } = {}) => {
+    const params = new URLSearchParams();
+    params.append("limit", limit);
+    if (cursor) params.append("cursor", cursor);
+
+    const response = await axiosInstance.get(
+      `/post/allposts?${params.toString()}`,
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
   },
 

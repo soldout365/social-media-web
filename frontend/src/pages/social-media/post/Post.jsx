@@ -16,8 +16,10 @@ import {
 } from "@/hooks/posts/usePost";
 import { formatTimeAgo } from "@/lib/dayjs";
 import CommentDialog from "../comment/CommentDialog";
+import { useNavigate } from "react-router-dom";
 
 const Post = ({ post }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { authUser } = useAuthStore();
 
@@ -161,7 +163,7 @@ const Post = ({ post }) => {
         <Send
           size={24}
           className="cursor-pointer hover:text-gray-400"
-          onClick={openCommentDialog}
+          onClick={() => navigate(`/chat-page`)}
         />
 
         <div className="ml-auto">

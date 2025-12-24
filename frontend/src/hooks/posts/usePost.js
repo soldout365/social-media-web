@@ -1,21 +1,34 @@
 import { postApi } from "@/apis/post.api";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "@/redux/postSlice";
 import { useAuthStore } from "@/store/auth.store";
 import { userApi } from "@/apis/user.api";
 
 export const useDeletePost = () => {
-  const dispatch = useDispatch();
-  const { posts } = useSelector((store) => store.post);
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationKey: [postApi.deletePost.name],
     mutationFn: (postId) => postApi.deletePost(postId),
     onSuccess: (data, postId) => {
-      const updatedPosts = posts.filter((p) => p._id !== postId);
-      dispatch(setPosts(updatedPosts));
+      // Update React Query cache
+      queryClient.setQueryData(["posts"], (old) => {
+        if (!old?.pages) return old;
+
+        return {
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            posts: page.posts.filter((p) => p._id !== postId),
+          })),
+        };
+      });
+
       toast.success("Đã xóa bài viết thành công");
     },
     onError: (error) => {
@@ -31,18 +44,32 @@ export const useDeletePost = () => {
 
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
-  const { posts } = useSelector((store) => store.post);
-  const dispatch = useDispatch();
 
   const mutation = useMutation({
     mutationKey: [postApi.createPost.name],
     mutationFn: (formData) => postApi.createPost(formData),
     onSuccess: (data) => {
-      dispatch(setPosts([data.post, ...posts]));
-      queryClient.invalidateQueries({ queryKey: [postApi.getAllPosts.name] });
+      // Thêm post mới vào đầu page đầu tiên
+      queryClient.setQueryData(["posts"], (old) => {
+        if (!old?.pages || !old.pages[0]) return old;
+
+        const newPages = [...old.pages];
+        newPages[0] = {
+          ...newPages[0],
+          posts: [data.post, ...newPages[0].posts],
+        };
+
+        return {
+          ...old,
+          pages: newPages,
+        };
+      });
+
+      toast.success("Đã đăng bài viết thành công");
     },
     onError: (error) => {
       console.error("Error creating post:", error);
+      toast.error("Không thể đăng bài viết");
     },
   });
   const createPost = async (caption, file) => {
@@ -60,14 +87,19 @@ export const useCreatePost = () => {
 };
 
 export const useGetAllPosts = () => {
-  const dispatch = useDispatch();
-
-  const query = useQuery({
-    queryKey: [postApi.getAllPosts.name],
-    queryFn: async () => {
-      const data = await postApi.getAllPosts();
-      dispatch(setPosts(data.posts));
+  const query = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: async ({ pageParam }) => {
+      const data = await postApi.getAllPosts({
+        cursor: pageParam,
+        limit: 10, // Load 10 bài mỗi lần
+      });
       return data;
+    },
+    initialPageParam: null, // Lần đầu không có cursor
+    getNextPageParam: (lastPage) => {
+      // Trả về cursor tiếp theo nếu còn data
+      return lastPage.hasMore ? lastPage.nextCursor : undefined;
     },
     staleTime: 5 * 60 * 1000, // Cache 5 phút
   });
@@ -76,8 +108,7 @@ export const useGetAllPosts = () => {
 };
 
 export const useLikeOrDislikePost = () => {
-  const dispatch = useDispatch();
-  const { posts } = useSelector((store) => store.post);
+  const queryClient = useQueryClient();
   const { authUser } = useAuthStore();
 
   return useMutation({
@@ -85,45 +116,71 @@ export const useLikeOrDislikePost = () => {
     mutationFn: async (postId) => await postApi.likeOrDislikePost(postId),
 
     onMutate: async (postId) => {
-      // Update UI ngay lập tức (trước khi server phản hồi ,nên ko bỏ vào onSuccess)
-      const updatedPosts = posts.map((p) => {
-        if (p._id === postId) {
-          const isLiked = p.likes.includes(authUser._id);
-          return {
-            ...p,
-            likes: isLiked
-              ? p.likes.filter((id) => id !== authUser._id)
-              : [...p.likes, authUser._id],
-          };
-        }
-        return p;
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+
+      // Snapshot previous value
+      const previousData = queryClient.getQueryData(["posts"]);
+
+      // Optimistically update React Query cache
+      queryClient.setQueryData(["posts"], (old) => {
+        if (!old?.pages) return old;
+
+        return {
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            posts: page.posts.map((p) => {
+              if (p._id === postId) {
+                const isLiked = p.likes.includes(authUser._id);
+                return {
+                  ...p,
+                  likes: isLiked
+                    ? p.likes.filter((id) => id !== authUser._id)
+                    : [...p.likes, authUser._id],
+                };
+              }
+              return p;
+            }),
+          })),
+        };
       });
-      dispatch(setPosts(updatedPosts));
+
+      return { previousData };
     },
-    onSuccess: () => {
-      toast.success("Đã cập nhật cảm xúc với bài viết");
-    },
-    onError: (error) => {
-      console.error("Failed to toggle like status", error);
+
+    onError: (err, postId, context) => {
+      // Rollback on error
+      queryClient.setQueryData(["posts"], context.previousData);
+      toast.error("Không thể cập nhật");
     },
   });
 };
 
 export const useAddComment = () => {
-  const dispatch = useDispatch();
-  const { posts } = useSelector((store) => store.post);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationKey: [postApi.addComment.name],
     mutationFn: ({ postId, text }) => postApi.addComment(postId, text),
     onSuccess: (data, variables) => {
-      const updatedPosts = posts.map((p) =>
-        p._id === variables.postId
-          ? { ...p, comments: [...p.comments, data.comment] }
-          : p
-      );
-      dispatch(setPosts(updatedPosts));
+      // Update React Query cache
+      queryClient.setQueryData(["posts"], (old) => {
+        if (!old?.pages) return old;
+
+        return {
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            posts: page.posts.map((p) =>
+              p._id === variables.postId
+                ? { ...p, comments: [...p.comments, data.comment] }
+                : p
+            ),
+          })),
+        };
+      });
+
       toast.success("Đã thêm bình luận thành công");
       queryClient.invalidateQueries({
         queryKey: [postApi.getAllCommentsOfPost.name, variables.postId],

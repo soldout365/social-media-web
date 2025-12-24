@@ -36,7 +36,6 @@ const CreatePost = ({ open, setOpen }) => {
       setCaption("");
       setFile("");
       setImagePreview("");
-      toast.success("Tạo bài viết thành công");
     } catch (error) {
       console.error("Error creating post:", error);
       setOpen(false);

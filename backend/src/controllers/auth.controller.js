@@ -243,8 +243,15 @@ export const getSuggestedUsers = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized", success: false });
     }
 
+    // Lấy thông tin user hiện tại để biết danh sách đang follow
+    const currentUser = await User.findById(currentUserId).select("following");
+
+    // Tìm users chưa được follow (không có trong danh sách following)
     const suggestedUsers = await User.find({
-      _id: { $ne: currentUserId },
+      _id: {
+        $ne: currentUserId, // Không phải chính mình
+        $nin: currentUser.following, // Chưa được follow
+      },
     })
       .select("-password")
       .limit(10);
@@ -262,13 +269,13 @@ export const getSuggestedUsers = async (req, res) => {
 // follow unfollow controller
 export const followOrUnfollow = async (req, res) => {
   try {
-    const requestingUserId = req.id; // ID của người dùng đang thực hiện hành động (từ token/middleware)
+    const requestingUserId = req.user._id; // ID của người dùng đang thực hiện hành động (từ token/middleware)
     const targetUserId = req.params.targetUserId; // ID của người dùng được follow/unfollow (từ URL params)
 
     // Kiểm tra không cho phép tự follow chính mình
     if (requestingUserId === targetUserId) {
       return res.status(400).json({
-        message: "You cannot follow or unfollow yourself",
+        message: "Bạn không thể theo dõi hoặc hủy theo dõi chính mình",
         success: false,
       });
     }
@@ -283,7 +290,7 @@ export const followOrUnfollow = async (req, res) => {
     if (!requestingUser || !targetUser) {
       return res
         .status(404)
-        .json({ message: "User not found", success: false });
+        .json({ message: "Người dùng không tồn tại", success: false });
     }
 
     // Kiểm tra xem user đã follow target chưa (kiểm tra trong mảng following)
@@ -301,9 +308,17 @@ export const followOrUnfollow = async (req, res) => {
           { $pull: { followers: requestingUserId } } // Xóa requestingUserId khỏi mảng followers của target user
         ),
       ]);
-      return res
-        .status(200)
-        .json({ message: "User unfollowed successfully", success: true });
+
+      // Lấy thông tin user đã cập nhật
+      const updatedUser = await User.findById(requestingUserId).select(
+        "-password"
+      );
+
+      return res.status(200).json({
+        message: "Người dùng đã hủy theo dõi thành công",
+        success: true,
+        user: updatedUser,
+      });
     } else {
       // === TRƯỜNG HỢP FOLLOW ===
       await Promise.all([
@@ -316,9 +331,17 @@ export const followOrUnfollow = async (req, res) => {
           { $addToSet: { followers: requestingUserId } } // Thêm requestingUserId vào mảng followers (addToSet tránh duplicate)
         ),
       ]);
-      return res
-        .status(200)
-        .json({ message: "User followed successfully", success: true });
+
+      // Lấy thông tin user đã cập nhật
+      const updatedUser = await User.findById(requestingUserId).select(
+        "-password"
+      );
+
+      return res.status(200).json({
+        message: "Theo dõi người dùng thành công",
+        success: true,
+        user: updatedUser,
+      });
     }
   } catch (error) {
     console.log("error in followOrUnfollow controller ", error); // Log lỗi để debug

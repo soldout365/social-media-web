@@ -1,5 +1,4 @@
 // src/pages/CallPage.jsx - SỬA LẠI
-import PageLoader from "@/components/loads/PageLoader";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -129,7 +128,12 @@ const CallPage = () => {
     };
   }, [client, callId]); // Re-run khi client hoặc callId thay đổi
 
-  if (!client || isConnecting) return <PageLoader />;
+  if (isConnecting)
+    return (
+      <div className="flex items-center justify-center h-screen text-white text-2xl">
+        <p>Đang kết nối ...</p>
+      </div>
+    );
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">

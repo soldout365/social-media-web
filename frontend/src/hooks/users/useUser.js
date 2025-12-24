@@ -107,3 +107,34 @@ export const useEditProfile = (user) => {
     handleEditProfile,
   };
 };
+
+export const useFollowOrUnfollowUser = () => {
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+
+  return useMutation({
+    mutationKey: [userApi.followOrUnfollowUser.name],
+    mutationFn: userApi.followOrUnfollowUser,
+    onSuccess: (data, targetUserId) => {
+      if (data?.success) {
+        if (data.user) {
+          dispatch(setAuthUser(data.user));
+        }
+
+        queryClient.invalidateQueries({
+          queryKey: [userApi.getUserProfile.name, targetUserId],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["suggestedUsers"],
+        });
+        toast.success(data.message);
+      }
+    },
+    onError: (error) => {
+      console.error("Follow/Unfollow error:", error);
+      const errorMessage =
+        error.response?.data?.message || "Failed to follow/unfollow user";
+      toast.error(errorMessage);
+    },
+  });
+};

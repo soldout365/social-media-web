@@ -90,6 +90,7 @@ const LeftSidebar = () => {
           {sidebarItems.map((item, index) => {
             const active = isActive(item.text); // check active
 
+            //phần notifications
             if (item.text === "Notifications" && likeNotification.length > 0) {
               return (
                 <Popover key={index}>
@@ -116,7 +117,7 @@ const LeftSidebar = () => {
                     </div>
                   </PopoverTrigger>
                   <PopoverContent
-                    className="w-[88%] max-w-[240px] bg-gray-900 border-gray-800 text-white shadow-xl z-50"
+                    className="w-[95%] max-w-[240px] bg-gray-900 border-gray-800 text-white shadow-xl z-50"
                     side="top"
                     align="start"
                     sideOffset={5}

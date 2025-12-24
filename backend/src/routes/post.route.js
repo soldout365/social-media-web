@@ -20,7 +20,7 @@ router.post("/addpost", upload.single("image"), addNewPost);
 
 router.get("/allposts", getAllPosts);
 
-router.get("/userpost/all", getUserPost);
+router.get("/userpost/all", getUserPost); // chua dung
 
 router.put("/:id/toggle-like", toggleLikePost);
 

@@ -1,8 +1,16 @@
 import React, { useMemo, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { AtSign, Heart, MessageCircle, Loader2 } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { useGetUserProfile } from "@/hooks/users/useUser";
+import {
+  useFollowOrUnfollowUser,
+  useGetUserProfile,
+} from "@/hooks/users/useUser";
 import { useAuthStore } from "@/store/auth.store";
 import { useAddComment } from "@/hooks/posts/usePost";
 import { setSelectedPost } from "@/redux/postSlice";
@@ -14,10 +22,16 @@ import CommentDialog from "../comment/CommentDialog";
 const Profile = () => {
   const params = useParams();
   const userId = params.id;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { data: userProfile, isLoading, error } = useGetUserProfile(userId);
+
   const { authUser } = useAuthStore();
+
+  const { mutate: followOrUnfollow, isPending: isFollowPending } =
+    useFollowOrUnfollowUser();
+
   const { addComment } = useAddComment();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,6 +41,10 @@ const Profile = () => {
 
   const handleTabChange = (tab) => {
     setSearchParams({ tab });
+  };
+
+  const handleFollow = (userId) => {
+    followOrUnfollow(userId);
   };
 
   // Computed values với useMemo
@@ -135,15 +153,28 @@ const Profile = () => {
                   </>
                 ) : isFollowing ? (
                   <>
-                    <Button variant="secondary" className="h-8">
+                    <Button
+                      variant="secondary"
+                      className="h-8"
+                      onClick={() => handleFollow(userProfile._id)}
+                      disabled={isFollowPending}
+                    >
                       Unfollow
                     </Button>
-                    <Button variant="secondary" className="h-8">
+                    <Button
+                      variant="secondary"
+                      className="h-8"
+                      onClick={() => navigate(`/chat-page`)}
+                    >
                       Message
                     </Button>
                   </>
                 ) : (
-                  <Button className="bg-[#0095F6] hover:bg-[#3192d2] h-8">
+                  <Button
+                    className="bg-[#0095F6] hover:bg-[#3192d2] h-8"
+                    onClick={() => handleFollow(userProfile._id)}
+                    disabled={isFollowPending}
+                  >
                     Follow
                   </Button>
                 )}
@@ -264,8 +295,8 @@ const Profile = () => {
                 <p className="text-lg font-semibold">No {activeTab} yet</p>
                 <p className="text-sm text-center mt-2">
                   {activeTab === "posts"
-                    ? "Share your first photo or video"
-                    : "Save posts to see them here"}
+                    ? "Chia sẻ ảnh và video của bạn với thế giới!"
+                    : "Lưu bài viết để xem chúng ở đây"}
                 </p>
               </div>
             )}
