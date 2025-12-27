@@ -10,6 +10,6 @@ export const handleLoad = (configStoryTransition) => () => {
     configStoryTransition;
 
   initTransition(currentStories[currentStoryIndex]);
-  Timer.id = setTimeout(startStoryTransition(configStoryTransition), 5000);
+  Timer.id = setTimeout(startStoryTransition(configStoryTransition), STORY_TIMING);
   storiesDispatch?.({ type: STORIES_REDUCER_TYPES.startTiming });
 };
