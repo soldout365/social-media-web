@@ -1,9 +1,14 @@
-import { HTTP_STATUS } from '../common/http-status.common.js';
-import { TypeRole } from '../common/type.common.js';
-import Cart from '../models/cart.model.js';
-import { cartService } from '../services/cart.service.js';
-import { productService } from '../services/product.service.js';
-import { checkUserExist } from '../services/user.service.js';
+import { HTTP_STATUS } from "../common/http-status.common.js";
+import { TypeRole } from "../common/type.common.js";
+import Cart from "../models/cart.model.js";
+import User from "../models/user.model.js";
+import { cartService } from "../services/cart.service.js";
+import { productService } from "../services/product.service.js";
+
+const checkUserExist = async (userId) => {
+  const user = await User.findOne({ _id: userId });
+  return user;
+};
 
 export const cartController = {
   // add to cart
@@ -15,7 +20,7 @@ export const cartController = {
     // check userId gửi lên có trùng với userId trong token không
     if (userId !== _id) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        message: 'Unauthorized',
+        message: "Unauthorized",
         success: false,
       });
     }
@@ -24,7 +29,7 @@ export const cartController = {
     const userExist = await checkUserExist(userId);
     if (!userExist) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        message: 'User not found',
+        message: "User not found",
         success: false,
       });
     }
@@ -32,7 +37,7 @@ export const cartController = {
     const productExist = await productService.getProductById(product.productId);
     if (!productExist) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        message: 'Product not found',
+        message: "Product not found",
         success: false,
       });
     }
@@ -58,7 +63,7 @@ export const cartController = {
       await newCart.save();
 
       return res.status(HTTP_STATUS.OK).json({
-        message: 'Thêm sản phẩm vào giỏ hàng thành công!',
+        message: "Thêm sản phẩm vào giỏ hàng thành công!",
         success: true,
       });
     }
@@ -67,12 +72,16 @@ export const cartController = {
     const { carts } = result;
 
     // check product tồn tại trong giỏ hàng hay chưa
-    const productExitInCarts = carts.filter((item) => item.productId.toString() === product.productId);
+    const productExitInCarts = carts.filter(
+      (item) => item.productId.toString() === product.productId
+    );
 
     // nếu tồn tại rồi thì cập nhật số lượng
     if (productExitInCarts && productExitInCarts.length > 0) {
       // tìm ra xem có sản phẩm nào trùng màu và size không
-      const itemExist = productExitInCarts.find((item) => item.size === product.size && item.color === product.color);
+      const itemExist = productExitInCarts.find(
+        (item) => item.size === product.size && item.color === product.color
+      );
       if (itemExist) {
         itemExist.quantity += product.quantity;
         // tính tổng tiền
@@ -83,7 +92,7 @@ export const cartController = {
         result.total += total;
         await result.save();
         return res.status(HTTP_STATUS.OK).json({
-          message: 'Add to cart successfully',
+          message: "Add to cart successfully",
           success: true,
         });
       } else {
@@ -99,7 +108,7 @@ export const cartController = {
         await result.save();
 
         return res.status(HTTP_STATUS.OK).json({
-          message: 'Add to cart successfully',
+          message: "Add to cart successfully",
           success: true,
         });
       }
@@ -119,7 +128,7 @@ export const cartController = {
       await result.save();
 
       return res.status(HTTP_STATUS.OK).json({
-        message: 'Add to cart successfully',
+        message: "Add to cart successfully",
         success: true,
       });
     }
@@ -135,7 +144,7 @@ export const cartController = {
     // kiểm tra role của user vaf check params có là 1 obejct rỗng hay không
     if (role !== TypeRole.ADMIN && Object.keys(params).length > 0) {
       return res.status(HTTP_STATUS.FORBIDDEN).json({
-        message: 'You do not have permission to access',
+        message: "You do not have permission to access",
         success: false,
       });
     }
@@ -145,19 +154,19 @@ export const cartController = {
     }
 
     query = { ...query, userId: _id };
-    console.log('🚀 ~ getCartByUserId: ~ query:', query);
+    console.log("🚀 ~ getCartByUserId: ~ query:", query);
 
     // lấy giỏ hàng của user
     const result = await cartService.getCartsByUserId(query, params);
     if (!result) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({
-        message: 'Cart not found',
+        message: "Cart not found",
         success: false,
       });
     }
 
     return res.status(HTTP_STATUS.OK).json({
-      message: 'Get cart successfully',
+      message: "Get cart successfully",
       success: true,
       data: result,
     });
@@ -174,10 +183,13 @@ export const cartController = {
       limit: parseInt(_limit, 10),
       populate: [
         {
-          path: 'userId',
-          select: '_id email avatar fullname phone status',
+          path: "userId",
+          select: "_id email avatar fullname phone status",
         },
-        { path: 'carts.productId', select: '_id nameProduct price sale images is_deleted status' },
+        {
+          path: "carts.productId",
+          select: "_id nameProduct price sale images is_deleted status",
+        },
       ],
     };
 
@@ -185,7 +197,7 @@ export const cartController = {
     // kiểm tra role của user vaf check params có là 1 obejct rỗng hay không
     if (role !== TypeRole.ADMIN && Object.keys(params).length > 0) {
       return res.status(HTTP_STATUS.FORBIDDEN).json({
-        message: 'You do not have permission to access',
+        message: "You do not have permission to access",
         success: false,
       });
     }
@@ -201,13 +213,13 @@ export const cartController = {
     const result = await Cart.paginate(query, option);
     if (!result) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({
-        message: 'Cart not found',
+        message: "Cart not found",
         success: false,
       });
     }
 
     return res.status(HTTP_STATUS.OK).json({
-      message: 'Get all carts successfully',
+      message: "Get all carts successfully",
       success: true,
       ...result,
     });
@@ -223,7 +235,7 @@ export const cartController = {
     // check userId gửi lên có trùng với userId trong token không
     if (userId !== _id) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        message: 'Unauthorized',
+        message: "Unauthorized",
         success: false,
       });
     }
@@ -232,7 +244,7 @@ export const cartController = {
     const userExist = await checkUserExist(userId);
     if (!userExist) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        message: 'User not found',
+        message: "User not found",
         success: false,
       });
     }
@@ -240,7 +252,7 @@ export const cartController = {
     const productExist = await productService.getProductById(productId);
     if (!productExist) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        message: 'Product not found',
+        message: "Product not found",
         success: false,
       });
     }
@@ -251,23 +263,25 @@ export const cartController = {
     });
     if (!result) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({
-        message: 'Cart not found',
+        message: "Cart not found",
         success: false,
       });
     }
     const { carts } = result;
 
     // check productInCart tồn tại trong giỏ hàng hay không
-    const productInCart = carts.find((item) => item._id.toString() === productIdInCart);
+    const productInCart = carts.find(
+      (item) => item._id.toString() === productIdInCart
+    );
     if (!productInCart) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        message: 'Product in cart not found',
+        message: "Product in cart not found",
         success: false,
       });
     }
 
     let isMaxQuantity = false;
-    if (!status || status === 'increase') {
+    if (!status || status === "increase") {
       // tăng số lượng sản phẩm trong giỏ hàng
       carts.forEach((item) => {
         if (item._id.toString() === productIdInCart) {
@@ -275,7 +289,9 @@ export const cartController = {
 
           // nếu quantity sản phẩm lớn hơn số lượng tồn kho thì không cho tăng nữa
           // lấy ra sizes có size và color giống với sản phẩm trong giỏ hàng
-          const sizeExist = productExist.sizes.find((size) => size.size === item.size && size.color === item.color);
+          const sizeExist = productExist.sizes.find(
+            (size) => size.size === item.size && size.color === item.color
+          );
           if (sizeExist && sizeExist.quantity < item.quantity) {
             // set lại quantity sản phẩm trong giỏ hàng
             item.quantity -= 1;
@@ -293,15 +309,15 @@ export const cartController = {
 
       if (isMaxQuantity) {
         return res.status(HTTP_STATUS.BAD_REQUEST).json({
-          message: 'Số lượng sản phẩm tồn kho không đủ để đặt hàng',
-          success: false,  
+          message: "Số lượng sản phẩm tồn kho không đủ để đặt hàng",
+          success: false,
         });
       }
 
       await result.save();
 
       return res.status(HTTP_STATUS.OK).json({
-        message: 'Increase quantity product in cart successfully',
+        message: "Increase quantity product in cart successfully",
 
         success: true,
       });
@@ -314,7 +330,9 @@ export const cartController = {
           // quantity sản phẩm không thể nhỏ hơn 1
           if (item.quantity < 1) {
             // xóa sản phẩm khỏi giỏ hàng
-            result.carts = carts.filter((item) => item._id.toString() !== productIdInCart);
+            result.carts = carts.filter(
+              (item) => item._id.toString() !== productIdInCart
+            );
           }
 
           // tính tổng tiền
@@ -332,7 +350,7 @@ export const cartController = {
       await result.save();
 
       return res.status(HTTP_STATUS.OK).json({
-        message: 'Decrease quantity product in cart successfully',
+        message: "Decrease quantity product in cart successfully",
         success: true,
       });
     }
@@ -347,7 +365,7 @@ export const cartController = {
     // check userId gửi lên có trùng với userId trong token không
     if (userId !== _id) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        message: 'Unauthorized',
+        message: "Unauthorized",
         success: false,
       });
     }
@@ -358,28 +376,34 @@ export const cartController = {
     });
     if (!result) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({
-        message: 'Cart not found',
+        message: "Cart not found",
         success: false,
       });
     }
     const { carts } = result;
 
     // check productInCart tồn tại trong giỏ hàng hay không
-    const productInCart = carts.find((item) => item._id.toString() === productIdInCart);
+    const productInCart = carts.find(
+      (item) => item._id.toString() === productIdInCart
+    );
     if (!productInCart) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        message: 'Product in cart not found',
+        message: "Product in cart not found",
         success: false,
       });
     }
 
     // xóa sản phẩm khỏi giỏ hàng
-    result.carts = carts.filter((item) => item._id.toString() !== productIdInCart);
+    result.carts = carts.filter(
+      (item) => item._id.toString() !== productIdInCart
+    );
 
-    const productExist = await productService.getProductById(productInCart.productId);
+    const productExist = await productService.getProductById(
+      productInCart.productId
+    );
     if (!productExist) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        message: 'Product not found',
+        message: "Product not found",
         success: false,
       });
     }
@@ -387,7 +411,8 @@ export const cartController = {
     // tính tổng tiền
     result.total =
       productExist.sale > 0
-        ? result.total - (productExist.price - productExist.sale) * productInCart.quantity
+        ? result.total -
+          (productExist.price - productExist.sale) * productInCart.quantity
         : result.total - productExist.price * productInCart.quantity;
     // nếu tổng tiền nhỏ hơn 0 thì gán bằng 0
     if (result.total < 0) {
@@ -397,83 +422,7 @@ export const cartController = {
     await result.save();
 
     return res.status(HTTP_STATUS.OK).json({
-      message: 'Delete product in cart successfully',
-      success: true,
-    });
-  },
-
-  // async to cart
-  asyncToCart: async (req, res) => {
-    const { _id } = req.user;
-    const body = req.body;
-    const { userId, carts: cartLocalUser, total: totalLocalUser } = body;
-
-    // check userId gửi lên có trùng với userId trong token không
-    if (userId !== _id) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        message: 'Unauthorized',
-        success: false,
-      });
-    }
-
-    // check user tồn tại hay không
-    const userExist = await checkUserExist(userId);
-    if (!userExist) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json({
-        message: 'User not found',
-        success: false,
-      });
-    }
-
-    // lấy giỏ hàng của user
-    const result = await cartService.getCartsByUserId({
-      userId,
-    });
-    if (!result) {
-      // tạo mới giỏ hàng
-      const newCart = await cartService.createCart(userId, []);
-
-      // thêm sản phẩm vào giỏ hàng
-      newCart.carts.push(...cartLocalUser);
-
-      // tính tổng tiền
-      newCart.total += totalLocalUser;
-
-      await newCart.save();
-      return res.status(HTTP_STATUS.OK).json({
-        message: 'Add to cart successfully',
-        success: true,
-      });
-    }
-
-    // lấy giỏ hàng của user nếu user đã có giỏ hàng
-    const { carts } = result;
-
-    // đang sai logic
-    // carts 1 array
-    // cartLocalUser 1 array
-    // kiểm tra xem sản phẩm trong giỏ hàng đã tồn tại chưa check productId và size và color
-    cartLocalUser.forEach((itemCartLocal) => {
-      const itemCartDb = carts.find((item) => item.productId.toString() === itemCartLocal.productId.toString());
-      if (itemCartDb) {
-        if (itemCartDb.size === itemCartLocal.size && itemCartDb.color === itemCartLocal.color) {
-          itemCartDb.quantity += itemCartLocal.quantity;
-        } else {
-          carts.push(itemCartLocal);
-        }
-      } else {
-        carts.push(itemCartLocal);
-      }
-    });
-
-    // tính tổng tiền
-    result.total += totalLocalUser;
-
-    // thêm sản phẩm vào giỏ hàng
-    await result.save();
-
-    return res.status(HTTP_STATUS.OK).json({
-      message: 'Add to cart successfully',
+      message: "Delete product in cart successfully",
       success: true,
     });
   },

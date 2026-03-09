@@ -7,6 +7,9 @@ import postRoutes from "./routes/post.route.js";
 import brandRoutes from "./routes/brand.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import voucherRoutes from "./routes/voucher.routes.js";
+import orderRoutes from "./routes/order.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
 
 import { connectDB } from "./lib/db.js";
 import { app, server } from "./lib/socket.js";
@@ -43,6 +46,9 @@ app.use("/api/post", postRoutes);
 app.use("/api/brand", brandRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", productRoutes);
+app.use("/api/voucher", voucherRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/cart", cartRoutes);
 
 // Make ready for deployment
 if (process.env.NODE_ENV === "production") {
