@@ -14,6 +14,7 @@ import Profile from "./pages/social-media/profile/Profile";
 import EditProfile from "./pages/social-media/profile/EditProfile";
 import Posts from "./pages/social-media/post/Posts";
 import RightSidebar from "./pages/social-media/components/RightSidebar";
+import Shopping from "./pages/e-commerce/Shopping";
 
 const routes = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const routes = createBrowserRouter([
           {
             path: "account/edit",
             element: <EditProfile />,
+          },
+          {
+            path: "shopping",
+            element: <Shopping />,
           },
         ],
       },

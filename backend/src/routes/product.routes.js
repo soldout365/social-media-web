@@ -8,15 +8,8 @@ import { protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.use(arcjetProtection, protectRoute);
+router.use(arcjetProtection);
 
-//1
-router.post(
-  "/add-product",
-  wrapRequestHandler(checkPermission),
-  wrapRequestHandler(productMiddleware),
-  wrapRequestHandler(productController.addProduct)
-);
 //2
 // router to get all products
 router.get(
@@ -32,6 +25,16 @@ router.get(
 router.get(
   "/get-product-with-status/:status/:deleted",
   wrapRequestHandler(productController.getProductWithStatus)
+);
+
+router.use(protectRoute);
+
+//1
+router.post(
+  "/add-product",
+  wrapRequestHandler(checkPermission),
+  wrapRequestHandler(productMiddleware),
+  wrapRequestHandler(productController.addProduct)
 );
 
 //5  router update status

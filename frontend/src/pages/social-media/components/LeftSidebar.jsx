@@ -37,6 +37,8 @@ const LeftSidebar = () => {
       navigate("/");
     } else if (textType === "Messages") {
       navigate("/chat-page");
+    } else if (textType === "Shop") {
+      navigate("/shopping");
     }
   };
 
@@ -55,7 +57,7 @@ const LeftSidebar = () => {
       text: "Home",
     },
     { icon: <Search width={28} height={28} />, text: "Search" },
-    { icon: <Explore width={28} height={28} />, text: "Explore" },
+    { icon: <Explore width={28} height={28} />, text: "Shop" },
     { icon: <Messenger width={28} height={28} />, text: "Messages" },
     { icon: <Heart width={28} height={28} />, text: "Notifications" },
     { icon: <Create width={28} height={28} />, text: "Create" },

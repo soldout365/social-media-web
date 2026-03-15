@@ -14,7 +14,14 @@ import arcjetProtection from "../middleware/arcjet.middleware.js";
 
 const router = express.Router();
 
-router.use(arcjetProtection, protectRoute);
+router.use(arcjetProtection);
+
+// get all
+router.get("/get-all-brands", wrapRequestHandler(getBrands));
+// get by id
+router.get("/get-brand-by-id/:brandId", wrapRequestHandler(getBrandById));
+
+router.use(protectRoute);
 
 // create brand
 router.post(
@@ -23,10 +30,6 @@ router.post(
   wrapRequestHandler(brandMiddleware),
   wrapRequestHandler(createBrand)
 );
-// get all
-router.get("/get-all-brands", wrapRequestHandler(getBrands));
-// get by id
-router.get("/get-brand-by-id/:brandId", wrapRequestHandler(getBrandById));
 // update
 router.patch(
   "/update-brand/:brandId",

@@ -15,7 +15,14 @@ import express from "express";
 
 const router = express.Router();
 
-router.use(arcjetProtection, protectRoute);
+router.use(arcjetProtection);
+
+// get all
+router.get("/get-categories", wrapRequestHandler(getCategories));
+// get by id
+router.get("/get-category-by-id/:id", wrapRequestHandler(getCategoryById));
+
+router.use(protectRoute);
 
 // create brand
 router.post(
@@ -24,10 +31,6 @@ router.post(
   wrapRequestHandler(categoryMiddleware),
   wrapRequestHandler(createCategory)
 );
-// get all
-router.get("/get-categories", wrapRequestHandler(getCategories));
-// get by id
-router.get("/get-category-by-id/:id", wrapRequestHandler(getCategoryById));
 // update
 router.patch(
   "/update-category-by-id/:id",
