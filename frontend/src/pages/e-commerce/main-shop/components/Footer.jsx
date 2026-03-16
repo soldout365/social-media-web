@@ -9,8 +9,8 @@ export default function Footer() {
             Vibe Flow
           </h4>
           <p className="text-slate-400 text-sm leading-relaxed pr-0 md:pr-20">
-            Đơn vị phân phối phụ kiện xe hơi hạng sang chính hãng hàng đầu tại
-            Việt Nam. Mang lại trải nghiệm độ xe đỉnh cao và sự đẳng cấp khác
+            Đơn vị phân phối thời trang thời thượng chính hãng hàng đầu tại Việt
+            Nam. Mang lại trải nghiệm thời trang đỉnh cao và sự đẳng cấp khác
             biệt.
           </p>
         </div>
@@ -20,10 +20,10 @@ export default function Footer() {
             Liên hệ
           </h4>
           <p className="text-slate-400 text-sm mb-3 hover:text-pink-400 transition-colors cursor-pointer">
-            Hotline: 1900 8888
+            Hotline: 0866 052 273
           </p>
           <p className="text-slate-400 text-sm hover:text-pink-400 transition-colors cursor-pointer">
-            Email: contact@luxeauto.vn
+            Email: dung.dev@gmail.com
           </p>
         </div>
 
@@ -32,14 +32,14 @@ export default function Footer() {
             Địa chỉ
           </h4>
           <p className="text-slate-400 text-sm leading-relaxed">
-            Tòa nhà Luxe, Quận 7, <br /> TP. Hồ Chí Minh, Việt Nam
+            Tòa nhà Vibe Flow, Quận 7, <br /> TP. Hồ Chí Minh, Việt Nam
           </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 mt-16 pt-8 border-t border-border-dark flex flex-col md:flex-row justify-between items-center gap-6">
         <p className="text-slate-500 text-xs font-medium">
-          © 2024 Luxe Auto Store. All rights reserved.
+          © 2026 Vibe Flow Store. All rights reserved.
         </p>
         <div className="flex gap-8">
           <a

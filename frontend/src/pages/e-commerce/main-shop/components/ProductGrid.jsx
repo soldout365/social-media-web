@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Search, ShoppingBag } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useGetAllProduct } from "@/hooks/ecom/useProduct";
+import ProductCartDialog from "@/components/modals/ProductCartDialog";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,8 +22,17 @@ const itemVariants = {
 };
 
 export default function ProductGrid() {
+  //
   const { data } = useGetAllProduct();
   const products = data?.docs || [];
+  //
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleOpenDialog = (product) => {
+    setSelectedProduct(product);
+    setIsDialogOpen(true);
+  };
 
   return (
     <>
@@ -59,7 +70,10 @@ export default function ProductGrid() {
             className="group bg-container-dark/60 rounded-2xl overflow-hidden border border-border-dark hover:border-pink-500/50 hover:shadow-[0_8px_30px_rgba(236,72,153,0.1)] transition-all duration-300 flex flex-col"
           >
             {/* Image wrapper */}
-            <div className="aspect-[4/3] sm:aspect-square relative overflow-hidden bg-black/50">
+            <Link
+              to={`/shopping/detail-product/${product._id || product.id}`}
+              className="block aspect-[4/3] sm:aspect-square relative overflow-hidden bg-black/50"
+            >
               <img
                 src={product.images[0].url}
                 alt={product.nameProduct}
@@ -70,19 +84,23 @@ export default function ProductGrid() {
                   HOT
                 </Badge>
               )}
-            </div>
+            </Link>
 
             {/* Product Info */}
             <div className="p-5 flex flex-col flex-1">
               <p className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">
                 {product.category?.nameCategory}
               </p>
-              <h3
-                className="text-slate-100 font-bold text-base mb-1 line-clamp-2 leading-tight"
-                title={product.nameProduct}
+              <Link
+                to={`/shopping/detail-product/${product._id || product.id}`}
               >
-                {product.nameProduct}
-              </h3>
+                <h3
+                  className="text-slate-100 font-bold text-base mb-1 line-clamp-2 leading-tight hover:text-pink-400 transition-colors"
+                  title={product.nameProduct}
+                >
+                  {product.nameProduct}
+                </h3>
+              </Link>
 
               <div className="mt-auto">
                 <div className="flex items-baseline gap-2.5 mb-5 flex-wrap">
@@ -102,7 +120,10 @@ export default function ProductGrid() {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  <Button className="w-full bg-gradient-to-tr from-white to-white text-black py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 font-bold text-xs uppercase h-11 hover:opacity-90 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] border-none">
+                  <Button
+                    className="w-full bg-gradient-to-tr from-white to-white text-black py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 font-bold text-xs uppercase h-11 hover:opacity-90 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] border-none"
+                    onClick={() => handleOpenDialog(product)}
+                  >
                     <ShoppingBag className="w-4 h-4" />
                     Thêm vào giỏ
                   </Button>
@@ -112,6 +133,12 @@ export default function ProductGrid() {
           </motion.div>
         ))}
       </motion.div>
+
+      <ProductCartDialog
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        product={selectedProduct}
+      />
     </>
   );
 }

@@ -14,7 +14,7 @@ export default function FilterSidebar({
       <div className="sticky top-28 space-y-10 bg-container-dark/40 border border-border-dark p-6 rounded-2xl shadow-lg">
         {/* Category Filter */}
         <div>
-          <h3 className="font-bold mb-5 uppercase text-base tracking-[0.2em] bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
+          <h3 className="font-bold mb-5 uppercase text-base  bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
             Danh mục
           </h3>
           <RadioGroup
@@ -47,7 +47,7 @@ export default function FilterSidebar({
 
         {/* Brand Filter */}
         <div>
-          <h3 className=" font-bold mb-5 uppercase text-base tracking-[0.2em] bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
+          <h3 className=" font-bold mb-5 uppercase text-base bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
             Thương hiệu
           </h3>
           <RadioGroup

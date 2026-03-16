@@ -8,13 +8,14 @@ export const orderApi = {
     const response = await axiosInstance.post<{
       message: string;
       success: boolean;
-    }>(`/order`, body);
+    }>(`/order/create-order`, body);
     return response.data;
   },
   //get order by user id
   getOrder: async () => {
-    const response =
-      await axiosInstance.get<TResponseNoPagination<TOrder>>(`/order`);
+    const response = await axiosInstance.get<TResponseNoPagination<TOrder>>(
+      `/order/get-order-by-user-id`
+    );
     return response.data;
   },
 
@@ -23,7 +24,7 @@ export const orderApi = {
     const response = await axiosInstance.patch<{
       message: string;
       success: boolean;
-    }>(`/order/cancel/${orderId}`, body);
+    }>(`/order/cancel-order/${orderId}`, body);
     return response.data;
   },
 };

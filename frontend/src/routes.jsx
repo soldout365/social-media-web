@@ -15,6 +15,8 @@ import EditProfile from "./pages/social-media/profile/EditProfile";
 import Posts from "./pages/social-media/post/Posts";
 import RightSidebar from "./pages/social-media/components/RightSidebar";
 import Shopping from "./pages/e-commerce/main-shop/Shopping";
+import DetailPrduct from "./pages/e-commerce/detail-product/[productId]/DetailPrduct";
+import CartPage from "./pages/e-commerce/cart-page/CartPage";
 
 const routes = createBrowserRouter([
   {
@@ -64,6 +66,14 @@ const routes = createBrowserRouter([
           {
             path: "shopping",
             element: <Shopping />,
+          },
+          {
+            path: "shopping/detail-product/:productId",
+            element: <DetailPrduct />,
+          },
+          {
+            path: "cart",
+            element: <CartPage />,
           },
         ],
       },

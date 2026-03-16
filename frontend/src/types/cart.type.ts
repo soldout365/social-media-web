@@ -37,7 +37,7 @@ export type TListCart = {
 };
 
 export type TUpdateQuantityInCart = {
-  userId: string;
+  userId?: string;
   productId: string;
   productIdInCart: string;
 };

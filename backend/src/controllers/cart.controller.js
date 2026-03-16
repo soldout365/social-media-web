@@ -99,6 +99,7 @@ export const cartController = {
             ? product.quantity * (productExist.price - productExist.sale)
             : product.quantity * productExist.price;
         result.total += total;
+        result.markModified("carts");
         await result.save();
 
         return res.status(HTTP_STATUS.OK).json({
@@ -119,6 +120,7 @@ export const cartController = {
           : product.quantity * productExist.price;
 
       result.total += total;
+      result.markModified("carts");
       await result.save();
 
       return res.status(HTTP_STATUS.OK).json({
@@ -347,7 +349,8 @@ export const cartController = {
   // delete product in cart
   deleteProductInCart: async (req, res) => {
     const { _id } = req.user;
-    const { productIdInCart } = req.body;
+    // Expected productIdsInCart to be an array of strings
+    const { productIdsInCart } = req.body;
 
     // Tự động lấy ID người dùng từ token
     const userId = _id.toString();
@@ -364,43 +367,44 @@ export const cartController = {
     }
     const { carts } = result;
 
-    // check productInCart tồn tại trong giỏ hàng hay không
-    const productInCart = carts.find(
-      (item) => item._id.toString() === productIdInCart
-    );
-    if (!productInCart) {
+    if (!productIdsInCart || !Array.isArray(productIdsInCart) || productIdsInCart.length === 0) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        message: "Product in cart not found",
+        message: "Invalid productIdsInCart array",
         success: false,
       });
     }
 
-    // xóa sản phẩm khỏi giỏ hàng
+    let deductAmount = 0;
+
+    // Tìm các sản phẩm được yêu cầu xóa để trừ tiền
+    for (const itemId of productIdsInCart) {
+      const productInCart = carts.find((item) => item._id.toString() === itemId);
+      if (productInCart) {
+        // Find existing product cache from populated fields or look it up
+        // Currently, cart items usually hold `productId` as ObjectId or populated object.
+        // The previous code retrieved product from DB. We do that here for accurate calculation:
+        const productExist = await productService.getProductById(productInCart.productId);
+        if (productExist) {
+          const itemTotal = productExist.sale > 0 
+           ? (productExist.price - productExist.sale) * productInCart.quantity
+           : productExist.price * productInCart.quantity;
+          deductAmount += itemTotal;
+        }
+      }
+    }
+
+    // xóa các sản phẩm khỏi giỏ hàng
     result.carts = carts.filter(
-      (item) => item._id.toString() !== productIdInCart
+      (item) => !productIdsInCart.includes(item._id.toString())
     );
-
-    const productExist = await productService.getProductById(
-      productInCart.productId
-    );
-    if (!productExist) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        message: "Product not found",
-        success: false,
-      });
-    }
 
     // tính tổng tiền
-    result.total =
-      productExist.sale > 0
-        ? result.total -
-          (productExist.price - productExist.sale) * productInCart.quantity
-        : result.total - productExist.price * productInCart.quantity;
-    // nếu tổng tiền nhỏ hơn 0 thì gán bằng 0
+    result.total -= deductAmount;
     if (result.total < 0) {
       result.total = 0;
     }
 
+    result.markModified("carts");
     await result.save();
 
     return res.status(HTTP_STATUS.OK).json({

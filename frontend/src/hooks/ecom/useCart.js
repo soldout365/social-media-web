@@ -1,15 +1,16 @@
 import { cartApi } from "@/apis/ecom/cart.api.ts";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useAuthStore } from "@/store/auth.store";
 
 export const useAddToCart = () => {
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationKey: [cartApi.addToCart.name],
     mutationFn: (body) => cartApi.addToCart(body),
     onSuccess: () => {
       toast.success("Thêm sản phẩm vào giỏ hàng thành công!");
-      QueryClient.invalidateQueries({ queryKey: [cartApi.getCartByUser.name] });
+      queryClient.invalidateQueries({ queryKey: [cartApi.getCartByUser.name] });
     },
     onError: () => {
       toast.error("Thêm sản phẩm vào giỏ hàng thất bại!");
@@ -33,15 +34,60 @@ export const useGetCartByUser = () => {
 };
 
 export const useUpdateQuantityInCart = () => {
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationKey: [cartApi.updateQuantityInCart.name],
-    mutationFn: (body) => cartApi.updateQuantityInCart(body),
-    onSuccess: () => {
-      toast.success("Cập nhật số lượng sản phẩm trong giỏ hàng thành công!");
-      QueryClient.invalidateQueries({ queryKey: [cartApi.getCartByUser.name] });
+    mutationFn: (variables) => cartApi.updateQuantityInCart(variables.body, { status: variables.status }),
+    onMutate: async (variables) => {
+      // 1. Cancel any outgoing refetches so they don't overwrite our optimistic update
+      await queryClient.cancelQueries({ queryKey: [cartApi.getCartByUser.name] });
+
+      // 2. Snapshot the previous value
+      const previousCart = queryClient.getQueryData([cartApi.getCartByUser.name]);
+
+      // 3. Optimistically update to the new value
+      queryClient.setQueryData([cartApi.getCartByUser.name], (old) => {
+        if (!old || !old.data || !old.data.carts) return old;
+
+        // Create a deep copy of the old data to avoid mutating cache directly
+        const newData = JSON.parse(JSON.stringify(old));
+
+        // Find the product and update its quantity
+        const productIndex = newData.data.carts.findIndex(
+          (p) => p._id === variables.body.productIdInCart
+        );
+
+        if (productIndex !== -1) {
+          if (variables.status === "increase") {
+            newData.data.carts[productIndex].quantity += 1;
+          } else if (variables.status === "decrease") {
+            newData.data.carts[productIndex].quantity -= 1;
+          }
+        }
+
+        return newData;
+      });
+
+      // 4. Return context containing the snapshotted value
+      return { previousCart };
     },
-    onError: () => {
-      toast.error("Vui lòng đăng nhập!");
+    onSuccess: () => {
+      // Opt-in: toast.success("Cập nhật số lượng thành công!");
+    },
+    onError: (err, newTodo, context) => {
+      // Rollback to the previous value if mutation fails
+      queryClient.setQueryData(
+        [cartApi.getCartByUser.name],
+        context.previousCart
+      );
+      // Read actual error message instead of hardcoding
+      const errorMsg =
+        err?.response?.data?.message || "Cập nhật số lượng thất bại!";
+      toast.error(errorMsg);
+    },
+    onSettled: () => {
+      // Always refetch after error or success to ensure true sync
+      queryClient.invalidateQueries({ queryKey: [cartApi.getCartByUser.name] });
     },
   });
   return {
@@ -50,15 +96,46 @@ export const useUpdateQuantityInCart = () => {
 };
 
 export const useDeleteProductInCart = () => {
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationKey: [cartApi.deleteProductInCart.name],
     mutationFn: (params) => cartApi.deleteProductInCart(params),
-    onSuccess: () => {
-      toast.success("Xóa sản phẩm trong giỏ hàng thành công!");
-      QueryClient.invalidateQueries({ queryKey: [cartApi.getCartByUser.name] });
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries({ queryKey: [cartApi.getCartByUser.name] });
+
+      const previousCart = queryClient.getQueryData([cartApi.getCartByUser.name]);
+
+      queryClient.setQueryData([cartApi.getCartByUser.name], (old) => {
+        if (!old || !old.data || !old.data.carts) return old;
+
+        const newData = JSON.parse(JSON.stringify(old));
+        
+        // Filter out the deleted products relying on cart item's _id
+        if (variables.productIdsInCart && Array.isArray(variables.productIdsInCart)) {
+           newData.data.carts = newData.data.carts.filter(
+             (item) => !variables.productIdsInCart.includes(item._id)
+           );
+        }
+
+        return newData;
+      });
+
+      return { previousCart };
     },
-    onError: () => {
-      toast.error("Xóa sản phẩm trong giỏ thất bại");
+    onSuccess: () => {
+      toast.success("Xóa sản phẩm khỏi giỏ hàng thành công!");
+    },
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(
+        [cartApi.getCartByUser.name],
+        context.previousCart
+      );
+      const errorMsg =
+        err?.response?.data?.message || "Xóa sản phẩm thất bại!";
+      toast.error(errorMsg);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [cartApi.getCartByUser.name] });
     },
   });
   return {

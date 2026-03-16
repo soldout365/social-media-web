@@ -36,11 +36,11 @@ export const cartApi = {
     return response.data;
   },
   // delete product in cart
-  deleteProductInCart: async (params: TQueryParams) => {
+  deleteProductInCart: async (body: any) => {
     const response = await axiosInstance.delete(
       `/cart/delete-product-in-cart`,
       {
-        params,
+        data: body,
       }
     );
     return response.data;
