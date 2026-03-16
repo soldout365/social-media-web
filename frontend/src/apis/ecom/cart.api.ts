@@ -12,13 +12,13 @@ export const cartApi = {
     const response = await axiosInstance.post<{
       message: string;
       success: boolean;
-    }>(`/cart`, body);
+    }>(`cart/add-to-cart`, body);
     return response.data;
   },
-  // get all cart
-  getAllCarts: async () => {
+  // get cart by user
+  getCartByUser: async () => {
     const response =
-      await axiosInstance.get<TResponseDetail<TListCart>>(`cart`);
+      await axiosInstance.get<TResponseDetail<TListCart>>(`cart/get-cart`);
     return response.data;
   },
   // update quantity in cart
@@ -26,9 +26,23 @@ export const cartApi = {
     body: TUpdateQuantityInCart,
     params: TQueryParams
   ) => {
-    const response = await axiosInstance.patch(`/cart`, body, {
-      params,
-    });
+    const response = await axiosInstance.patch(
+      `/cart/update-quantity-product-in-cart`,
+      body,
+      {
+        params,
+      }
+    );
+    return response.data;
+  },
+  // delete product in cart
+  deleteProductInCart: async (params: TQueryParams) => {
+    const response = await axiosInstance.delete(
+      `/cart/delete-product-in-cart`,
+      {
+        params,
+      }
+    );
     return response.data;
   },
 };

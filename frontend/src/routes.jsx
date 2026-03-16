@@ -14,7 +14,7 @@ import Profile from "./pages/social-media/profile/Profile";
 import EditProfile from "./pages/social-media/profile/EditProfile";
 import Posts from "./pages/social-media/post/Posts";
 import RightSidebar from "./pages/social-media/components/RightSidebar";
-import Shopping from "./pages/e-commerce/Shopping";
+import Shopping from "./pages/e-commerce/main-shop/Shopping";
 
 const routes = createBrowserRouter([
   {

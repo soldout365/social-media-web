@@ -14,7 +14,7 @@ export default function FilterSidebar({
       <div className="sticky top-28 space-y-10 bg-container-dark/40 border border-border-dark p-6 rounded-2xl shadow-lg">
         {/* Category Filter */}
         <div>
-          <h3 className="font-bold mb-5 uppercase text-xs tracking-[0.2em] bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
+          <h3 className="font-bold mb-5 uppercase text-base tracking-[0.2em] bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
             Danh mục
           </h3>
           <RadioGroup
@@ -29,7 +29,7 @@ export default function FilterSidebar({
               >
                 <RadioGroupItem
                   value={cat.nameCategory}
-                  className="w-5 h-5 border-2 border-border-dark text-pink-500 focus:ring-0 data-[state=checked]:border-pink-500 transition-all"
+                  className="w-5 h-5 border-2 border-border-dark text-white focus:ring-0 data-[state=checked]:border-white transition-all"
                 />
                 <span
                   className={`text-sm font-medium transition-colors ${
@@ -47,7 +47,7 @@ export default function FilterSidebar({
 
         {/* Brand Filter */}
         <div>
-          <h3 className="font-bold mb-5 uppercase text-xs tracking-[0.2em] bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
+          <h3 className=" font-bold mb-5 uppercase text-base tracking-[0.2em] bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
             Thương hiệu
           </h3>
           <RadioGroup
@@ -62,7 +62,7 @@ export default function FilterSidebar({
               >
                 <RadioGroupItem
                   value={brand.nameBrand}
-                  className="w-5 h-5 border-2 border-border-dark text-pink-500 focus:ring-0 data-[state=checked]:border-pink-500 transition-all"
+                  className="w-5 h-5 border-2 border-border-dark text-white focus:ring-0 data-[state=checked]:border-white transition-all"
                 />
                 <span
                   className={`text-sm font-medium transition-colors ${

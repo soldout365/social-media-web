@@ -6,7 +6,7 @@ import { TProduct } from "@/types/product.type";
 export const productApi = {
   getProducts: async (params?: TQueryParams): Promise<TResponse<TProduct>> => {
     const response = await axiosInstance.get<TResponse<TProduct>>(
-      `/products/get-all-product`,
+      `/product/get-all-product`,
       {
         params,
       }
@@ -17,7 +17,7 @@ export const productApi = {
   // get detail product
   getProductById: async (id: string) => {
     const response = await axiosInstance.get<TResponseDetail<TProduct>>(
-      `/get-product-by-id/${id}`
+      `/product/get-product-by-id/${id}`
     );
     return response.data;
   },
