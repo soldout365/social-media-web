@@ -1,22 +1,24 @@
 import { orderApi } from "@/apis/ecom/order.api.ts";
+import { cartApi } from "@/apis/ecom/cart.api.ts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 export const useCreateOrder = () => {
   const queryClient = useQueryClient();
-  const query = useMutation({
+  const mutation = useMutation({
     mutationKey: [orderApi.createOrder.name],
     mutationFn: async (body) => await orderApi.createOrder(body),
     onSuccess: () => {
       toast.success("Đặt hàng thành công");
       queryClient.invalidateQueries({ queryKey: [orderApi.getOrder.name] });
+      queryClient.invalidateQueries({ queryKey: [cartApi.getCartByUser.name] });
     },
     onError: (error) => {
       console.log(error);
       toast.error("Đặt hàng thất bại!");
     },
   });
-  return query;
+  return mutation;
 };
 
 export const useGetOrder = () => {
@@ -36,7 +38,7 @@ export const useGetOrder = () => {
 
 export const useCancelOrder = () => {
   const queryClient = useQueryClient();
-  const query = useMutation({
+  const mutation = useMutation({
     mutationFn: async ({ orderId, body }) =>
       await orderApi.cancelOrder(orderId, body),
     onSuccess: () => {
@@ -48,5 +50,5 @@ export const useCancelOrder = () => {
       toast.error("Hủy đơn hàng thất bại!");
     },
   });
-  return query;
+  return mutation;
 };

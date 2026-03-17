@@ -7,9 +7,9 @@ export const orderValidation = Joi.object({
   }),
   status: Joi.string()
     .valid("pending", "confirmed", "delivery", "completed", "cancelled")
-    .required()
+    .optional()
+    .default("pending")
     .messages({
-      "any.required": "status is required",
       "string.empty": "status is not allowed to be empty",
     }),
   note: Joi.string().messages({
@@ -19,8 +19,7 @@ export const orderValidation = Joi.object({
     "any.required": "payment is required",
     "string.empty": "payment is not allowed to be empty",
   }),
-  total: Joi.number().required().messages({
-    "any.required": "total is required",
+  total: Joi.number().optional().messages({
     "number.base": "total must be a number",
   }),
   products: Joi.array().items(
@@ -41,8 +40,7 @@ export const orderValidation = Joi.object({
         "any.required": "color is required",
         "string.empty": "color is not allowed to be empty",
       }),
-      price: Joi.number().required().messages({
-        "any.required": "price is required",
+      price: Joi.number().optional().messages({
         "number.base": "price must be a number",
       }),
     })
@@ -66,8 +64,7 @@ export const orderValidation = Joi.object({
       "string.empty": "Email không được để trống",
     }),
   }),
-  priceShipping: Joi.number().required().messages({
-    "any.required": "priceShipping is required",
+  priceShipping: Joi.number().optional().messages({
     "number.base": "priceShipping must be a number",
   }),
   voucher: Joi.string().allow(null, ""),

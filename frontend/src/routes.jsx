@@ -17,6 +17,9 @@ import RightSidebar from "./pages/social-media/components/RightSidebar";
 import Shopping from "./pages/e-commerce/main-shop/Shopping";
 import DetailPrduct from "./pages/e-commerce/detail-product/[productId]/DetailPrduct";
 import CartPage from "./pages/e-commerce/cart-page/CartPage";
+import Checkout from "./pages/e-commerce/cart-page/payment/Checkout.tsx";
+import VNPayResult from "./pages/e-commerce/cart-page/payment/VNPayResult.tsx";
+import StatusOrder from "./pages/e-commerce/order/StatusOrder";
 
 const routes = createBrowserRouter([
   {
@@ -74,6 +77,18 @@ const routes = createBrowserRouter([
           {
             path: "cart",
             element: <CartPage />,
+          },
+          {
+            path: "payment",
+            element: <Checkout />,
+          },
+          {
+            path: "vnpay-result",
+            element: <VNPayResult />,
+          },
+          {
+            path: "order",
+            element: <StatusOrder />,
           },
         ],
       },

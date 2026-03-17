@@ -18,6 +18,7 @@ export default function Header() {
         {/* Icons Menu */}
         <div className="flex items-center gap-3">
           <Button
+            onClick={() => navigate("/order")}
             variant="outline"
             className="hidden md:flex items-center gap-2 text-slate-300 border-border-dark bg-transparent hover:text-pink-400 hover:border-pink-500/50 hover:bg-pink-500/5 px-4 h-10 rounded-xl transition-all duration-300"
           >

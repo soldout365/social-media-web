@@ -66,6 +66,13 @@ export default function CartPage() {
     };
   }, [products, selectedItemKeys, selectedVoucher]);
 
+  const selectedProducts = useMemo(() => {
+    return products.filter((item) => {
+      const itemKey = `${item.productId._id}-${item.color}-${item.size}`;
+      return selectedItemKeys.includes(itemKey);
+    });
+  }, [products, selectedItemKeys]);
+
   const handleSelectAll = (isChecked) => {
     if (isChecked) {
       setSelectedItemKeys(
@@ -180,6 +187,7 @@ export default function CartPage() {
                 selectedCount={selectedItemKeys.length}
                 selectedVoucher={selectedVoucher}
                 setSelectedVoucher={setSelectedVoucher}
+                selectedProducts={selectedProducts}
               />
             </motion.div>
           </div>

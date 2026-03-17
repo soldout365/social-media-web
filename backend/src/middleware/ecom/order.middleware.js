@@ -2,6 +2,10 @@ import { HTTP_STATUS } from "../../common/http-status.common.js";
 import { orderValidation } from "../../validations/order.validation.js";
 
 export const orderMiddleware = async (req, res, next) => {
+  if (req.user && req.user._id) {
+    req.body.userId = String(req.user._id);
+  }
+
   const body = req.body;
 
   const { error } = orderValidation.validate(body, { abortEarly: false });

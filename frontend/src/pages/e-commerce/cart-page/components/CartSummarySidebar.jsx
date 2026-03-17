@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import VoucherList from "./Voucher";
 import { formatCurrency } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 export default function CartSummarySidebar({
   totalQuantity,
@@ -20,9 +21,12 @@ export default function CartSummarySidebar({
   selectedCount,
   selectedVoucher,
   setSelectedVoucher,
+  selectedProducts,
 }) {
   const [isVoucherDialogOpen, setIsVoucherDialogOpen] = useState(false);
   const [couponInput, setCouponInput] = useState("");
+
+  const navigate = useNavigate();
 
   const handleApplyVoucher = (voucher) => {
     setSelectedVoucher(voucher);
@@ -166,6 +170,17 @@ export default function CartSummarySidebar({
         </div>
 
         <Button
+          onClick={() =>
+            navigate("/payment", {
+              state: {
+                selectedProducts,
+                subtotal,
+                taxAmount,
+                totalAmount,
+                selectedVoucher,
+              },
+            })
+          }
           disabled={selectedCount === 0}
           className="w-full disabled:opacity-50 disabled:cursor-not-allowed h-auto bg-gradient-to-r from-yellow-300 to-pink-500 text-white py-5 rounded-full font-bold text-lg shadow-lg shadow-pink-500/30 hover:shadow-pink-500/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-none"
         >
@@ -175,23 +190,6 @@ export default function CartSummarySidebar({
 
         {/* Secure Payment */}
         <div className="mt-6 flex flex-col items-center gap-4">
-          <div className="flex items-center gap-4 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer">
-            <img
-              alt="Visa"
-              className="h-4"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHoFgHuQrqLgI5arwKmsNzitARrxN42fMkbm2OC5Cw_Fz69U0wxMottcZ9Pq85kVmRhpekgQ2te38Js7rQUalv0vuNDLKMa7dwE6n1lUKJkU-Xc7GchdHZBFTLAmTCAKB9bZiKX1yQT3J1v61LOn9kLX24zVyTy6rLDz_ONMxbDTULn8yWYLtTAuNIE3oGh9-Inagt6tOC1Kgk9zkkCr3Ha-vKIEX3NcxGHND64cEG7QohExz1swXQjrOC_A11s3fPkYl0bQchbBc"
-            />
-            <img
-              alt="Mastercard"
-              className="h-6"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3y-XQyh4fdOpZD5midprXVl5RkiLKJXAj4omMpfTOW20AHFNMFNj8qs15gqzfIBpjlKyvjDmtJCEAGLfON7cPogzYEGxqXlknxMJ9VPIc-5VZBMO1h80JN6Bvm4g9-J60zrn4f_xh2i7_dmQkRjQ70agNp7Vf2ZVvZy_juChoqtmx1CzhxKgzXwpSOkvUnJ8INHuhDGH4GHxuEDYdDIDzOlEFa1m_HOVX8aGYtm-qKu1sMUD6upnnljUL0MXtNxMQgO3odke0SnM"
-            />
-            <img
-              alt="PayPal"
-              className="h-4"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqcUBhDOy--FGr74AyMF6dhpk6uP0PgW2kv39NW6mChDis__6Z_vKgHL_dJU4DxizhHJiv3tZAPHtryry4g8BJTc0hYQTu5I2lYkPAGP8m1rGHqDYYyRK1PXMYc_4xEmqwh2wkoFXhfO6XUql1f4xoOqgxqP9L-9sRNdRDk-KO8U4qXNIl2aHm6sj1EqPkGU58auqBiapIdgCOgpjj8AC_YNujlvGoQMo8tDw2_XJlIKMQeSKpQYoEN2NoMv1y1gEb-9wG07_tAKs"
-            />
-          </div>
           <p className="text-[10px] text-slate-400 flex items-center gap-1 uppercase tracking-widest font-bold">
             <Lock className="w-3 h-3" />
             Thanh toán an toàn qua Cổng thanh toán

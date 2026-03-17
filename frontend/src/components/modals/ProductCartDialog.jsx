@@ -9,11 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAddToCart } from "@/hooks/ecom/useCart";
 
-export default function ProductCartDialog({
-  isOpen,
-  onOpenChange,
-  product,
-}) {
+export default function ProductCartDialog({ isOpen, onOpenChange, product }) {
   const { mutation: addToCartMutation } = useAddToCart();
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -71,9 +67,7 @@ export default function ProductCartDialog({
             <>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <p className="text-sm font-medium text-slate-400">
-                    Màu sắc
-                  </p>
+                  <p className="text-sm font-medium text-slate-400">Màu sắc</p>
                   {selectedColor && (
                     <span className="text-xs font-bold text-white bg-pink-500/10 px-2 py-0.5 rounded-md">
                       {selectedColor}
@@ -81,25 +75,25 @@ export default function ProductCartDialog({
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2.5">
-                  {Array.from(
-                    new Set(product.sizes.map((s) => s.color))
-                  ).map((color) => (
-                    <Button
-                      key={color}
-                      variant="outline"
-                      className={`h-10 px-5 text-sm font-semibold rounded-xl transition-all duration-300 ${
-                        selectedColor === color
-                          ? "bg-gradient-to-tr from-white to-white text-black border-transparent shadow-[0_4px_15px_rgba(236,72,153,0.3)]"
-                          : "bg-transparent text-slate-300 border-slate-700/60 hover:border-white/50 hover:text-white hover:bg-white/5"
-                      }`}
-                      onClick={() => {
-                        setSelectedColor(color);
-                        setSelectedSize("");
-                      }}
-                    >
-                      {color}
-                    </Button>
-                  ))}
+                  {Array.from(new Set(product.sizes.map((s) => s.color))).map(
+                    (color) => (
+                      <Button
+                        key={color}
+                        variant="outline"
+                        className={`h-10 px-5 text-sm font-semibold rounded-xl transition-all duration-300 ${
+                          selectedColor === color
+                            ? "bg-gradient-to-tr from-white to-white text-black border-transparent shadow-[0_4px_15px_rgba(236,72,153,0.3)]"
+                            : "bg-transparent text-slate-300 border-slate-700/60 hover:border-white/50 hover:text-white hover:bg-white/5"
+                        }`}
+                        onClick={() => {
+                          setSelectedColor(color);
+                          setSelectedSize("");
+                        }}
+                      >
+                        {color}
+                      </Button>
+                    )
+                  )}
                 </div>
               </div>
 
@@ -151,14 +145,12 @@ export default function ProductCartDialog({
         <DialogFooter className="p-6">
           <Button
             disabled={
-              !selectedColor ||
-              !selectedSize ||
-              product?.sizes?.length === 0
+              !selectedColor || !selectedSize || product?.sizes?.length === 0
             }
             onClick={handleConfirmAddToCart}
             className="w-full bg-gradient-to-tr from-white to-white text-black font-bold text-sm h-12 rounded-xl border-none hover:opacity-90 hover:shadow transition-all duration-300 disabled:opacity-50 disabled:hover:shadow-none"
           >
-            Thêm Vào Giỏ Quà
+            Thêm Vào Giỏ Hàng
           </Button>
         </DialogFooter>
       </DialogContent>

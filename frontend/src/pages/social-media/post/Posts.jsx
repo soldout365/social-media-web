@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Post from "./Post";
+import AdPost from "./AdPost";
 import { useGetAllPosts } from "@/hooks/posts/usePost";
 
 const Posts = () => {
@@ -61,12 +62,15 @@ const Posts = () => {
 
   return (
     <div className="flex-1 my-8 flex flex-col items-center px-[10%]">
-      <div>
+      <div className="w-full max-w-[500px]">
         {allPosts.length > 0 ? (
           <>
             {allPosts.map((post, index) => (
               <React.Fragment key={post._id}>
                 <Post post={post} />
+
+                {/* Inject AdPost every 3 regular posts */}
+                {(index + 1) % 3 === 0 && <AdPost />}
 
                 {/* Trigger load more khi còn 4 bài viết nữa là hết danh sách hiện tại (index === allPosts.length - 4) */}
                 {hasNextPage &&

@@ -8,6 +8,8 @@ export const orderApi = {
     const response = await axiosInstance.post<{
       message: string;
       success: boolean;
+      paymentUrl?: string;
+      data?: any;
     }>(`/order/create-order`, body);
     return response.data;
   },

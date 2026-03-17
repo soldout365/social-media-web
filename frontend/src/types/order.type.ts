@@ -1,5 +1,4 @@
 export type TCreateOrder = {
-  userId: string;
   status: "pending";
   note: string;
   paymentMethod: string;

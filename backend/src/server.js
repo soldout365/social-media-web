@@ -10,6 +10,7 @@ import productRoutes from "./routes/product.routes.js";
 import voucherRoutes from "./routes/voucher.routes.js";
 import orderRoutes from "./routes/order.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 
 import { connectDB } from "./lib/db.js";
 import { app, server } from "./lib/socket.js";
@@ -49,6 +50,7 @@ app.use("/api/product", productRoutes);
 app.use("/api/voucher", voucherRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api", paymentRoutes);
 
 // Make ready for deployment
 if (process.env.NODE_ENV === "production") {
