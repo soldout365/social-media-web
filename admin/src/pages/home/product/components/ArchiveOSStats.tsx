@@ -57,7 +57,11 @@ const ArchiveOSStats: React.FC<ArchiveOSStatsProps> = ({
           key={i}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            delay: i * 0.08,
+            duration: 0.5,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           className="p-6 border border-[#EAEAEA] bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
         >
           <div className="flex items-center gap-2 mb-3">

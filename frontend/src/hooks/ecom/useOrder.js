@@ -14,7 +14,7 @@ export const useCreateOrder = () => {
       queryClient.invalidateQueries({ queryKey: [cartApi.getCartByUser.name] });
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       toast.error("Đặt hàng thất bại!");
     },
   });
@@ -29,7 +29,7 @@ export const useGetOrder = () => {
       toast.success("Lấy đơn hàng thành công");
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       toast.error("Bạn đang không có đơn hàng nào!");
     },
   });
@@ -46,7 +46,7 @@ export const useCancelOrder = () => {
       queryClient.invalidateQueries({ queryKey: [orderApi.getOrder.name] });
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       toast.error("Hủy đơn hàng thất bại!");
     },
   });

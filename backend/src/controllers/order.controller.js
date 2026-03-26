@@ -66,7 +66,7 @@ export const orderController = {
         }
 
         const variant = dbProduct.sizes.find(
-          (s) => s.size === size && s.color === color
+          (s) => s.size === size && s.color === color,
         );
 
         if (!variant) {
@@ -124,7 +124,7 @@ export const orderController = {
       const shippingPrice = 0; // Có thể hardcode hoặc lấy từ logic ship
       const finalTotal = Math.max(
         0,
-        subTotal + shippingPrice - voucherDiscount
+        subTotal + shippingPrice - voucherDiscount,
       );
 
       // 3. TẠO ORDER (Pending status)
@@ -144,11 +144,7 @@ export const orderController = {
       // 4. XỬ LÝ THANH TOÁN VNPAY NẾU CẦN
       let paymentUrl = null;
       if (paymentMethod === "vnpay") {
-        paymentUrl = generateVnPayUrl(
-          req,
-          newOrder._id.toString(),
-          finalTotal
-        );
+        paymentUrl = generateVnPayUrl(req, newOrder._id.toString(), finalTotal);
       }
 
       // 5. CẬP NHẬT KHO
@@ -157,9 +153,9 @@ export const orderController = {
           productService.updateQuantityProduct(
             u.productId,
             u.variantId,
-            u.newQuantity
-          )
-        )
+            u.newQuantity,
+          ),
+        ),
       );
 
       return res.status(HTTP_STATUS.CREATED).json({
@@ -265,7 +261,10 @@ export const orderController = {
     if (!order.assignee && order.status === "pending") {
       // gán _id của user hiện tại vào trường assignee và cập nhật trạng thái đơn hàng => confirmed
       const updateData = isAdmin ? { status } : { assignee: _id, status };
-      const updateOrder = await orderService.updateOrder({ _id: orderId }, updateData);
+      const updateOrder = await orderService.updateOrder(
+        { _id: orderId },
+        updateData,
+      );
       if (!updateOrder) {
         return res
           .status(HTTP_STATUS.BAD_REQUEST)
@@ -290,7 +289,7 @@ export const orderController = {
     // check xem trạng thái đơn hàng có hợp lệ không
     const checkStatusInvalid = orderController.checkStatus(
       order.status,
-      status
+      status,
     );
     if (!checkStatusInvalid) {
       return res
@@ -310,7 +309,7 @@ export const orderController = {
       // cập nhật trạng thái đơn hàng và lý do hủy đơn hàng
       const updateOrder = await orderService.updateOrder(
         { _id: orderId },
-        { status, reasonCancel: message }
+        { status, reasonCancel: message },
       );
       if (!updateOrder) {
         return res
@@ -325,7 +324,7 @@ export const orderController = {
     // cập nhật trạng thái đơn hàng
     const updateOrder = await orderService.updateOrder(
       { _id: orderId },
-      { status, reasonCancel: "" }
+      { status, reasonCancel: "" },
     );
     if (!updateOrder) {
       return res
@@ -383,7 +382,7 @@ export const orderController = {
       // 4. Cập nhật trạng thái đơn hàng
       const updateOrder = await orderService.updateOrder(
         { _id: orderId },
-        { status: "cancelled", reasonCancel: message }
+        { status: "cancelled", reasonCancel: message },
       );
 
       if (!updateOrder) {
@@ -398,25 +397,25 @@ export const orderController = {
       for (const item of order.products) {
         try {
           const productInfo = await productService.getProductById(
-            item.productId
+            item.productId,
           );
           if (productInfo) {
             const productSize = productInfo.sizes.find(
-              (s) => s.size === item.size && s.color === item.color
+              (s) => s.size === item.size && s.color === item.color,
             );
             if (productSize) {
               const newQuantity = productSize.quantity + item.quantity;
               await productService.updateQuantityProduct(
                 item.productId,
                 productSize._id,
-                newQuantity
+                newQuantity,
               );
             }
           }
         } catch (error) {
           console.error(
             `Lỗi trả hàng về kho cho sản phẩm ${item.productId}:`,
-            error
+            error,
           );
           // Không return res ở đây để tránh gián đoạn các sản phẩm khác,
           // nhưng lỗi này nên được log lại để kiểm tra thủ công nế cần.

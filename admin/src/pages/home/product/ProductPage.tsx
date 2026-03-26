@@ -9,7 +9,11 @@ import {
   useDeleteProduct,
   useDeleteMultipleProducts,
 } from "../../../hooks/useProduct";
-import type { TProduct, TProductForm, TProductFormEdit } from "../../../types/product.type";
+import type {
+  TProduct,
+  TProductForm,
+  TProductFormEdit,
+} from "../../../types/product.type";
 import ConfirmModal from "../../../components/common/ConfirmModal";
 
 // Components
@@ -116,8 +120,8 @@ const ProductPage: React.FC = () => {
       setIsDrawerOpen(false);
       setFormData({});
       refetch();
-    } catch (error) {
-      console.error("Error adding product:", error);
+    } catch {
+      // Error handled in mutation hook
     }
   };
 
@@ -143,8 +147,8 @@ const ProductPage: React.FC = () => {
       setEditingProduct(null);
       setFormData({});
       refetch();
-    } catch (error) {
-      console.error("Error updating product:", error);
+    } catch {
+      // Error handled in mutation hook
     }
   };
 
@@ -152,8 +156,8 @@ const ProductPage: React.FC = () => {
     try {
       await updateStatusMutation.mutateAsync(productId);
       refetch();
-    } catch (error) {
-      console.error("Error updating status:", error);
+    } catch {
+      // Error handled in useUpdateProductStatus hook
     }
   };
 
@@ -167,8 +171,8 @@ const ProductPage: React.FC = () => {
           await softDeleteMutation.mutateAsync(productId);
           refetch();
           setConfirmModal((prev) => ({ ...prev, isOpen: false }));
-        } catch (error) {
-          console.error("Error soft deleting product:", error);
+        } catch {
+          // Error handled in useSoftDeleteProduct hook
         }
       },
     });
@@ -184,8 +188,8 @@ const ProductPage: React.FC = () => {
           await softDeleteMutation.mutateAsync(productId);
           refetch();
           setConfirmModal((prev) => ({ ...prev, isOpen: false }));
-        } catch (error) {
-          console.error("Error restoring product:", error);
+        } catch {
+          // Error handled in useSoftDeleteProduct hook
         }
       },
     });
@@ -202,8 +206,8 @@ const ProductPage: React.FC = () => {
           await deleteProductMutation.mutateAsync(productId);
           refetch();
           setConfirmModal((prev) => ({ ...prev, isOpen: false }));
-        } catch (error) {
-          console.error("Error hard deleting product:", error);
+        } catch {
+          // Error handled in useDeleteProduct hook
         }
       },
     });
@@ -220,8 +224,8 @@ const ProductPage: React.FC = () => {
           setSelectedIds([]);
           refetch();
           setConfirmModal((prev) => ({ ...prev, isOpen: false }));
-        } catch (error) {
-          console.error("Error soft deleting products:", error);
+        } catch {
+          // Error handled in useDeleteMultipleProducts hook
         }
       },
     });
@@ -238,8 +242,8 @@ const ProductPage: React.FC = () => {
           setSelectedIds([]);
           refetch();
           setConfirmModal((prev) => ({ ...prev, isOpen: false }));
-        } catch (error) {
-          console.error("Error hard deleting products:", error);
+        } catch {
+          // Error handled in useDeleteMultipleProducts hook
         }
       },
     });
@@ -252,8 +256,8 @@ const ProductPage: React.FC = () => {
       }
       setSelectedIds([]);
       refetch();
-    } catch (error) {
-      console.error("Error restoring products:", error);
+    } catch {
+      // Error handled in useSoftDeleteProduct hook
     }
   };
 
@@ -326,27 +330,27 @@ const ProductPage: React.FC = () => {
 
             {/* Table */}
             <ProductPageTable
-            products={products}
-            selectedIds={selectedIds}
-            isLoading={isLoading}
-            activeTab={activeTab}
-            onToggleSelect={toggleSelect}
-            onToggleSelectAll={toggleSelectAll}
-            onEdit={openEditDrawer}
-            onSoftDelete={handleSoftDelete}
-            onRestore={handleRestore}
-            onHardDelete={handleHardDelete}
-            onUpdateStatus={handleUpdateStatus}
-          />
+              products={products}
+              selectedIds={selectedIds}
+              isLoading={isLoading}
+              activeTab={activeTab}
+              onToggleSelect={toggleSelect}
+              onToggleSelectAll={toggleSelectAll}
+              onEdit={openEditDrawer}
+              onSoftDelete={handleSoftDelete}
+              onRestore={handleRestore}
+              onHardDelete={handleHardDelete}
+              onUpdateStatus={handleUpdateStatus}
+            />
 
-          {/* Pagination */}
-          <ProductPagePagination
-            page={page}
-            totalPages={totalPages}
-            totalDocs={totalDocs}
-            limit={limit}
-            onPageChange={setPage}
-          />
+            {/* Pagination */}
+            <ProductPagePagination
+              page={page}
+              totalPages={totalPages}
+              totalDocs={totalDocs}
+              limit={limit}
+              onPageChange={setPage}
+            />
           </div>
         </motion.div>
       </main>

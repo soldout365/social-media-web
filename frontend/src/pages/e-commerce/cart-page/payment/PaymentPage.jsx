@@ -93,7 +93,7 @@ export default function PaymentPage() {
               // Dù xóa ở cart bị lỗi vẫn nên chuyển trang vì đơn hàng đã tạo thành công ở backend
               navigate("/shopping");
             },
-          }
+          },
         );
       },
     });

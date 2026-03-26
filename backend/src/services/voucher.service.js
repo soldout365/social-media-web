@@ -1,4 +1,4 @@
-import Voucher from '../models/voucher.model.js';
+import Voucher from "../models/voucher.model.js";
 
 export const voucherService = {
   // create

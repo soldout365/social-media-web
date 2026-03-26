@@ -45,8 +45,7 @@ const ProductPageTable: React.FC<ProductPageTableProps> = ({
               <input
                 type="checkbox"
                 checked={
-                  selectedIds.length === products.length &&
-                  products.length > 0
+                  selectedIds.length === products.length && products.length > 0
                 }
                 onChange={onToggleSelectAll}
                 className="rounded border-[#EAEAEA] text-[#111111] focus:ring-[#111111]/20 cursor-pointer"
@@ -75,19 +74,13 @@ const ProductPageTable: React.FC<ProductPageTableProps> = ({
         <tbody className="divide-y divide-[#EAEAEA]/50">
           {isLoading ? (
             <tr>
-              <td
-                colSpan={7}
-                className="text-center py-8 text-[#787774]"
-              >
+              <td colSpan={7} className="text-center py-8 text-[#787774]">
                 Đang tải...
               </td>
             </tr>
           ) : products.length === 0 ? (
             <tr>
-              <td
-                colSpan={7}
-                className="text-center py-8 text-[#787774]"
-              >
+              <td colSpan={7} className="text-center py-8 text-[#787774]">
                 Không có sản phẩm nào
               </td>
             </tr>
@@ -129,8 +122,7 @@ const ProductPageTable: React.FC<ProductPageTableProps> = ({
                         {product.nameProduct}
                       </p>
                       <p className="text-[11px] text-[#787774]">
-                        {product.category?.nameCategory ||
-                          "Chưa phân loại"}
+                        {product.category?.nameCategory || "Chưa phân loại"}
                       </p>
                     </div>
                   </div>
@@ -165,9 +157,7 @@ const ProductPageTable: React.FC<ProductPageTableProps> = ({
                     <span
                       className={`text-[10px] font-bold uppercase tracking-tight ${product.status === "active" ? "text-green-600" : "text-[#787774]"}`}
                     >
-                      {product.status === "active"
-                        ? "Đang bán"
-                        : "Tạm ngưng"}
+                      {product.status === "active" ? "Đang bán" : "Tạm ngưng"}
                     </span>
                   </button>
                 </td>

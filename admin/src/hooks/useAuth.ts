@@ -7,6 +7,7 @@ import { userApi } from "../apis/user.api";
 import { ERole } from "../types/role.type";
 import { useNavigate } from "react-router-dom";
 import type { TLogin, TUser } from "../types/user.type";
+import { showError, showSuccess } from "../lib/toast";
 
 export const useAuth = (): {
   login: UseMutateFunction<TUser, Error, TLogin, unknown>;
@@ -31,11 +32,11 @@ export const useAuth = (): {
     onSuccess: (data) => {
       // Lưu user vào localStorage hoặc state tùy project
       localStorage.setItem("user", JSON.stringify(data));
+      showSuccess("Đăng nhập thành công!");
       navigate("/");
     },
     onError: (error: Error) => {
-      console.error("Login Error:", error.message);
-      navigate("/login");
+      showError(error.message || "Đăng nhập thất bại. Vui lòng thử lại.");
     },
   });
 

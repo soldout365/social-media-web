@@ -2,7 +2,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Image as ImageIcon } from "lucide-react";
 
-export default function ProductImageGallery({ product, currentImage, setMainImage }) {
+export default function ProductImageGallery({
+  product,
+  currentImage,
+  setMainImage,
+}) {
   return (
     <motion.div
       className="space-y-4"

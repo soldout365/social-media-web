@@ -62,7 +62,7 @@ const StoryPortalContent = () => {
       startTiming,
       followedUsers,
       userProfile,
-    ]
+    ],
   );
 
   return (

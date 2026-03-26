@@ -49,7 +49,7 @@ export const AppProvider = ({ children }) => {
       modal: { isOpen, userName, userId },
       dispatch,
     }),
-    [isOpen, userName, userId]
+    [isOpen, userName, userId],
   );
 
   return (

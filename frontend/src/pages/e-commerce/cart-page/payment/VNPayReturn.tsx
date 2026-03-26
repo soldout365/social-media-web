@@ -29,7 +29,7 @@ export default function VNPayReturn() {
       try {
         setLoading(true);
         const response = await axiosInstance.get(
-          `payment/vnpay_return?${searchParams.toString()}`
+          `payment/vnpay_return?${searchParams.toString()}`,
         );
         if (response.status === 200) {
           setVerifyStatus("success");

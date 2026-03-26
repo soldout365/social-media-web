@@ -28,7 +28,7 @@ export default function StatusOrder() {
 
   const filteredOrders = useMemo(() => {
     return orders.filter(
-      (order) => activeTab === "all" || order.status === activeTab
+      (order) => activeTab === "all" || order.status === activeTab,
     );
   }, [orders, activeTab]);
 
@@ -39,7 +39,7 @@ export default function StatusOrder() {
         onSuccess: () => {
           refetch();
         },
-      }
+      },
     );
   };
 

@@ -8,9 +8,8 @@ import { formatCurrency } from "@/lib/utils";
 const AdProductCard = ({ product, onQuickAdd }) => {
   if (!product) return null;
 
-  const finalPrice = product.sale > 0 
-    ? product.price * (1 - product.sale / 100) 
-    : product.price;
+  const finalPrice =
+    product.sale > 0 ? product.price * (1 - product.sale / 100) : product.price;
 
   return (
     <motion.div

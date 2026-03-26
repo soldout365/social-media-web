@@ -51,7 +51,10 @@ const ArchiveOSTable: React.FC<ArchiveOSTableProps> = ({
               <th className="p-4 text-left w-12">
                 <input
                   type="checkbox"
-                  checked={selectedIds.length === products.length && products.length > 0}
+                  checked={
+                    selectedIds.length === products.length &&
+                    products.length > 0
+                  }
                   onChange={onToggleSelectAll}
                   className="rounded border-[#EAEAEA] text-[#111111] focus:ring-[#111111]/20 cursor-pointer"
                 />
@@ -95,7 +98,11 @@ const ArchiveOSTable: React.FC<ArchiveOSTableProps> = ({
                   key={item._id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + index * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    delay: 0.5 + index * 0.08,
+                    duration: 0.4,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className="group hover:bg-[#F7F6F3]/40 transition-colors"
                 >
                   <td className="p-4">
@@ -109,7 +116,10 @@ const ArchiveOSTable: React.FC<ArchiveOSTableProps> = ({
                   <td className="p-4">
                     <div className="w-12 h-12 bg-[#F7F6F3] rounded-lg border border-[#EAEAEA] overflow-hidden mx-auto">
                       <img
-                        src={item.images?.[0]?.url || "https://api.dicebear.com/7.x/shapes/svg?seed=product"}
+                        src={
+                          item.images?.[0]?.url ||
+                          "https://api.dicebear.com/7.x/shapes/svg?seed=product"
+                        }
                         className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                         alt="product"
                       />
@@ -131,9 +141,7 @@ const ArchiveOSTable: React.FC<ArchiveOSTableProps> = ({
                   </td>
                   <td className="p-4 text-right font-mono font-medium text-[#111111]">
                     {formatPrice(item.price)}
-                    <span className="text-[9px] text-[#787774] ml-1">
-                      VND
-                    </span>
+                    <span className="text-[9px] text-[#787774] ml-1">VND</span>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center justify-center gap-1">

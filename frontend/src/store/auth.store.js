@@ -48,7 +48,7 @@ export const useAuthStore = create((set, get) => ({
       } else if (notification.type === "dislike") {
         set({
           likeNotification: currentNotifications.filter(
-            (item) => item.userId !== notification.userId
+            (item) => item.userId !== notification.userId,
           ),
         });
       }
@@ -61,7 +61,7 @@ export const useAuthStore = create((set, get) => ({
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
-      console.log("Lỗi kiểm tra xác thực:", error);
+      console.error("Lỗi kiểm tra xác thực:", error);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -104,7 +104,7 @@ export const useAuthStore = create((set, get) => ({
       set({ authUser: res.data });
       toast.success("Cập nhật hồ sơ thành công");
     } catch (error) {
-      console.log("Lỗi cập nhật hồ sơ:", error);
+      console.error("Lỗi cập nhật hồ sơ:", error);
       toast.error("Cập nhật hồ sơ thất bại. Vui lòng thử lại.");
     }
   },
@@ -130,7 +130,7 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Đăng xuất thành công!");
       get().disconnectSocket();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Đăng xuất thất bại. Vui lòng thử lại.");
     }
   },

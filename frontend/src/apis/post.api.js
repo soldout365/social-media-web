@@ -18,7 +18,7 @@ export const postApi = {
       `/post/allposts?${params.toString()}`,
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   },
@@ -29,7 +29,7 @@ export const postApi = {
       {},
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   },
@@ -48,7 +48,7 @@ export const postApi = {
       {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   },
@@ -66,7 +66,7 @@ export const postApi = {
       {},
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   },

@@ -39,13 +39,13 @@ export default function Pagination({ totalPages = 1, currentPage = 1 }) {
           >
             1
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
       if (startPage > 2) {
         items.push(
           <PaginationItem key="start-ellipsis">
             <PaginationEllipsis className="text-slate-500" />
-          </PaginationItem>
+          </PaginationItem>,
         );
       }
     }
@@ -64,7 +64,7 @@ export default function Pagination({ totalPages = 1, currentPage = 1 }) {
           >
             {i}
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
 
@@ -73,7 +73,7 @@ export default function Pagination({ totalPages = 1, currentPage = 1 }) {
         items.push(
           <PaginationItem key="end-ellipsis">
             <PaginationEllipsis className="text-slate-500" />
-          </PaginationItem>
+          </PaginationItem>,
         );
       }
       items.push(
@@ -84,7 +84,7 @@ export default function Pagination({ totalPages = 1, currentPage = 1 }) {
           >
             {totalPages}
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
 

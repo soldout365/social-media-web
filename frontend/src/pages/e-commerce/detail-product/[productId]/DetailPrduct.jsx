@@ -42,7 +42,7 @@ export default function DetailPrduct() {
         (p) =>
           (p.brand?._id === product?.brand?._id ||
             p.brand === product?.brand) &&
-          p._id !== product?._id
+          p._id !== product?._id,
       )
       .slice(0, 2) || [];
 

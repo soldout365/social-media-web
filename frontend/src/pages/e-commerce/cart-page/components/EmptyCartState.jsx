@@ -17,12 +17,10 @@ export default function EmptyCartState() {
         <div className="w-32 h-32 mx-auto mb-6 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center shadow-inner">
           <ShoppingCart className="w-12 h-12 text-slate-300" />
         </div>
-        <h2 className="text-xl font-bold mb-2">
-          Giỏ hàng của bạn đang trống
-        </h2>
+        <h2 className="text-xl font-bold mb-2">Giỏ hàng của bạn đang trống</h2>
         <p className="text-slate-500 text-sm mb-6">
-          Sản phẩm sẽ được lưu trong giỏ hàng 30 ngày. Đừng để món đồ yêu
-          thích của bạn vụt mất!
+          Sản phẩm sẽ được lưu trong giỏ hàng 30 ngày. Đừng để món đồ yêu thích
+          của bạn vụt mất!
         </p>
         <Button
           onClick={() => navigate("/shopping")}

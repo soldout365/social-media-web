@@ -17,7 +17,7 @@ const StoryButton = ({ children, direction = "right" }) => {
     if (!authUser?.following || !suggestedUsers) return suggestedUsers;
 
     return suggestedUsers.filter((user) =>
-      authUser.following.includes(user._id)
+      authUser.following.includes(user._id),
     );
   }, [suggestedUsers, authUser?.following]);
 

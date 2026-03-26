@@ -19,10 +19,10 @@ export const useGetAllOrders = (
   return useQuery<TResponse<TOrder>, Error>({
     queryKey: ["orders", params],
     queryFn: () => orderApi.getAllOrders(params),
-    refetchInterval: 28 * 60 * 1000,
+    refetchInterval: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    staleTime: 28 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
     ...options,
   });
 };

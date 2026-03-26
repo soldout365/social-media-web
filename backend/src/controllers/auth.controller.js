@@ -72,7 +72,7 @@ export const signup = async (req, res) => {
           await sendWelcomeEmail(
             savedUser.email,
             savedUser.fullName,
-            ENV.CLIENT_URL
+            ENV.CLIENT_URL,
           );
           console.log(`Welcome email sent to ${savedUser.email}`);
         } catch (emailError) {
@@ -302,11 +302,11 @@ export const followOrUnfollow = async (req, res) => {
       await Promise.all([
         User.updateOne(
           { _id: requestingUserId },
-          { $pull: { following: targetUserId } } // Xóa targetUserId khỏi mảng following của requesting user
+          { $pull: { following: targetUserId } }, // Xóa targetUserId khỏi mảng following của requesting user
         ),
         User.updateOne(
           { _id: targetUserId },
-          { $pull: { followers: requestingUserId } } // Xóa requestingUserId khỏi mảng followers của target user
+          { $pull: { followers: requestingUserId } }, // Xóa requestingUserId khỏi mảng followers của target user
         ),
       ]);
 
@@ -324,11 +324,11 @@ export const followOrUnfollow = async (req, res) => {
       await Promise.all([
         User.updateOne(
           { _id: requestingUserId },
-          { $addToSet: { following: targetUserId } } // Thêm targetUserId vào mảng following (addToSet tránh duplicate)
+          { $addToSet: { following: targetUserId } }, // Thêm targetUserId vào mảng following (addToSet tránh duplicate)
         ),
         User.updateOne(
           { _id: targetUserId },
-          { $addToSet: { followers: requestingUserId } } // Thêm requestingUserId vào mảng followers (addToSet tránh duplicate)
+          { $addToSet: { followers: requestingUserId } }, // Thêm requestingUserId vào mảng followers (addToSet tránh duplicate)
         ),
       ]);
 

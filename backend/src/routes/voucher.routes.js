@@ -12,7 +12,7 @@ router.use(arcjetProtection, protectRoute);
 router.post(
   "/create-voucher",
   wrapRequestHandler(checkPermission),
-  wrapRequestHandler(voucherController.createVoucher)
+  wrapRequestHandler(voucherController.createVoucher),
 );
 
 // lấy danh sách voucher
@@ -22,13 +22,13 @@ router.get("/get-vouchers", wrapRequestHandler(voucherController.getVouchers));
 router.patch(
   "/update-voucher/:id",
   wrapRequestHandler(checkPermission),
-  wrapRequestHandler(voucherController.updateVoucher)
+  wrapRequestHandler(voucherController.updateVoucher),
 );
 
 // xem chi tiết voucher by id
 router.get(
   "/get-voucher/:id",
-  wrapRequestHandler(voucherController.getVoucherById)
+  wrapRequestHandler(voucherController.getVoucherById),
 );
 
 export default router;

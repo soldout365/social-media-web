@@ -103,7 +103,7 @@ const CallPage = () => {
           try {
             const participants = activeCall.state.participants;
             const activeCount = Array.from(participants.values()).filter(
-              (p) => p.connectionQuality !== "offline"
+              (p) => p.connectionQuality !== "offline",
             ).length;
 
             // Nếu là người cuối cùng → end call thay vì leave

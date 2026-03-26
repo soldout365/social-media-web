@@ -39,7 +39,7 @@ const cartSchema = new mongoose.Schema(
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
 cartSchema.plugin(mongoosePaginate);

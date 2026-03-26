@@ -67,14 +67,14 @@ export const cartController = {
 
     // check product tồn tại trong giỏ hàng hay chưa
     const productExitInCarts = carts.filter(
-      (item) => item.productId.toString() === product.productId
+      (item) => item.productId.toString() === product.productId,
     );
 
     // nếu tồn tại rồi thì cập nhật số lượng
     if (productExitInCarts && productExitInCarts.length > 0) {
       // tìm ra xem có sản phẩm nào trùng màu và size không
       const itemExist = productExitInCarts.find(
-        (item) => item.size === product.size && item.color === product.color
+        (item) => item.size === product.size && item.color === product.color,
       );
       if (itemExist) {
         itemExist.quantity += product.quantity;
@@ -261,7 +261,7 @@ export const cartController = {
 
     // check productInCart tồn tại trong giỏ hàng hay không
     const productInCart = carts.find(
-      (item) => item._id.toString() === productIdInCart
+      (item) => item._id.toString() === productIdInCart,
     );
     if (!productInCart) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -280,7 +280,7 @@ export const cartController = {
           // nếu quantity sản phẩm lớn hơn số lượng tồn kho thì không cho tăng nữa
           // lấy ra sizes có size và color giống với sản phẩm trong giỏ hàng
           const sizeExist = productExist.sizes.find(
-            (size) => size.size === item.size && size.color === item.color
+            (size) => size.size === item.size && size.color === item.color,
           );
           if (sizeExist && sizeExist.quantity < item.quantity) {
             // set lại quantity sản phẩm trong giỏ hàng
@@ -321,7 +321,7 @@ export const cartController = {
           if (item.quantity < 1) {
             // xóa sản phẩm khỏi giỏ hàng
             result.carts = carts.filter(
-              (item) => item._id.toString() !== productIdInCart
+              (item) => item._id.toString() !== productIdInCart,
             );
           }
 
@@ -367,7 +367,11 @@ export const cartController = {
     }
     const { carts } = result;
 
-    if (!productIdsInCart || !Array.isArray(productIdsInCart) || productIdsInCart.length === 0) {
+    if (
+      !productIdsInCart ||
+      !Array.isArray(productIdsInCart) ||
+      productIdsInCart.length === 0
+    ) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
         message: "Invalid productIdsInCart array",
         success: false,
@@ -378,16 +382,22 @@ export const cartController = {
 
     // Tìm các sản phẩm được yêu cầu xóa để trừ tiền
     for (const itemId of productIdsInCart) {
-      const productInCart = carts.find((item) => item._id.toString() === itemId);
+      const productInCart = carts.find(
+        (item) => item._id.toString() === itemId,
+      );
       if (productInCart) {
         // Find existing product cache from populated fields or look it up
         // Currently, cart items usually hold `productId` as ObjectId or populated object.
         // The previous code retrieved product from DB. We do that here for accurate calculation:
-        const productExist = await productService.getProductById(productInCart.productId);
+        const productExist = await productService.getProductById(
+          productInCart.productId,
+        );
         if (productExist) {
-          const itemTotal = productExist.sale > 0 
-           ? (productExist.price - productExist.sale) * productInCart.quantity
-           : productExist.price * productInCart.quantity;
+          const itemTotal =
+            productExist.sale > 0
+              ? (productExist.price - productExist.sale) *
+                productInCart.quantity
+              : productExist.price * productInCart.quantity;
           deductAmount += itemTotal;
         }
       }
@@ -395,7 +405,7 @@ export const cartController = {
 
     // xóa các sản phẩm khỏi giỏ hàng
     result.carts = carts.filter(
-      (item) => !productIdsInCart.includes(item._id.toString())
+      (item) => !productIdsInCart.includes(item._id.toString()),
     );
 
     // tính tổng tiền

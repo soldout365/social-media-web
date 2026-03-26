@@ -24,7 +24,7 @@ export const addNewPost = async (req, res) => {
 
     //buffer to datauri
     const fileUri = `data:image/jpeg;base64,${optimizedImageBuffer.toString(
-      "base64"
+      "base64",
     )}`;
     const cloudResponse = await cloudinary.uploader.upload(fileUri);
 
@@ -151,7 +151,7 @@ export const toggleLikePost = async (req, res) => {
 
     // Lấy thông tin user để gửi thông báo
     const currentUser = await User.findById(currentUserId).select(
-      "fullName profilePic"
+      "fullName profilePic",
     );
     const postAuthorId = post.author.toString();
 
@@ -226,7 +226,7 @@ export const getCommentsOfPost = async (req, res) => {
 
     const comments = await Comment.find({ post: postId }).populate(
       "author",
-      "fullName profilePic"
+      "fullName profilePic",
     );
 
     if (!comments)
@@ -261,7 +261,7 @@ export const deletePost = async (req, res) => {
       "📝 Post author:",
       post.author.toString(),
       "Current user:",
-      authorId.toString()
+      authorId.toString(),
     );
 
     // Kiểm tra có phải chủ bài post không

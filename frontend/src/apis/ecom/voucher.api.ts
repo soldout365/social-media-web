@@ -8,7 +8,7 @@ export const voucherApi = {
       "/voucher/get-vouchers",
       {
         params,
-      }
+      },
     );
     return response.data;
   },

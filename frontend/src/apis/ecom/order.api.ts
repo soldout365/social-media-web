@@ -16,7 +16,7 @@ export const orderApi = {
   //get order by user id
   getOrder: async () => {
     const response = await axiosInstance.get<TResponseNoPagination<TOrder>>(
-      `/order/get-order-by-user-id`
+      `/order/get-order-by-user-id`,
     );
     return response.data;
   },

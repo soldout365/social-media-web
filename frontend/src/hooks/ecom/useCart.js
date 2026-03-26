@@ -37,13 +37,20 @@ export const useUpdateQuantityInCart = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationKey: [cartApi.updateQuantityInCart.name],
-    mutationFn: (variables) => cartApi.updateQuantityInCart(variables.body, { status: variables.status }),
+    mutationFn: (variables) =>
+      cartApi.updateQuantityInCart(variables.body, {
+        status: variables.status,
+      }),
     onMutate: async (variables) => {
       // 1. Cancel any outgoing refetches so they don't overwrite our optimistic update
-      await queryClient.cancelQueries({ queryKey: [cartApi.getCartByUser.name] });
+      await queryClient.cancelQueries({
+        queryKey: [cartApi.getCartByUser.name],
+      });
 
       // 2. Snapshot the previous value
-      const previousCart = queryClient.getQueryData([cartApi.getCartByUser.name]);
+      const previousCart = queryClient.getQueryData([
+        cartApi.getCartByUser.name,
+      ]);
 
       // 3. Optimistically update to the new value
       queryClient.setQueryData([cartApi.getCartByUser.name], (old) => {
@@ -54,7 +61,7 @@ export const useUpdateQuantityInCart = () => {
 
         // Find the product and update its quantity
         const productIndex = newData.data.carts.findIndex(
-          (p) => p._id === variables.body.productIdInCart
+          (p) => p._id === variables.body.productIdInCart,
         );
 
         if (productIndex !== -1) {
@@ -78,7 +85,7 @@ export const useUpdateQuantityInCart = () => {
       // Rollback to the previous value if mutation fails
       queryClient.setQueryData(
         [cartApi.getCartByUser.name],
-        context.previousCart
+        context.previousCart,
       );
       // Read actual error message instead of hardcoding
       const errorMsg =
@@ -101,20 +108,27 @@ export const useDeleteProductInCart = () => {
     mutationKey: [cartApi.deleteProductInCart.name],
     mutationFn: (params) => cartApi.deleteProductInCart(params),
     onMutate: async (variables) => {
-      await queryClient.cancelQueries({ queryKey: [cartApi.getCartByUser.name] });
+      await queryClient.cancelQueries({
+        queryKey: [cartApi.getCartByUser.name],
+      });
 
-      const previousCart = queryClient.getQueryData([cartApi.getCartByUser.name]);
+      const previousCart = queryClient.getQueryData([
+        cartApi.getCartByUser.name,
+      ]);
 
       queryClient.setQueryData([cartApi.getCartByUser.name], (old) => {
         if (!old || !old.data || !old.data.carts) return old;
 
         const newData = JSON.parse(JSON.stringify(old));
-        
+
         // Filter out the deleted products relying on cart item's _id
-        if (variables.productIdsInCart && Array.isArray(variables.productIdsInCart)) {
-           newData.data.carts = newData.data.carts.filter(
-             (item) => !variables.productIdsInCart.includes(item._id)
-           );
+        if (
+          variables.productIdsInCart &&
+          Array.isArray(variables.productIdsInCart)
+        ) {
+          newData.data.carts = newData.data.carts.filter(
+            (item) => !variables.productIdsInCart.includes(item._id),
+          );
         }
 
         return newData;
@@ -128,10 +142,9 @@ export const useDeleteProductInCart = () => {
     onError: (err, newTodo, context) => {
       queryClient.setQueryData(
         [cartApi.getCartByUser.name],
-        context.previousCart
+        context.previousCart,
       );
-      const errorMsg =
-        err?.response?.data?.message || "Xóa sản phẩm thất bại!";
+      const errorMsg = err?.response?.data?.message || "Xóa sản phẩm thất bại!";
       toast.error(errorMsg);
     },
     onSettled: () => {

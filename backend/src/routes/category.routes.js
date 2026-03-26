@@ -29,20 +29,20 @@ router.post(
   "/create-category",
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(categoryMiddleware),
-  wrapRequestHandler(createCategory)
+  wrapRequestHandler(createCategory),
 );
 // update
 router.patch(
   "/update-category-by-id/:id",
   wrapRequestHandler(checkPermission),
-  wrapRequestHandler(updateCategory)
+  wrapRequestHandler(updateCategory),
 );
 
 // delete
 router.delete(
   "/delete-category-by-id/:id",
   wrapRequestHandler(checkPermission),
-  wrapRequestHandler(deleteCategory)
+  wrapRequestHandler(deleteCategory),
 );
 
 export default router;

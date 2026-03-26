@@ -118,7 +118,7 @@ const Post = ({ post }) => {
             <Button variant="ghost" className="cursor-pointer w-fit">
               Thêm vào mục yêu thích
             </Button>
-            {authUser?._id === post?.author._id && (
+            {authUser?._id === post?.author?._id && (
               <Button
                 onClick={deletePostHandler}
                 disabled={isDeleting}

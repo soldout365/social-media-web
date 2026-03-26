@@ -41,7 +41,7 @@ export const useChatStore = create((set, get) => ({
       set({ allContacts: res.data });
     } catch (error) {
       toast.error("Lỗi tải danh bạ");
-      console.log(error);
+      console.error(error);
     } finally {
       set({ isUsersLoading: false });
     }
@@ -54,7 +54,7 @@ export const useChatStore = create((set, get) => ({
       set({ chats: res.data });
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Lỗi tải danh sách trò chuyện"
+        error.response?.data?.message || "Lỗi tải danh sách trò chuyện",
       );
     } finally {
       set({ isUsersLoading: false });
@@ -94,7 +94,7 @@ export const useChatStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post(
         `/messages/send/${selectedUser._id}`,
-        messageData
+        messageData,
       );
       // Replace the optimistic message with newest message from the server
       set({ messages: messages.concat(res.data) });
@@ -125,7 +125,7 @@ export const useChatStore = create((set, get) => ({
         notificationSound.currentTime = 0; // reset to start
         notificationSound
           .play()
-          .catch((e) => console.log("Lỗi phát âm thanh:", e));
+          .catch((e) => console.error("Lỗi phát âm thanh:", e));
       }
     });
   },

@@ -21,7 +21,7 @@ const VoucherCard = ({ voucher, isSelected, onClick }) => {
         "relative flex w-full cursor-pointer overflow-hidden rounded-2xl border transition-all duration-300",
         isSelected
           ? "border-pink-500 bg-pink-500/5 shadow-[0_8px_30px_rgba(236,72,153,0.15)]"
-          : "border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900/40 hover:border-pink-300 dark:hover:border-pink-500/50"
+          : "border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900/40 hover:border-pink-300 dark:hover:border-pink-500/50",
       )}
     >
       {/* Left Decoration - Coupon Style */}
@@ -30,7 +30,7 @@ const VoucherCard = ({ voucher, isSelected, onClick }) => {
           "flex w-24 flex-col items-center justify-center gap-2 border-r border-dashed py-4",
           isSelected
             ? "border-pink-200 dark:border-pink-800 bg-pink-500 text-white"
-            : "border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 text-pink-500"
+            : "border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 text-pink-500",
         )}
       >
         <Ticket className="h-8 w-8" />
@@ -59,7 +59,7 @@ const VoucherCard = ({ voucher, isSelected, onClick }) => {
               "text-[10px] font-bold px-2 py-0.5",
               isSelected
                 ? "bg-pink-500 text-white"
-                : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+                : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400",
             )}
           >
             Còn {voucher.discount} lượt
@@ -81,7 +81,7 @@ const VoucherCard = ({ voucher, isSelected, onClick }) => {
               "rounded-full p-1.5 transition-colors",
               isSelected
                 ? "bg-pink-500 text-white"
-                : "bg-slate-50 dark:bg-slate-800 text-slate-300"
+                : "bg-slate-50 dark:bg-slate-800 text-slate-300",
             )}
           >
             <CheckCircle2 className="h-5 w-5" />

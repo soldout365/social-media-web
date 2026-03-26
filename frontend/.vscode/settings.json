@@ -1,0 +1,25 @@
+{
+  // ESLint
+  "eslint.enable": true,
+  "eslint.validate": ["javascript", "javascriptreact"],
+
+  // Hiển thị lỗi ESLint ngay trong editor
+  "eslint.lintTask.enable": true,
+
+  // Auto fix on save (optional)
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // JavaScript/JSX validation
+  "javascript.validate.enable": true,
+  "javascript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+
+  // Import suggestions
+  "javascript.preferences.importModuleSpecifier": "shortest",
+  "javascript.preferences.importModuleSpecifierEnding": "auto",
+
+  // Hiển thị problems
+  "problems.showCurrentInStatus": true
+}

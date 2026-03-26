@@ -43,7 +43,7 @@ const VoucherSchema = new mongoose.Schema(
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
 VoucherSchema.plugin(mongoosePaginate);

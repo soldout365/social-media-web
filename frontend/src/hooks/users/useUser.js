@@ -34,7 +34,7 @@ export const useGetFollowingOfUser = () => {
       const following = data?.following || [];
       // Filter users with posts
       const filtered = following.filter(
-        (user) => user.posts && user.posts.length > 0
+        (user) => user.posts && user.posts.length > 0,
       );
 
       return {

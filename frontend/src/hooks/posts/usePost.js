@@ -33,7 +33,7 @@ export const useDeletePost = () => {
     },
     onError: (error) => {
       toast.error("Không thể xóa bài viết");
-      console.log("Error deleting post:", error);
+      console.error("Error deleting post:", error);
     },
   });
   return {
@@ -175,7 +175,7 @@ export const useAddComment = () => {
             posts: page.posts.map((p) =>
               p._id === variables.postId
                 ? { ...p, comments: [...p.comments, data.comment] }
-                : p
+                : p,
             ),
           })),
         };
@@ -236,7 +236,7 @@ export const useGetAllCommentsOfPost = (postId, options = {}) => {
     enabled: options.enabled !== undefined ? options.enabled : !!postId,
     staleTime: 30 * 1000, // Cache 30s
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 };

@@ -81,7 +81,7 @@ const userSchema = new mongoose.Schema(
       enum: ["active", "inactive"],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userSchema.plugin(mongoosePaginate);

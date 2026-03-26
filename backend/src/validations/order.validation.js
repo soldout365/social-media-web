@@ -43,7 +43,7 @@ export const orderValidation = Joi.object({
       price: Joi.number().optional().messages({
         "number.base": "price must be a number",
       }),
-    })
+    }),
   ),
   infoOrderShipping: Joi.object({
     name: Joi.string().required().messages({

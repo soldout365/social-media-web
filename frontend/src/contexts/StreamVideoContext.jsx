@@ -75,7 +75,7 @@ export const StreamVideoProvider = ({ children }) => {
 
       if (currentClient && typeof currentClient.disconnectUser === "function") {
         currentClient.disconnectUser().catch((err) => {
-          console.log("Stream client disconnect:", err.message);
+          console.error("Stream client disconnect:", err.message);
           toast.error("Lỗi ngắt kết nối Stream client");
         });
       }

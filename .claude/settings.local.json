@@ -1,0 +1,31 @@
+{
+  "env": {
+    "DEBUG": "true"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npm ls:*)",
+      "Bash(git:*)",
+      "Skill(update-config)",
+      "Bash(node -e \"JSON.parse\\(require\\(''fs''\\).readFileSync\\(''D:/project/Zhilingg-Donghua/.claude/settings.local.json'', ''utf8''\\)\\)\")",
+      "Bash(claudekit hooks:*)",
+      "Bash(npx claudekit:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; npx --prefix D:/project/Zhilingg-Donghua/admin prettier --write \"$f\"; } 2>/dev/null || true",
+            "statusMessage": "Formatting file"
+          }
+        ]
+      }
+    ]
+  },
+  "fastMode": true
+}

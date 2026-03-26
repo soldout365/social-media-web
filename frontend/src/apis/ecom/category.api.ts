@@ -8,7 +8,7 @@ export const categoryApi = {
   getAllCategories: async (params?: TQueryParams) => {
     const response = await axiosInstance.get<TResponseNoPagination<TCategory>>(
       `/category/get-categories`,
-      { params }
+      { params },
     );
     return response.data;
   },

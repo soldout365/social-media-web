@@ -28,5 +28,5 @@ createRoot(document.getElementById("root")).render(
         <Toaster />
       </QueryClientProvider>
     </PersistGate>
-  </Provider>
+  </Provider>,
 );

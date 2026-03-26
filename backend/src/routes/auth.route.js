@@ -31,7 +31,7 @@ router.post(
   "/profile/edit",
   protectRoute,
   upload.single("profilePictureFile"),
-  updateProfile
+  updateProfile,
 );
 
 router.get("/suggested", protectRoute, getSuggestedUsers);
@@ -40,11 +40,11 @@ router.get("/following", protectRoute, getFollowingOfUser);
 router.post(
   "/follow-or-unfollow/:targetUserId",
   protectRoute,
-  followOrUnfollow
+  followOrUnfollow,
 );
 
 router.get("/check", protectRoute, (req, res) =>
-  res.status(200).json(req.user)
+  res.status(200).json(req.user),
 );
 
 export default router;

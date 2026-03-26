@@ -133,7 +133,7 @@ const ChatHeader = () => {
       toast.error(
         reason === "User is offline"
           ? "Người dùng đang offline"
-          : "Không thể gọi"
+          : "Không thể gọi",
       );
     };
 

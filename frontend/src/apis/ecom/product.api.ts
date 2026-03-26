@@ -9,7 +9,7 @@ export const productApi = {
       `/product/get-all-product`,
       {
         params,
-      }
+      },
     );
     return response.data;
   },
@@ -17,7 +17,7 @@ export const productApi = {
   // get detail product
   getProductById: async (id: string) => {
     const response = await axiosInstance.get<TResponseDetail<TProduct>>(
-      `/product/get-product-by-id/${id}`
+      `/product/get-product-by-id/${id}`,
     );
     return response.data;
   },

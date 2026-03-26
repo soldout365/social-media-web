@@ -49,7 +49,7 @@ export default function OrderSummary({
                 <p className="font-black text-sm whitespace-nowrap">
                   {formatCurrency(
                     item.productId.price *
-                      (1 - (item.productId.sale || 0) / 100)
+                      (1 - (item.productId.sale || 0) / 100),
                   )}
                   đ
                 </p>

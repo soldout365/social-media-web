@@ -65,7 +65,7 @@ const productSchema = new mongoose.Schema(
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
 productSchema.plugin(mongoosePaginate);

@@ -42,7 +42,7 @@ export const userApi = {
       {},
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   },

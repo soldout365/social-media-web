@@ -32,7 +32,7 @@ const BrandSchema = new mongoose.Schema(
   {
     timestamps: true,
     versionKey: false,
-  }
+  },
 );
 
 const Brand = mongoose.model("Brand", BrandSchema);

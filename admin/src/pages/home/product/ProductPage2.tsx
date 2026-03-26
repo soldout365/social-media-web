@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { useGetProducts, useSoftDeleteProduct, useDeleteMultipleProducts, useDeleteProduct } from "../../../hooks/useProduct";
+import {
+  useGetProducts,
+  useSoftDeleteProduct,
+  useDeleteMultipleProducts,
+  useDeleteProduct,
+} from "../../../hooks/useProduct";
 import type { TProduct } from "../../../types/product.type";
 import ConfirmModal from "../../../components/common/ConfirmModal";
 
@@ -31,7 +36,11 @@ const ArchiveOS: React.FC = () => {
   });
 
   // API calls - get deleted products
-  const { data: productsData, isLoading, refetch } = useGetProducts({
+  const {
+    data: productsData,
+    isLoading,
+    refetch,
+  } = useGetProducts({
     _limit: limit,
     _page: page,
     q: searchQuery || undefined,
@@ -46,7 +55,11 @@ const ArchiveOS: React.FC = () => {
 
   // Calculate totals
   const totalValue = products.reduce((sum, p) => sum + (p.price || 0), 0);
-  const totalStock = products.reduce((sum, p) => sum + (p.sizes?.reduce((s, size) => s + (size.quantity || 0), 0) || 0), 0);
+  const totalStock = products.reduce(
+    (sum, p) =>
+      sum + (p.sizes?.reduce((s, size) => s + (size.quantity || 0), 0) || 0),
+    0,
+  );
 
   // Pagination
   const totalPages = productsData?.totalPages || 1;
@@ -91,7 +104,8 @@ const ArchiveOS: React.FC = () => {
     setConfirmModal({
       isOpen: true,
       title: "Xóa vĩnh viễn",
-      description: "Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này? Hành động này không thể hoàn tác.",
+      description:
+        "Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này? Hành động này không thể hoàn tác.",
       onConfirm: async () => {
         try {
           await deleteProductMutation.mutateAsync(productId);

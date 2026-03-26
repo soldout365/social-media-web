@@ -76,8 +76,7 @@ export default function CartItemRow({
             isSelected ? "grayscale-0 scale-105" : "grayscale"
           }`}
           src={
-            item.productId.images?.[0]?.url ||
-            "https://via.placeholder.com/300"
+            item.productId.images?.[0]?.url || "https://via.placeholder.com/300"
           }
         />
       </div>

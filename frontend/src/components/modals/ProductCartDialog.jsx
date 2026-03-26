@@ -92,7 +92,7 @@ export default function ProductCartDialog({ isOpen, onOpenChange, product }) {
                       >
                         {color}
                       </Button>
-                    )
+                    ),
                   )}
                 </div>
               </div>
@@ -113,10 +113,10 @@ export default function ProductCartDialog({ isOpen, onOpenChange, product }) {
                     new Set(
                       product.sizes
                         .filter(
-                          (s) => !selectedColor || s.color === selectedColor
+                          (s) => !selectedColor || s.color === selectedColor,
                         )
-                        .map((s) => s.size)
-                    )
+                        .map((s) => s.size),
+                    ),
                   ).map((size) => (
                     <Button
                       key={size}

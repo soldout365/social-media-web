@@ -17,7 +17,7 @@ export default function FilterSidebar({ categories = [], brands = [] }) {
     }
     // Reset page to 1 when filter changes if pagination exists
     if (params._page) params._page = 1;
-    
+
     setSearchParams(createSearchParams(params), { replace: true });
   };
   return (

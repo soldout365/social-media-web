@@ -32,7 +32,7 @@ const Posts = () => {
       {
         threshold: 0.1,
         rootMargin: "500px", // Load trước 500px để smooth hơn
-      }
+      },
     );
 
     observer.observe(loadMoreRef.current);

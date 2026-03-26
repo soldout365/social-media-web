@@ -28,13 +28,13 @@ router.post(
   "/create-brand",
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(brandMiddleware),
-  wrapRequestHandler(createBrand)
+  wrapRequestHandler(createBrand),
 );
 // update
 router.patch(
   "/update-brand/:brandId",
   wrapRequestHandler(checkPermission),
-  wrapRequestHandler(updateBrand)
+  wrapRequestHandler(updateBrand),
 );
 
 export default router;

@@ -23,7 +23,7 @@ function sortObject(obj) {
     const originalKey = decodeURIComponent(encodedKey);
     sorted[encodedKey] = encodeURIComponent(obj[originalKey]).replace(
       /%20/g,
-      "+"
+      "+",
     );
   }
   return sorted;

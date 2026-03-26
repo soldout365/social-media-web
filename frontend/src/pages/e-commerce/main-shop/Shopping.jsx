@@ -15,11 +15,12 @@ import { useGetAllProduct } from "@/hooks/ecom/useProduct";
 export default function LuxeAutoPage() {
   const { data: categoriesData } = useGetAllCategories();
   const categories = categoriesData?.data?.filter(
-    (category) => category.status === "active"
+    (category) => category.status === "active",
   );
 
   const { data: brandsData } = useGetAllBrands();
-  const brands = brandsData?.data?.filter((brand) => brand.status === "active");  const [searchParams] = useSearchParams();
+  const brands = brandsData?.data?.filter((brand) => brand.status === "active");
+  const [searchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("_page")) || 1;
   const queryQ = searchParams.get("q") || "";
   const queryCategory = searchParams.get("category") || "";
@@ -41,10 +42,7 @@ export default function LuxeAutoPage() {
 
       <main className="max-w-7xl mx-auto px-4 py-10">
         <div className="flex flex-col md:flex-row gap-10">
-          <FilterSidebar
-            categories={categories || []}
-            brands={brands || []}
-          />
+          <FilterSidebar categories={categories || []} brands={brands || []} />
 
           <div className="flex-1">
             <ProductGrid productsData={productsData} />

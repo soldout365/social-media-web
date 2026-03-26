@@ -6,7 +6,7 @@ export const useClickSound = () => {
   const playClick = () => {
     const audio = clickSound.current;
     audio.currentTime = 0;
-    audio.play().catch((error) => console.log("failed change sound", error));
+    audio.play().catch((error) => console.error("failed change sound", error));
   };
 
   return playClick;

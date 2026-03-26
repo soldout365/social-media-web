@@ -76,7 +76,7 @@ export default function CartPage() {
   const handleSelectAll = (isChecked) => {
     if (isChecked) {
       setSelectedItemKeys(
-        products.map((p) => `${p.productId._id}-${p.color}-${p.size}`)
+        products.map((p) => `${p.productId._id}-${p.color}-${p.size}`),
       );
     } else {
       setSelectedItemKeys([]);
@@ -86,7 +86,7 @@ export default function CartPage() {
   const handleToggleSelect = (id, color, size) => {
     const key = `${id}-${color}-${size}`;
     setSelectedItemKeys((prev) =>
-      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key],
     );
   };
 

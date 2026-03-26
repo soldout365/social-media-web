@@ -1,5 +1,4 @@
-
-import Order from '../models/order.model.js';
+import Order from "../models/order.model.js";
 
 export const orderService = {
   // createOrder
@@ -10,9 +9,12 @@ export const orderService = {
   // getOrdersByUserId
   getOrdersByUserId: async (userId) => {
     return await Order.find({ userId }).populate([
-      { path: 'products.productId', select: '_id nameProduct desc images category brand' },
-      { path: 'userId', select: '_id email' },
-      { path: 'assignee' },
+      {
+        path: "products.productId",
+        select: "_id nameProduct desc images category brand",
+      },
+      { path: "userId", select: "_id email" },
+      { path: "assignee" },
     ]);
   },
 
@@ -24,9 +26,9 @@ export const orderService = {
   // get order by id
   getOrderById: async (orderId) => {
     return await Order.findById(orderId).populate([
-      { path: 'products.productId', select: '_id nameProduct desc images' },
-      { path: 'userId', select: '_id email' },
-      { path: 'assignee', select: '_id email avatar role status' },
+      { path: "products.productId", select: "_id nameProduct desc images" },
+      { path: "userId", select: "_id email" },
+      { path: "assignee", select: "_id email avatar role status" },
     ]);
   },
 

@@ -24,14 +24,14 @@ export const cartApi = {
   // update quantity in cart
   updateQuantityInCart: async (
     body: TUpdateQuantityInCart,
-    params: TQueryParams
+    params: TQueryParams,
   ) => {
     const response = await axiosInstance.patch(
       `/cart/update-quantity-product-in-cart`,
       body,
       {
         params,
-      }
+      },
     );
     return response.data;
   },
@@ -41,7 +41,7 @@ export const cartApi = {
       `/cart/delete-product-in-cart`,
       {
         data: body,
-      }
+      },
     );
     return response.data;
   },

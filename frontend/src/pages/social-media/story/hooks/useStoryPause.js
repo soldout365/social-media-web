@@ -40,11 +40,11 @@ export const useStoryPause = () => {
 
   const [storiesState, storiesDispatch] = useReducer(
     storiesReducer,
-    storiesInitialValue
+    storiesInitialValue,
   );
   const storiesStateInitialValue = useMemo(
     () => ({ ...storiesState, storiesDispatch }),
-    [storiesState, storiesDispatch]
+    [storiesState, storiesDispatch],
   );
   const { timing, currentStories, currentStory } = storiesState;
   const { currentStoryIndex } = getCurrentStory(currentStories, currentStory);
@@ -73,11 +73,11 @@ export const useStoryPause = () => {
       setInPause,
       userProfile,
       followedUsers,
-    ]
+    ],
   );
 
   const { profilePic: userAvatar } = followedUsers.find(
-    (user) => user.fullName === userName
+    (user) => user.fullName === userName,
   );
 
   useEffect(() => {

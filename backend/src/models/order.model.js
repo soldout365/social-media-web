@@ -94,7 +94,7 @@ const orderSchema = new mongoose.Schema(
   {
     versionKey: false,
     timestamps: true,
-  }
+  },
 );
 
 orderSchema.plugin(mongoosePaginate);

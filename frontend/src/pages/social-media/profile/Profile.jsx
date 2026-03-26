@@ -52,16 +52,16 @@ const Profile = () => {
   // Kiểm tra xem người dùng hiện tại có phải là chủ sở hữu profile không
   const isLoggedInUserProfile = useMemo(
     () => authUser?._id === userProfile?._id, // So sánh ID của người dùng đăng nhập với ID profile đang xem
-    [authUser?._id, userProfile?._id] // Tính toán lại khi ID thay đổi
+    [authUser?._id, userProfile?._id], // Tính toán lại khi ID thay đổi
   );
 
   // Kiểm tra xem người dùng hiện tại có đang follow profile này không
   const isFollowing = useMemo(
     () =>
       userProfile?.followers?.some(
-        (follower) => follower._id === authUser?._id // Tìm xem ID người dùng có trong danh sách followers không
+        (follower) => follower._id === authUser?._id, // Tìm xem ID người dùng có trong danh sách followers không
       ) || false, // Trả về false nếu không có followers
-    [userProfile?.followers, authUser?._id] // Tính toán lại khi followers hoặc ID người dùng thay đổi
+    [userProfile?.followers, authUser?._id], // Tính toán lại khi followers hoặc ID người dùng thay đổi
   );
 
   // Xác định bài viết cần hiển thị dựa trên tab và quyền hạn

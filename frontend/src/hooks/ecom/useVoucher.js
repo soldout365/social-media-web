@@ -11,7 +11,7 @@ export const useGetVouchers = () => {
       toast.success("Lấy voucher thành công");
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       toast.error("Lấy voucher thất bại!");
     },
   });

@@ -31,8 +31,7 @@ const ProductPagePagination: React.FC<ProductPagePaginationProps> = ({
         <span className="font-bold text-[#111111]">
           {startDoc} - {endDoc}
         </span>{" "}
-        trong số{" "}
-        <span className="font-bold text-[#111111]">{totalDocs}</span>{" "}
+        trong số <span className="font-bold text-[#111111]">{totalDocs}</span>{" "}
         sản phẩm
       </p>
       <div className="flex items-center gap-1">

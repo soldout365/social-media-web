@@ -1,0 +1,8 @@
+node_modules
+.env
+README.md
+docs-be
+docs
+prompts
+.gitignore
+.claude

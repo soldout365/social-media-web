@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { FolderSimple, Bell } from "@phosphor-icons/react";
 
 const ArchiveOSHeader: React.FC = () => {
@@ -27,7 +26,10 @@ const ArchiveOSHeader: React.FC = () => {
             >
               Sản phẩm
             </a>
-            <a href="#" className="text-[#111111] border-b-2 border-[#111111] py-5">
+            <a
+              href="#"
+              className="text-[#111111] border-b-2 border-[#111111] py-5"
+            >
               Kho lưu trữ
             </a>
           </nav>

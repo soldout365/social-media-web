@@ -24,7 +24,7 @@ export const setNextPrevStory = (config) => {
       spanEl?.classList.add("transition-finished");
     } else {
       const prevSpanEl = document.getElementById(
-        currentStories[currentStoryIndex - 1]
+        currentStories[currentStoryIndex - 1],
       );
       prevSpanEl?.classList.remove("story-hover-transition");
     }

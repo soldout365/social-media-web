@@ -9,7 +9,7 @@ export const brandApi = {
       `/brand/get-all-brands`,
       {
         params,
-      }
+      },
     );
     return response.data;
   },

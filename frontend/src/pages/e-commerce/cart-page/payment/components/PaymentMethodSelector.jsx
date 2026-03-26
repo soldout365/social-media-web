@@ -2,7 +2,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Truck, Check, CreditCard } from "lucide-react";
 
-export default function PaymentMethodSelector({ paymentMethod, setPaymentMethod }) {
+export default function PaymentMethodSelector({
+  paymentMethod,
+  setPaymentMethod,
+}) {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Phương thức thanh toán</h2>
@@ -26,11 +29,13 @@ export default function PaymentMethodSelector({ paymentMethod, setPaymentMethod 
             className="p-5 border-2 rounded-2xl flex flex-col gap-3 transition-all hover:border-pink-200 shadow-sm"
           >
             <div className="flex justify-between items-start">
-              <div className={`p-2 rounded-xl transition-colors ${
-                paymentMethod === "cod" 
-                  ? "bg-gradient-to-br from-yellow-400 to-pink-500 text-white shadow-lg shadow-pink-500/20" 
-                  : "bg-gray-100 text-gray-400"
-              }`}>
+              <div
+                className={`p-2 rounded-xl transition-colors ${
+                  paymentMethod === "cod"
+                    ? "bg-gradient-to-br from-yellow-400 to-pink-500 text-white shadow-lg shadow-pink-500/20"
+                    : "bg-gray-100 text-gray-400"
+                }`}
+              >
                 <Truck size={20} strokeWidth={2.5} />
               </div>
               <div
@@ -48,7 +53,9 @@ export default function PaymentMethodSelector({ paymentMethod, setPaymentMethod 
               </div>
             </div>
             <div>
-              <p className={`font-bold transition-colors ${paymentMethod === "cod" ? "text-pink-600" : "text-gray-900"}`}>
+              <p
+                className={`font-bold transition-colors ${paymentMethod === "cod" ? "text-pink-600" : "text-gray-900"}`}
+              >
                 Thanh toán khi nhận hàng (COD)
               </p>
               <p className="text-sm text-gray-500 font-medium">
@@ -77,11 +84,13 @@ export default function PaymentMethodSelector({ paymentMethod, setPaymentMethod 
             className="p-5 border-2 rounded-2xl flex flex-col gap-3 transition-all hover:border-pink-200 shadow-sm"
           >
             <div className="flex justify-between items-start">
-              <div className={`p-2 rounded-xl transition-colors ${
-                paymentMethod === "vnpay" 
-                  ? "bg-gradient-to-br from-yellow-400 to-pink-500 text-white shadow-lg shadow-pink-500/20" 
-                  : "bg-gray-100 text-gray-400"
-              }`}>
+              <div
+                className={`p-2 rounded-xl transition-colors ${
+                  paymentMethod === "vnpay"
+                    ? "bg-gradient-to-br from-yellow-400 to-pink-500 text-white shadow-lg shadow-pink-500/20"
+                    : "bg-gray-100 text-gray-400"
+                }`}
+              >
                 <CreditCard size={20} strokeWidth={2.5} />
               </div>
               <div
@@ -99,7 +108,9 @@ export default function PaymentMethodSelector({ paymentMethod, setPaymentMethod 
               </div>
             </div>
             <div>
-              <p className={`font-bold transition-colors ${paymentMethod === "vnpay" ? "text-pink-600" : "text-gray-900"}`}>
+              <p
+                className={`font-bold transition-colors ${paymentMethod === "vnpay" ? "text-pink-600" : "text-gray-900"}`}
+              >
                 Thanh toán qua VNPay
               </p>
               <p className="text-sm text-gray-500 font-medium">

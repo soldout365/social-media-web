@@ -25,13 +25,13 @@ export const productValidation = joi.object({
       quantity: joi.number().required(),
       color: joi.string().required(),
       _id: joi.string(),
-    })
+    }),
   ),
   images: joi.array().items(
     joi.object({
       url: joi.string().required(),
       public_id: joi.string().required(),
-    })
+    }),
   ),
   sale: joi.number().default(0),
   _id: joi.string(),

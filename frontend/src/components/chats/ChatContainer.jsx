@@ -107,16 +107,16 @@ const ChatContainer = () => {
                         msgIndex === 0 && msgIndex === group.messages.length - 1
                           ? "rounded-2xl"
                           : msgIndex === 0
-                          ? group.senderId === authUser._id
-                            ? "rounded-t-2xl rounded-bl-2xl rounded-br-md"
-                            : "rounded-t-2xl rounded-br-2xl rounded-bl-md"
-                          : msgIndex === group.messages.length - 1
-                          ? group.senderId === authUser._id
-                            ? "rounded-b-2xl rounded-tl-2xl rounded-tr-md"
-                            : "rounded-b-2xl rounded-tr-2xl rounded-tl-md"
-                          : group.senderId === authUser._id
-                          ? "rounded-l-2xl rounded-r-md"
-                          : "rounded-r-2xl rounded-l-md"
+                            ? group.senderId === authUser._id
+                              ? "rounded-t-2xl rounded-bl-2xl rounded-br-md"
+                              : "rounded-t-2xl rounded-br-2xl rounded-bl-md"
+                            : msgIndex === group.messages.length - 1
+                              ? group.senderId === authUser._id
+                                ? "rounded-b-2xl rounded-tl-2xl rounded-tr-md"
+                                : "rounded-b-2xl rounded-tr-2xl rounded-tl-md"
+                              : group.senderId === authUser._id
+                                ? "rounded-l-2xl rounded-r-md"
+                                : "rounded-r-2xl rounded-l-md"
                       } ${
                         group.senderId === authUser._id
                           ? "bg-gradient-to-br from-cyan-500 to-blue-600 text-white self-end"
@@ -153,7 +153,7 @@ const ChatContainer = () => {
                             {
                               hour: "2-digit",
                               minute: "2-digit",
-                            }
+                            },
                           )}
                         </p>
                       )}

@@ -29,16 +29,16 @@ const ProductAdCarousel = ({ products }) => {
 
       {/* Horizontal Scroll Area */}
       <div className="overflow-x-auto pb-2 scrollbar-hide">
-        <motion.div 
+        <motion.div
           className="flex gap-4 pr-4"
           initial={{ x: 20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           {products.map((product, index) => (
-            <AdProductCard 
-              key={product._id || index} 
-              product={product} 
+            <AdProductCard
+              key={product._id || index}
+              product={product}
               onQuickAdd={handleQuickAdd}
             />
           ))}
@@ -51,7 +51,7 @@ const ProductAdCarousel = ({ products }) => {
         onOpenChange={setIsDialogOpen}
         product={selectedProduct}
       />
-      
+
       {/* Custom Scrollbar Styles */}
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {

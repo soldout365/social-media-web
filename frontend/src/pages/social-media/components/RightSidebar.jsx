@@ -19,7 +19,7 @@ const RightSidebar = () => {
     if (!authUser?.following || !suggestedUsers) return suggestedUsers;
 
     return suggestedUsers.filter(
-      (user) => !authUser.following.includes(user._id)
+      (user) => !authUser.following.includes(user._id),
     );
   }, [suggestedUsers, authUser?.following]);
 
