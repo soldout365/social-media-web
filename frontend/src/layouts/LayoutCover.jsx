@@ -3,7 +3,7 @@ import BackgroundEffect from "../components/BackgroundEffect";
 function LayoutCover({ children }) {
   return (
     <div className="min-h-screen bg-slate-900 relative flex items-center justify-center p-4 overflow-hidden">
-      {/* DECORATORS - GLOW SHAPES */}
+      {}
       <div className="absolute top-10 left-10 size-[500px] bg-purple-500/20 rounded-full blur-[120px] animate-pulse" />
       <div
         className="absolute bottom-10 right-10 size-[500px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse"
@@ -15,10 +15,10 @@ function LayoutCover({ children }) {
         style={{ animationDelay: "2s" }}
       />
 
-      {/* BACKGROUND EFFECT */}
+      {}
       <BackgroundEffect type="particles" />
 
-      {/* CONTENT - Render children directly */}
+      {}
       {children}
     </div>
   );

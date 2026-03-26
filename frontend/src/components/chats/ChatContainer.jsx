@@ -7,7 +7,7 @@ import MessagesLoadingSkeleton from "../loads/MessagesLoadingSkeleton";
 import MessageInput from "./MessageInput";
 
 const ChatContainer = () => {
-  //
+
   const {
     selectedUser,
     getMessagesByUserId,
@@ -27,7 +27,6 @@ const ChatContainer = () => {
     getMessagesByUserId(selectedUser._id);
     subscribeToMessages();
 
-    // clean up
     return () => unsubscribeFromMessages();
   }, [
     selectedUser,
@@ -42,7 +41,6 @@ const ChatContainer = () => {
     }
   }, [messages]);
 
-  // Group messages by sender and time proximity (within 2 minutes)
   const groupMessages = (messages) => {
     const groups = [];
     let currentGroup = null;
@@ -52,7 +50,7 @@ const ChatContainer = () => {
         !currentGroup ||
         currentGroup.senderId !== msg.senderId ||
         new Date(msg.createdAt) - new Date(currentGroup.lastMessageTime) >
-          120000; // 2 minutes
+          120000; 
 
       if (shouldStartNewGroup) {
         currentGroup = {

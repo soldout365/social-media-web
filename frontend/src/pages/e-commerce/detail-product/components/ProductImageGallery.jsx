@@ -23,7 +23,7 @@ export default function ProductImageGallery({
       </div>
 
       <div className="grid grid-cols-4 gap-4">
-        {/* Product Original Image Thumbnail */}
+        {}
         {product.images?.[0]?.url && (
           <div
             className={`aspect-square rounded-xl overflow-hidden bg-container-dark/50 border cursor-pointer relative transition-all duration-300 ${
@@ -46,7 +46,7 @@ export default function ProductImageGallery({
           </div>
         )}
 
-        {/* Brand Image Thumbnail */}
+        {}
         <div
           className={`aspect-square rounded-xl overflow-hidden bg-container-dark/50 border cursor-pointer relative group transition-all duration-300 ${
             product.brand?.image && currentImage === product.brand.image
@@ -75,7 +75,7 @@ export default function ProductImageGallery({
           </div>
         </div>
 
-        {/* Category Image Thumbnail */}
+        {}
         <div
           className={`aspect-square rounded-xl overflow-hidden bg-container-dark/50 border cursor-pointer relative group transition-all duration-300 ${
             product.category?.image && currentImage === product.category.image

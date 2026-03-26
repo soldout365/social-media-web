@@ -16,7 +16,7 @@ const AdProductCard = ({ product, onQuickAdd }) => {
       whileHover={{ y: -5 }}
       className="flex flex-col min-w-[160px] max-w-[160px] bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl overflow-hidden shadow-lg group"
     >
-      {/* Product Image */}
+      {}
       <div className="relative aspect-square overflow-hidden bg-zinc-900">
         <img
           src={product.images?.[0]?.url || "/placeholder-product.png"}
@@ -30,7 +30,7 @@ const AdProductCard = ({ product, onQuickAdd }) => {
         )}
       </div>
 
-      {/* Product Info */}
+      {}
       <div className="p-3 flex-1 flex flex-col justify-between">
         <div className="mb-2">
           <h4 className="text-[11px] font-bold text-zinc-100 line-clamp-1 mb-1 leading-tight">
@@ -48,7 +48,7 @@ const AdProductCard = ({ product, onQuickAdd }) => {
           </div>
         </div>
 
-        {/* Actions */}
+        {}
         <div className="flex gap-2 mt-auto">
           <Button
             size="sm"

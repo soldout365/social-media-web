@@ -24,7 +24,7 @@ const VoucherCard = ({ voucher, isSelected, onClick }) => {
           : "border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900/40 hover:border-pink-300 dark:hover:border-pink-500/50",
       )}
     >
-      {/* Left Decoration - Coupon Style */}
+      {}
       <div
         className={cn(
           "flex w-24 flex-col items-center justify-center gap-2 border-r border-dashed py-4",
@@ -38,12 +38,12 @@ const VoucherCard = ({ voucher, isSelected, onClick }) => {
           Voucher
         </span>
 
-        {/* Punch out holes */}
+        {}
         <div className="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-[#f8f6f6] dark:bg-[#1a1a1a]" />
         <div className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-[#f8f6f6] dark:bg-[#1a1a1a]" />
       </div>
 
-      {/* Right Content */}
+      {}
       <div className="flex flex-1 flex-col p-4">
         <div className="flex items-start justify-between mb-2">
           <div>

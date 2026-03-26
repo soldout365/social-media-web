@@ -8,14 +8,14 @@ import { useNavigate } from "react-router-dom";
 export default function Header() {
   const navigate = useNavigate();
   const { query: cartQuery } = useGetCartByUser();
-  // Safe extraction of carts length based on typical response structures
+
   const cartData = cartQuery.data?.data || cartQuery.data;
   const cartItemCount = cartData?.carts?.length || 0;
 
   return (
     <header className="sticky top-0 z-50 w-full bg-container-dark/80 backdrop-blur-xl border-b border-border-dark px-4 md:px-8 py-4 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-end gap-4">
-        {/* Icons Menu */}
+        {}
         <div className="flex items-center gap-3">
           <Button
             onClick={() => navigate("/order")}

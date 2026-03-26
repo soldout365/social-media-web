@@ -16,7 +16,7 @@ export const useDeletePost = () => {
     mutationKey: [postApi.deletePost.name],
     mutationFn: (postId) => postApi.deletePost(postId),
     onSuccess: (data, postId) => {
-      // Update React Query cache
+
       queryClient.setQueryData(["posts"], (old) => {
         if (!old?.pages) return old;
 
@@ -49,7 +49,7 @@ export const useCreatePost = () => {
     mutationKey: [postApi.createPost.name],
     mutationFn: (formData) => postApi.createPost(formData),
     onSuccess: (data) => {
-      // Thêm post mới vào đầu page đầu tiên
+
       queryClient.setQueryData(["posts"], (old) => {
         if (!old?.pages || !old.pages[0]) return old;
 
@@ -92,16 +92,16 @@ export const useGetAllPosts = () => {
     queryFn: async ({ pageParam }) => {
       const data = await postApi.getAllPosts({
         cursor: pageParam,
-        limit: 10, // Load 10 bài mỗi lần
+        limit: 10, 
       });
       return data;
     },
-    initialPageParam: null, // Lần đầu không có cursor
+    initialPageParam: null, 
     getNextPageParam: (lastPage) => {
-      // Trả về cursor tiếp theo nếu còn data
+
       return lastPage.hasMore ? lastPage.nextCursor : undefined;
     },
-    staleTime: 5 * 60 * 1000, // Cache 5 phút
+    staleTime: 5 * 60 * 1000, 
   });
 
   return query;
@@ -116,13 +116,11 @@ export const useLikeOrDislikePost = () => {
     mutationFn: async (postId) => await postApi.likeOrDislikePost(postId),
 
     onMutate: async (postId) => {
-      // Cancel any outgoing refetches
+
       await queryClient.cancelQueries({ queryKey: ["posts"] });
 
-      // Snapshot previous value
       const previousData = queryClient.getQueryData(["posts"]);
 
-      // Optimistically update React Query cache
       queryClient.setQueryData(["posts"], (old) => {
         if (!old?.pages) return old;
 
@@ -150,7 +148,7 @@ export const useLikeOrDislikePost = () => {
     },
 
     onError: (err, postId, context) => {
-      // Rollback on error
+
       queryClient.setQueryData(["posts"], context.previousData);
       toast.error("Không thể cập nhật");
     },
@@ -164,7 +162,7 @@ export const useAddComment = () => {
     mutationKey: [postApi.addComment.name],
     mutationFn: ({ postId, text }) => postApi.addComment(postId, text),
     onSuccess: (data, variables) => {
-      // Update React Query cache
+
       queryClient.setQueryData(["posts"], (old) => {
         if (!old?.pages) return old;
 
@@ -234,7 +232,7 @@ export const useGetAllCommentsOfPost = (postId, options = {}) => {
     queryKey: [postApi.getAllCommentsOfPost.name, postId],
     queryFn: async () => await postApi.getAllCommentsOfPost(postId),
     enabled: options.enabled !== undefined ? options.enabled : !!postId,
-    staleTime: 30 * 1000, // Cache 30s
+    staleTime: 30 * 1000, 
     onError: (error) => {
       console.error(error);
     },

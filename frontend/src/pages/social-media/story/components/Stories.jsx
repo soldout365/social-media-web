@@ -10,7 +10,6 @@ const Stories = () => {
     isFetchingNextPage,
   } = useGetFollowingOfUser();
 
-  // Flatten all pages into single array
   const followedUsers = useMemo(() => {
     if (!followingData?.pages) return [];
     return followingData.pages.flatMap((page) => page.users);
@@ -31,7 +30,7 @@ const Stories = () => {
         />
       ))}
 
-      {/* Load More button */}
+      {}
       {hasNextPage && (
         <button
           onClick={() => fetchNextPage()}

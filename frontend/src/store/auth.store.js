@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
 const BASE_URL =
-  import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
+  import.meta.env.MODE === "development" ? "http:
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -19,27 +19,22 @@ export const useAuthStore = create((set, get) => ({
 
   onlineUsers: [],
 
-  // Real-time notification state
   likeNotification: [],
-
-  //connectSocket() → browser gửi cookie → server verify token → connection accepted → server emit getOnlineUsers → client update UI
 
   connectSocket: () => {
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;
 
     const socket = io(BASE_URL, {
-      withCredentials: true, // dam bao gui cookie
+      withCredentials: true, 
     });
     socket.connect();
     set({ socket });
 
-    //nghe sukien getOnlineUsers tu server
     socket.on("getOnlineUsers", (userIds) => {
       set({ onlineUsers: userIds });
     });
 
-    // Lắng nghe sự kiện notification (like/dislike)
     socket.on("notification", (notification) => {
       const currentNotifications = get().likeNotification;
 
@@ -109,7 +104,6 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  //disconnect socket
   disconnectSocket: () => {
     const socket = get().socket;
 
@@ -117,8 +111,8 @@ export const useAuthStore = create((set, get) => ({
 
     if (socket.connected) socket.disconnect();
 
-    socket.off("getOnlineUsers"); // chỉ gỡ listener đã thêm trong connectSocket
-    socket.off("notification"); // gỡ listener notification
+    socket.off("getOnlineUsers"); 
+    socket.off("notification"); 
 
     set({ socket: null, onlineUsers: [], likeNotification: [] });
   },
@@ -135,7 +129,6 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  // Actions để quản lý notification thủ công
   addLikeNotification: (notification) => {
     const currentNotifications = get().likeNotification;
     set({ likeNotification: [...currentNotifications, notification] });

@@ -1,4 +1,4 @@
-// generic type
+
 export type TResponse<T> = {
   message: string;
   success: boolean;
@@ -43,7 +43,6 @@ export type TBaseResponseDelete = {
   success: boolean;
 };
 
-// tạo 1 type cho modal để sử dụng trong useToggleModal
 export type TModalType = "add" | "edit" | "delete" | "view" | null;
 
 export type TModal<T> = {

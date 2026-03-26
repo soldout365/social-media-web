@@ -13,13 +13,10 @@ const Posts = () => {
     isError,
   } = useGetAllPosts();
 
-  // Ref cho element trigger load more
   const loadMoreRef = useRef(null);
 
-  // Flatten all posts from all pages
   const allPosts = data?.pages?.flatMap((page) => page.posts) || [];
 
-  // Intersection Observer để detect khi scroll gần hết
   useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage || isFetchingNextPage) return;
 
@@ -31,7 +28,7 @@ const Posts = () => {
       },
       {
         threshold: 0.1,
-        rootMargin: "500px", // Load trước 500px để smooth hơn
+        rootMargin: "500px", 
       },
     );
 
@@ -69,10 +66,10 @@ const Posts = () => {
               <React.Fragment key={post._id}>
                 <Post post={post} />
 
-                {/* Inject AdPost every 3 regular posts */}
+                {}
                 {(index + 1) % 3 === 0 && <AdPost />}
 
-                {/* Trigger load more khi còn 4 bài viết nữa là hết danh sách hiện tại (index === allPosts.length - 4) */}
+                {}
                 {hasNextPage &&
                   !isFetchingNextPage &&
                   index === allPosts.length - 4 && (
@@ -85,14 +82,14 @@ const Posts = () => {
               </React.Fragment>
             ))}
 
-            {/* Loading indicator */}
+            {}
             {isFetchingNextPage && (
               <div className="py-4 text-center text-gray-400">
                 Đang tải thêm...
               </div>
             )}
 
-            {/* Thông báo đã hết posts */}
+            {}
             {!hasNextPage && allPosts.length > 0 && (
               <div className="py-4 text-center text-gray-500 text-sm">
                 Bạn đã xem hết các bài viết

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    // Server state không nên lưu trong Redux
+
     user: null,
     userProfile: null,
     selectedUser: null,

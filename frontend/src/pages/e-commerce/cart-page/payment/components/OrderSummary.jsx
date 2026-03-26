@@ -19,7 +19,7 @@ export default function OrderSummary({
     >
       <h2 className="text-xl font-bold mb-6">Tóm tắt đơn hàng</h2>
 
-      {/* Product List */}
+      {}
       <div className="space-y-6 mb-8 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
         {selectedProducts.map((item, index) => (
           <div
@@ -59,7 +59,7 @@ export default function OrderSummary({
         ))}
       </div>
 
-      {/* Voucher Section (Read-only since it was applied in cart) */}
+      {}
       {selectedVoucher && (
         <div className="mb-8 p-4 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
           <div className="flex justify-between items-center">
@@ -83,7 +83,7 @@ export default function OrderSummary({
         </div>
       )}
 
-      {/* Price Breakdown */}
+      {}
       <div className="space-y-3 mb-8 text-sm">
         <div className="flex justify-between text-gray-500 font-medium">
           <span>Tạm tính</span>
@@ -112,7 +112,7 @@ export default function OrderSummary({
         </div>
       </div>
 
-      {/* CTA Button */}
+      {}
       <motion.button
         onClick={handleSubmitOrder}
         disabled={isPending}
@@ -137,7 +137,7 @@ export default function OrderSummary({
         )}
       </motion.button>
 
-      {/* Security Badges */}
+      {}
       <div className="mt-6 flex items-center justify-center gap-4 text-gray-400">
         <div className="flex items-center gap-1">
           <ShieldCheck size={14} strokeWidth={2} />

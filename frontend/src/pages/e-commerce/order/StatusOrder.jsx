@@ -2,7 +2,6 @@ import React, { useState, useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useGetOrder, useCancelOrder } from "@/hooks/ecom/useOrder";
 
-// UI Components
 import OrderHeader from "./components/OrderHeader";
 import OrderTabs from "./components/OrderTabs";
 import OrderCard from "./components/OrderCard";

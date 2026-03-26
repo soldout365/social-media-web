@@ -5,7 +5,6 @@ import { useCreateOrder } from "@/hooks/ecom/useOrder";
 import { useDeleteProductInCart } from "@/hooks/ecom/useCart";
 import { toast } from "react-hot-toast";
 
-// Sub-components
 import ShippingInfoForm from "./components/ShippingInfoForm";
 import PaymentMethodSelector from "./components/PaymentMethodSelector";
 import OrderSummary from "./components/OrderSummary";
@@ -13,11 +12,10 @@ import OrderSummary from "./components/OrderSummary";
 export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
-  // Cast to any to suppress linting errors about mutate parameter types
+
   const { mutate: createOrder, isPending } = useCreateOrder() as any;
   const { mutation: deleteFromCart } = useDeleteProductInCart() as any;
 
-  // Lấy dữ liệu từ CartSummarySidebar truyền sang
   const {
     selectedProducts = [],
     subtotal = 0,
@@ -35,7 +33,6 @@ export default function Checkout() {
     note: "",
   });
 
-  // Chặn truy cập trực tiếp nếu không có sản phẩm
   useEffect(() => {
     if (!location.state || selectedProducts.length === 0) {
       navigate("/cart");
@@ -51,7 +48,7 @@ export default function Checkout() {
   };
 
   const handleSubmitOrder = () => {
-    // Validate thông tin cơ bản
+
     if (
       !shippingInfo.name ||
       !shippingInfo.phone ||
@@ -86,12 +83,12 @@ export default function Checkout() {
 
     createOrder(orderData, {
       onSuccess: (response: any) => {
-        // Sau khi đặt hàng thành công, xóa các sản phẩm này khỏi giỏ hàng
+
         const productIdsInCart = selectedProducts.map((p: any) => p._id);
         deleteFromCart.mutate({ productIdsInCart });
 
         if (paymentMethod === "vnpay" && response.paymentUrl) {
-          // Redirect to VNPay immediately
+
           window.location.href = response.paymentUrl;
         } else {
           toast.success("Đặt hàng thành công!");
@@ -104,7 +101,6 @@ export default function Checkout() {
     });
   };
 
-  // Animations cho Framer Motion
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {

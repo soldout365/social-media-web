@@ -4,20 +4,19 @@ import { useGetStreamToken } from "@/hooks/streams/useGetStreamToken";
 import { useAuthStore } from "@/store/auth.store";
 import toast from "react-hot-toast";
 
-// Context để chia sẻ StreamVideoClient toàn app
 export const StreamVideoContext = createContext(null);
 
 export const StreamVideoProvider = ({ children }) => {
-  const [client, setClient] = useState(null); // StreamVideoClient instance - dùng chung cho tất cả cuộc gọi
+  const [client, setClient] = useState(null); 
   const [isLoading, setIsLoading] = useState(true);
-  const { authUser } = useAuthStore(); // Thông tin user hiện tại
-  const { data: tokenData } = useGetStreamToken(); // Token từ backend để xác thực với Stream API
-  const clientRef = useRef(null); // Ref để lưu client instance cho cleanup
+  const { authUser } = useAuthStore(); 
+  const { data: tokenData } = useGetStreamToken(); 
+  const clientRef = useRef(null); 
 
   useEffect(() => {
-    // Nếu chưa có token hoặc chưa đăng nhập → cleanup client cũ và reset
+
     if (!tokenData || !authUser) {
-      // Disconnect client cũ nếu có
+
       if (
         clientRef.current &&
         typeof clientRef.current.disconnectUser === "function"
@@ -30,29 +29,27 @@ export const StreamVideoProvider = ({ children }) => {
       return;
     }
 
-    let isCancelled = false; // Flag để tránh set state sau khi component unmount
+    let isCancelled = false; 
 
     const initClient = async () => {
       setIsLoading(true);
 
       try {
-        // Chuẩn bị thông tin user cho Stream SDK
+
         const user = {
           id: authUser._id,
           name: authUser.fullName || authUser.username || authUser.email,
           image: authUser.profilePic,
         };
 
-        // Tạo StreamVideoClient - CHỈ TẠO MỘT LẦN cho mỗi user session
         const instance = new StreamVideoClient({
           apiKey: import.meta.env.VITE_STREAM_API_KEY,
-          token: tokenData, // Token JWT từ backend
+          token: tokenData, 
           user,
         });
 
-        clientRef.current = instance; // Lưu vào ref để cleanup
+        clientRef.current = instance; 
 
-        // Chỉ set state nếu effect chưa bị cleanup (tránh warning)
         if (!isCancelled) {
           setClient(instance);
         }
@@ -68,7 +65,6 @@ export const StreamVideoProvider = ({ children }) => {
 
     initClient();
 
-    // Cleanup: disconnect client khi token/user thay đổi hoặc unmount
     return () => {
       isCancelled = true;
       const currentClient = clientRef.current;
@@ -80,7 +76,7 @@ export const StreamVideoProvider = ({ children }) => {
         });
       }
     };
-  }, [tokenData, authUser?._id]); // Re-run khi token hoặc user ID thay đổi
+  }, [tokenData, authUser?._id]); 
 
   return (
     <StreamVideoContext.Provider value={{ client, isLoading }}>

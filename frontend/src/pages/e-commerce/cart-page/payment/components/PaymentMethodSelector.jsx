@@ -10,7 +10,7 @@ export default function PaymentMethodSelector({
     <div>
       <h2 className="text-2xl font-bold mb-6">Phương thức thanh toán</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* COD Option */}
+        {}
         <label className="relative cursor-pointer">
           <input
             className="sr-only"
@@ -22,7 +22,7 @@ export default function PaymentMethodSelector({
           />
           <motion.div
             animate={{
-              borderColor: paymentMethod === "cod" ? "#ec4899" : "#f3f4f6", // pink-500
+              borderColor: paymentMethod === "cod" ? "#ec4899" : "#f3f4f6", 
               backgroundColor: paymentMethod === "cod" ? "#fff5f7" : "#fff",
               scale: paymentMethod === "cod" ? 1.02 : 1,
             }}
@@ -65,7 +65,7 @@ export default function PaymentMethodSelector({
           </motion.div>
         </label>
 
-        {/* VNPay Option */}
+        {}
         <label className="relative cursor-pointer">
           <input
             className="sr-only"

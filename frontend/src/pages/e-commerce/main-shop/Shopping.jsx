@@ -26,7 +26,6 @@ export default function LuxeAutoPage() {
   const queryCategory = searchParams.get("category") || "";
   const queryBrand = searchParams.get("brand") || "";
 
-  // Fetch product data to get totalPages
   const { data: productsData } = useGetAllProduct({
     _page: currentPage,
     _limit: 8,

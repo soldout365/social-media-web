@@ -17,7 +17,7 @@ const ProductAdCarousel = ({ products }) => {
 
   return (
     <div className="my-5 bg-[#0F0F0F] rounded-2xl p-4 border border-[#1A1A1A] overflow-hidden relative">
-      {/* Header */}
+      {}
       <div className="flex items-center gap-2 mb-4">
         <div className="p-1.5 bg-pink-500/10 rounded-lg">
           <Sparkles size={14} className="text-pink-500" />
@@ -27,7 +27,7 @@ const ProductAdCarousel = ({ products }) => {
         </span>
       </div>
 
-      {/* Horizontal Scroll Area */}
+      {}
       <div className="overflow-x-auto pb-2 scrollbar-hide">
         <motion.div
           className="flex gap-4 pr-4"
@@ -45,14 +45,14 @@ const ProductAdCarousel = ({ products }) => {
         </motion.div>
       </div>
 
-      {/* Add to cart Dialog */}
+      {}
       <ProductCartDialog
         isOpen={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         product={selectedProduct}
       />
 
-      {/* Custom Scrollbar Styles */}
+      {}
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

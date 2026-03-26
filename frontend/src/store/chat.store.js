@@ -77,7 +77,7 @@ export const useChatStore = create((set, get) => ({
     const { selectedUser, messages } = get();
     const { authUser } = useAuthStore.getState();
 
-    const tempId = `temp-${Date.now()}`; // Temporary ID for optimistic UI
+    const tempId = `temp-${Date.now()}`; 
 
     const optimisticMessage = {
       _id: tempId,
@@ -86,7 +86,7 @@ export const useChatStore = create((set, get) => ({
       text: messageData.text || null,
       image: messageData.image || null,
       createdAt: new Date().toISOString(),
-      isOptimistic: true, // Flag to identify optimistic messages
+      isOptimistic: true, 
     };
 
     set({ messages: [...messages, optimisticMessage] });
@@ -96,7 +96,7 @@ export const useChatStore = create((set, get) => ({
         `/messages/send/${selectedUser._id}`,
         messageData,
       );
-      // Replace the optimistic message with newest message from the server
+
       set({ messages: messages.concat(res.data) });
     } catch (error) {
       set({ messages: messages });
@@ -104,7 +104,6 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-  // Subscribe to new messages via WebSocket
   subscribeToMessages: () => {
     const { selectedUser, isSoundEnabled } = get();
     if (!selectedUser) return;
@@ -122,7 +121,7 @@ export const useChatStore = create((set, get) => ({
       if (isSoundEnabled) {
         const notificationSound = new Audio("/sounds/DuckQuack.mp3");
 
-        notificationSound.currentTime = 0; // reset to start
+        notificationSound.currentTime = 0; 
         notificationSound
           .play()
           .catch((e) => console.error("Lỗi phát âm thanh:", e));

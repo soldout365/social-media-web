@@ -10,7 +10,7 @@ import { AppContext } from "../../contexts/context";
 
 import { handlePause, handleClick } from "./utils";
 import { useStoryPause } from "../../hooks/useStoryPause";
-// eslint-disable-next-line import/namespace
+
 import { Timer } from "../../../../../utils/Timer";
 
 const StoryPortalContent = () => {
@@ -26,7 +26,6 @@ const StoryPortalContent = () => {
     userProfile,
   } = useStoryPause();
 
-  // Destructure to get stable references
   const {
     storiesDispatch,
     currentStories,

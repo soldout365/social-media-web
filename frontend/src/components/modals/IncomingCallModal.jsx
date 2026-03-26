@@ -2,11 +2,9 @@ import { Phone, PhoneOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-// Component hiển thị popup khi có cuộc gọi đến
 const IncomingCallModal = ({ caller, callId, onAccept, onReject }) => {
-  const [countdown, setCountdown] = useState(60); //60s
+  const [countdown, setCountdown] = useState(60); 
 
-  // Countdown timer
   useEffect(() => {
     if (countdown <= 0) {
       onReject();
@@ -17,10 +15,9 @@ const IncomingCallModal = ({ caller, callId, onAccept, onReject }) => {
       setCountdown(countdown - 1);
     }, 1000);
 
-    return () => clearTimeout(timer); // Cleanup
+    return () => clearTimeout(timer); 
   }, [countdown, onReject]);
 
-  // Function accept call
   const handleAccept = async () => {
     await onAccept();
   };
@@ -28,9 +25,9 @@ const IncomingCallModal = ({ caller, callId, onAccept, onReject }) => {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-8 max-w-sm w-full shadow-2xl border border-slate-700/50 relative overflow-hidden">
-        {/* Animated background glow */}
+        {}
         <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-transparent to-green-500/5 animate-pulse" />
-        {/* CALLER INFO */}
+        {}
         <div className="relative text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 rounded-full ring-4 ring-green-400/50 shadow-lg bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center">
             <Phone className="w-10 h-10 text-white" />
@@ -48,7 +45,7 @@ const IncomingCallModal = ({ caller, callId, onAccept, onReject }) => {
           </div>
         </div>
 
-        {/* ACTIONS */}
+        {}
         <div className="relative flex gap-4 justify-center">
           <button
             onClick={onReject}

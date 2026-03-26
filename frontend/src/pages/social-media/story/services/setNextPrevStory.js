@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/namespace
+
 import { Timer } from "../../../../utils/Timer";
 import { getCurrentStory } from "../components/StoriesHover/utils";
 import { REDUCER_TYPES, STORIES_REDUCER_TYPES } from "../reducers/types.enums";

@@ -27,13 +27,11 @@ const Post = ({ post }) => {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  //hook
   const { deletePost, isLoading: isDeleting } = useDeletePost();
   const { mutate: likeOrDislikePost } = useLikeOrDislikePost();
   const { bookmarkPost } = useBookmarkPost();
   const { addComment, isLoading: isAddingComment } = useAddComment();
 
-  // Tính toán trạng thái từ post data
   const isLiked =
     (Array.isArray(post?.likes) && post.likes.includes(authUser?._id)) || false;
   const isBookmarked =
@@ -70,10 +68,10 @@ const Post = ({ post }) => {
     dispatch(setSelectedPost(post));
     setOpen(true);
   };
-  //
+
   return (
     <div className="mb-8 border-b border-gray-800 pb-4">
-      {/* Header bài viết */}
+      {}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
           <Avatar className="w-8 h-8">
@@ -101,7 +99,7 @@ const Post = ({ post }) => {
           </div>
         </div>
 
-        {/* Menu 3 chấm */}
+        {}
         <Dialog open={menuOpen} onOpenChange={setMenuOpen}>
           <DialogTrigger asChild>
             <button className="hover:text-gray-400">⋯</button>
@@ -132,14 +130,14 @@ const Post = ({ post }) => {
         </Dialog>
       </div>
 
-      {/* Hình ảnh/ */}
+      {}
       <img
         className="w-full aspect-[4/5]  object-cover mb-3 bg-gray-900 border-2 border-[#2A2A2A] rounded-[8.5px]"
         src={post?.image}
         alt="post_img"
       />
 
-      {/* Action buttons (Like, Comment, Share, Save) */}
+      {}
       <div className="flex items-center gap-4 mb-2">
         {isLiked ? (
           <FaHeart
@@ -179,16 +177,16 @@ const Post = ({ post }) => {
         </div>
       </div>
 
-      {/* Số lượt thích */}
+      {}
       <div className="font-semibold mb-2">{likeCount} lượt thích</div>
 
-      {/* Caption */}
+      {}
       <div className="text-sm">
         <span className="font-semibold mr-2">{post?.author?.fullName}</span>
         <span className="text-gray-300">{post?.caption}</span>
       </div>
 
-      {/* Xem bình luận */}
+      {}
       {commentCount > 0 && (
         <button
           onClick={openCommentDialog}

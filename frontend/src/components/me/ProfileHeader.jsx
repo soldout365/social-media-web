@@ -6,7 +6,7 @@ import { useClickSound } from "../../hooks/sounds/useSound";
 import LogoutButton from "../me/LogoutButton.jsx";
 
 const ProfileHeader = () => {
-  //
+
   const { authUser, updateProfile, logout } = useAuthStore();
 
   const { isSoundEnabled, toggleSound } = useChatStore();
@@ -28,17 +28,15 @@ const ProfileHeader = () => {
       const base64Image = reader.result;
       await updateProfile({ profilePic: base64Image });
       setSelectedImg(base64Image);
-      //bien gui len phai khop voi backend
+
     };
   };
-
-  //
 
   return (
     <div className="p-6 border-b border-slate-700/50 bg-gradient-to-r from-slate-800/30 to-slate-900/30">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          {/* AVATAR */}
+          {}
           <div className="avatar online ">
             <button
               className="size-16 mt-0.5 rounded-full overflow-hidden relative group ring-2 ring-slate-600/50 hover:ring-blue-500/50 transition-all duration-300"
@@ -57,14 +55,7 @@ const ProfileHeader = () => {
 
             <input
               type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-          </div>
-
-          {/* USERNAME & ONLINE TEXT */}
+              accept="image}
           <div className="flex flex-col gap-1">
             <h3 className="text-slate-100 font-semibold text-lg max-w-[180px] truncate">
               {authUser?.fullName}
@@ -77,9 +68,9 @@ const ProfileHeader = () => {
           </div>
         </div>
 
-        {/* BUTTONS */}
+        {}
         <div className="flex gap-3 items-center">
-          {/* SOUND TOGGLE BTN */}
+          {}
           <button
             className="text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 p-2.5 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95"
             onClick={() => {
@@ -94,7 +85,7 @@ const ProfileHeader = () => {
             )}
           </button>
 
-          {/* LOGOUT BTN */}
+          {}
           <LogoutButton logout={logout} />
         </div>
       </div>

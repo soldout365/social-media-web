@@ -18,7 +18,6 @@ import {
 export const useStoryPause = () => {
   const { data: followingData } = useGetFollowingOfUser();
 
-  // Flatten all pages into single array
   const followedUsers = useMemo(() => {
     if (!followingData?.pages) return [];
     return followingData.pages.flatMap((page) => page.users);
@@ -90,12 +89,11 @@ export const useStoryPause = () => {
     });
   }, [currentStory, storiesDispatch]);
 
-  // Sync STORIES to state when fetching completes - use ref to prevent loops
   const prevUserIdRef = React.useRef(null);
   const prevStoriesRef = React.useRef(null);
 
   useEffect(() => {
-    // Chỉ chạy khi userId hoặc STORIES thực sự thay đổi
+
     if (
       userProfile?._id &&
       STORIES &&

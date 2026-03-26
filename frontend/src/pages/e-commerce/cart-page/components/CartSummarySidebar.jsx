@@ -39,7 +39,7 @@ export default function CartSummarySidebar({
 
   return (
     <div className="sticky top-24 space-y-4">
-      {/* Promo Code Box */}
+      {}
       <div className="bg-white dark:bg-slate-900/50 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden relative">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -124,7 +124,7 @@ export default function CartSummarySidebar({
         </Dialog>
       </div>
 
-      {/* Summary Box */}
+      {}
       <div className="bg-white dark:bg-slate-900/50 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/20 dark:shadow-none">
         <h2 className="text-xl font-bold mb-6">Tóm tắt đơn hàng</h2>
         <div className="space-y-4 mb-8">
@@ -188,7 +188,7 @@ export default function CartSummarySidebar({
           <ArrowRight className="w-5 h-5" />
         </Button>
 
-        {/* Secure Payment */}
+        {}
         <div className="mt-6 flex flex-col items-center gap-4">
           <p className="text-[10px] text-slate-400 flex items-center gap-1 uppercase tracking-widest font-bold">
             <Lock className="w-3 h-3" />
@@ -197,7 +197,7 @@ export default function CartSummarySidebar({
         </div>
       </div>
 
-      {/* Join Club Banner */}
+      {}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-3xl text-white shadow-lg">
         <div className="relative z-10">
           <h5 className="font-bold text-lg mb-1">Tham gia Câu lạc bộ</h5>

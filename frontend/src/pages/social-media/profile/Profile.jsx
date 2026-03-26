@@ -48,34 +48,30 @@ const Profile = () => {
     followOrUnfollow(userId);
   };
 
-  // Computed values với useMemo
-  // Kiểm tra xem người dùng hiện tại có phải là chủ sở hữu profile không
   const isLoggedInUserProfile = useMemo(
-    () => authUser?._id === userProfile?._id, // So sánh ID của người dùng đăng nhập với ID profile đang xem
-    [authUser?._id, userProfile?._id], // Tính toán lại khi ID thay đổi
+    () => authUser?._id === userProfile?._id, 
+    [authUser?._id, userProfile?._id], 
   );
 
-  // Kiểm tra xem người dùng hiện tại có đang follow profile này không
   const isFollowing = useMemo(
     () =>
       userProfile?.followers?.some(
-        (follower) => follower._id === authUser?._id, // Tìm xem ID người dùng có trong danh sách followers không
-      ) || false, // Trả về false nếu không có followers
-    [userProfile?.followers, authUser?._id], // Tính toán lại khi followers hoặc ID người dùng thay đổi
+        (follower) => follower._id === authUser?._id, 
+      ) || false, 
+    [userProfile?.followers, authUser?._id], 
   );
 
-  // Xác định bài viết cần hiển thị dựa trên tab và quyền hạn
   const displayedPost = useMemo(() => {
     if (!isLoggedInUserProfile) {
-      return userProfile?.posts; // Nếu không phải chủ sở hữu, chỉ hiển thị posts công khai
+      return userProfile?.posts; 
     }
-    // Nếu là chủ sở hữu, hiển thị posts hoặc bookmarks tùy thuộc vào tab được chọn
+
     return activeTab === "posts" ? userProfile?.posts : userProfile?.bookmarks;
   }, [
-    activeTab, // Tính toán lại khi tab thay đổi
-    userProfile?.posts, // Tính toán lại khi posts thay đổi
-    userProfile?.bookmarks, // Tính toán lại khi bookmarks thay đổi
-    isLoggedInUserProfile, // Tính toán lại khi quyền hạn thay đổi
+    activeTab, 
+    userProfile?.posts, 
+    userProfile?.bookmarks, 
+    isLoggedInUserProfile, 
   ]);
 
   const openPostDialog = (post) => {
@@ -305,7 +301,7 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Comment Dialog */}
+      {}
       <CommentDialog
         open={commentDialogOpen}
         setOpen={setCommentDialogOpen}

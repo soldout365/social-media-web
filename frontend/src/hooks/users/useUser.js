@@ -17,8 +17,8 @@ export const useGetSuggestedUsers = () => {
       const data = await userApi.getSuggestedUsers();
       return data?.users || [];
     },
-    staleTime: 5 * 60 * 1000, // Cache 5 phút
-    gcTime: 10 * 60 * 1000, // Garbage collection sau 10 phút
+    staleTime: 5 * 60 * 1000, 
+    gcTime: 10 * 60 * 1000, 
   });
 };
 
@@ -32,7 +32,7 @@ export const useGetFollowingOfUser = () => {
       });
 
       const following = data?.following || [];
-      // Filter users with posts
+
       const filtered = following.filter(
         (user) => user.posts && user.posts.length > 0,
       );
@@ -102,7 +102,7 @@ export const useEditProfile = (user) => {
   });
 
   const handleEditProfile = (profileData) => {
-    // Validate
+
     if (profileData.bio && profileData.bio.length > 150) {
       toast.error("Bio must be less than 150 characters");
       return;

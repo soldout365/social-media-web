@@ -5,7 +5,6 @@ import { useCreateOrder } from "@/hooks/ecom/useOrder";
 import { useDeleteProductInCart } from "@/hooks/ecom/useCart";
 import { toast } from "react-hot-toast";
 
-// Sub-components
 import ShippingInfoForm from "./components/ShippingInfoForm";
 import PaymentMethodSelector from "./components/PaymentMethodSelector";
 import OrderSummary from "./components/OrderSummary";
@@ -16,7 +15,6 @@ export default function PaymentPage() {
   const { mutate: createOrder, isPending } = useCreateOrder();
   const { mutation: deleteFromCart } = useDeleteProductInCart();
 
-  // Lấy dữ liệu từ CartSummarySidebar truyền sang
   const {
     selectedProducts = [],
     subtotal = 0,
@@ -34,7 +32,6 @@ export default function PaymentPage() {
     note: "",
   });
 
-  // Chặn truy cập trực tiếp nếu không có sản phẩm
   useEffect(() => {
     if (!location.state || selectedProducts.length === 0) {
       navigate("/cart");
@@ -48,7 +45,7 @@ export default function PaymentPage() {
   };
 
   const handleSubmitOrder = () => {
-    // Validate thông tin cơ bản
+
     if (
       !shippingInfo.name ||
       !shippingInfo.phone ||
@@ -75,22 +72,22 @@ export default function PaymentPage() {
       },
       paymentMethod,
       note: shippingInfo.note,
-      priceShipping: 0, // Miễn phí vận chuyển như đã hiển thị ở Cart
+      priceShipping: 0, 
     };
 
     createOrder(orderData, {
       onSuccess: () => {
-        // Sau khi đặt hàng thành công, xóa các sản phẩm này khỏi giỏ hàng
+
         const productIdsInCart = selectedProducts.map((p) => p._id);
         deleteFromCart.mutate(
           { productIdsInCart },
           {
             onSuccess: () => {
-              // Sau khi xóa xong mới chuyển trang
+
               navigate("/shopping");
             },
             onError: () => {
-              // Dù xóa ở cart bị lỗi vẫn nên chuyển trang vì đơn hàng đã tạo thành công ở backend
+
               navigate("/shopping");
             },
           },
@@ -99,7 +96,6 @@ export default function PaymentPage() {
     });
   };
 
-  // Animations cho Framer Motion
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {

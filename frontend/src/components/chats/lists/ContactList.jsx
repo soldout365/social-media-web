@@ -39,7 +39,7 @@ const ContactList = () => {
               )}
             </div>
 
-            {/* Thông tin contact */}
+            {}
             <div className="flex-1 min-w-0">
               <h4 className="text-lg text-slate-100 font-bold truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-300 group-hover:to-blue-400 transition-all duration-300">
                 {contact.fullName}
@@ -49,7 +49,7 @@ const ContactList = () => {
               </p>
             </div>
 
-            {/* Arrow icon khi hover */}
+            {}
             <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <svg
                 className="w-6 h-6 text-cyan-400"

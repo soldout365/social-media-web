@@ -1,5 +1,5 @@
 import { initTransition } from "../StoriesHover/utils";
-// eslint-disable-next-line import/namespace
+
 import { Timer } from "../../../../../utils/Timer";
 import { startStoryTransition } from "../../services/startStoryTransition";
 import { STORY_TIMING } from "../../../../../utils/timing";

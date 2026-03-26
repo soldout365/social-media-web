@@ -20,7 +20,7 @@ export default function ProductOptions({
           Kích thước &amp; Màu sắc
         </h3>
         <a
-          href="https://res.cloudinary.com/dizfbl1cv/image/upload/v1773686402/bang_size_ao_la_gi_f332ecb56c40418eb8c1ac6b5fd28687_gnxgop.png"
+          href="https:
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs font-semibold text-white hover:text-pink-300 hover:underline underline-offset-4 transition-colors"

@@ -35,7 +35,6 @@ export default function CartPage() {
   const [selectedItemKeys, setSelectedItemKeys] = useState([]);
   const [selectedVoucher, setSelectedVoucher] = useState(null);
 
-  // Calculate dynamic totals based on selected items
   const { totalQuantity, subtotal, taxAmount, totalAmount } = useMemo(() => {
     let quantity = 0;
     let tempSubtotal = 0;
@@ -53,7 +52,6 @@ export default function CartPage() {
     const tempTax = tempSubtotal * 0.01;
     let tempTotal = tempSubtotal + tempTax;
 
-    // Apply voucher discount
     if (selectedVoucher && tempTotal > 0) {
       tempTotal = Math.max(0, tempTotal - selectedVoucher.voucherPrice);
     }
@@ -92,14 +90,12 @@ export default function CartPage() {
 
   const handleDeleteItem = (cartItemId) => {
     deleteMutation.mutate({ productIdsInCart: [cartItemId] });
-    // Cleanup selection based on the custom keys if needed
+
   };
 
   const handleDeleteSelected = () => {
     if (selectedItemKeys.length === 0) return;
 
-    // selectedItemKeys are in format `${productId}-${color}-${size}`
-    // We need to find the specific cart item _ids that match these selected keys
     const idsToDelete = products
       .filter((item) => {
         const key = `${item.productId._id}-${item.color}-${item.size}`;
@@ -194,7 +190,7 @@ export default function CartPage() {
         </main>
       )}
 
-      {/* MOBILE CHECKOUT FOOTER */}
+      {}
       {!isEmptyCart && (
         <footer className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1a1a1a] border-t border-slate-200 dark:border-slate-800 px-6 py-4 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
           <div className="flex items-center justify-between gap-4">

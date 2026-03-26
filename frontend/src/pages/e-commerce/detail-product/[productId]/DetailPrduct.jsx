@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import Header from "../../main-shop/components/Header";
 import Footer from "../../main-shop/components/Footer";
 
-// Imported Refactored Components
 import ProductImageGallery from "../components/ProductImageGallery";
 import ProductInfo from "../components/ProductInfo";
 import ProductOptions from "../components/ProductOptions";
@@ -50,9 +49,8 @@ export default function DetailPrduct() {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [isOptionsOpen, setIsOptionsOpen] = useState(true);
-  const [mainImage, setMainImage] = useState(null); // Trạng thái ảnh chính hiển thị
+  const [mainImage, setMainImage] = useState(null); 
 
-  // Hàm helper để lấy ảnh chính (nếu state chưa có thì lấy ảnh mặc định của sản phẩm)
   const currentImage = mainImage || product?.images?.[0]?.url;
 
   const handleAddToCart = () => {
@@ -97,22 +95,22 @@ export default function DetailPrduct() {
 
   return (
     <div className="min-h-screen bg-background-dark text-slate-100 font-display selection:bg-pink-500/30 selection:text-white pb-10">
-      {/* HEADER */}
+      {}
       <Header />
 
-      {/* MAIN CONTENT */}
+      {}
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
+        {}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Ảnh sản phẩm */}
+          {}
           <ProductImageGallery
             product={product}
             currentImage={currentImage}
             setMainImage={setMainImage}
           />
 
-          {/* Chi tiết sản phẩm */}
+          {}
           <motion.div
             className="flex flex-col gap-6"
             variants={staggerContainer}
@@ -143,7 +141,7 @@ export default function DetailPrduct() {
           </motion.div>
         </div>
 
-        {/* RELATED PRODUCTS */}
+        {}
         <RelatedProducts relatedProducts={relatedProducts} />
       </main>
       <Footer />

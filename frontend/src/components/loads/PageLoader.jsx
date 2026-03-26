@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function PageLoader() {
   return (
-    // Container toàn màn hình với nền gradient xanh nước biển
+
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-cyan-300 via-teal-500 to-blue-900">
       <LiquidWaveLoader />
     </div>
@@ -11,13 +11,13 @@ function PageLoader() {
 function LiquidWaveLoader() {
   return (
     <div className="flex flex-col items-center gap-8">
-      {/* Container chứa hiệu ứng nước */}
+      {}
       <div className="relative w-40 h-40">
-        {/* Cốc/ly chứa nước - viền tròn trắng */}
+        {}
         <div className="absolute inset-0 rounded-full border-4 border-white/30 overflow-hidden bg-white/5 backdrop-blur-sm shadow-2xl">
-          {/* Lớp nước bên trong - dùng clip-path tạo sóng */}
+          {}
           <div className="absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t from-cyan-400 via-teal-400 to-blue-400 opacity-80">
-            {/* Sóng 1 - sóng lớn chạy chậm */}
+            {}
             <div
               className="absolute inset-0 wave-animation"
               style={{ animationDelay: "0s" }}
@@ -30,7 +30,7 @@ function LiquidWaveLoader() {
               </svg>
             </div>
 
-            {/* Sóng 2 - sóng nhỏ hơn chạy nhanh hơn */}
+            {}
             <div
               className="absolute inset-0 wave-animation-fast"
               style={{ animationDelay: "-10s" }}
@@ -44,21 +44,21 @@ function LiquidWaveLoader() {
             </div>
           </div>
 
-          {/* Giọt nước rơi từ trên xuống */}
+          {}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rounded-full animate-drip shadow-lg shadow-white/50"></div>
           <div className="absolute top-0 left-1/3 -translate-x-1/2 w-2 h-2 bg-cyan-200 rounded-full animate-drip animation-delay-1 shadow-md"></div>
           <div className="absolute top-0 left-2/3 -translate-x-1/2 w-2 h-2 bg-teal-200 rounded-full animate-drip animation-delay-2 shadow-md"></div>
           <div className="absolute top-0 left-2/5 -translate-x-1/2 w-2 h-2 bg-teal-300 rounded-full animate-drip animation-delay-3 shadow-md"></div>
         </div>
 
-        {/* Bong bóng nổi lên từ dưới */}
+        {}
         <div className="absolute bottom-8 left-1/4 w-2 h-2 bg-white/60 rounded-full animate-bubble"></div>
         <div className="absolute bottom-12 left-1/2 w-3 h-3 bg-white/40 rounded-full animate-bubble animation-delay-1"></div>
         <div className="absolute bottom-10 right-1/4 w-2 h-2 bg-white/50 rounded-full animate-bubble animation-delay-2"></div>
         <div className="absolute bottom-14 right-1/3 w-2 h-2 bg-white/30 rounded-full animate-bubble animation-delay-3"></div>
       </div>
 
-      {/* Text loading */}
+      {}
       <div className="flex flex-col items-center gap-4">
         <p className="text-white font-bold text-2xl tracking-wider animate-pulse drop-shadow-lg">
           Đang tải dữ liệu...
@@ -70,7 +70,7 @@ function LiquidWaveLoader() {
         </div>
       </div>
 
-      {/* CSS cho animations */}
+      {}
       <style jsx>{`
         @keyframes wave {
           0%,
@@ -141,7 +141,5 @@ function LiquidWaveLoader() {
     </div>
   );
 }
-
-// ========== ORBITAL PLANETS LOADER ==========
 
 export default PageLoader;

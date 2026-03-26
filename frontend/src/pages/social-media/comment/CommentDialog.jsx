@@ -12,13 +12,11 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
   const [text, setText] = useState("");
   const { selectedPost } = useSelector((store) => store.post);
 
-  // Fetch comments mới nhất khi dialog mở
   const { data: commentsData, isLoading: isLoadingComments } =
     useGetAllCommentsOfPost(selectedPost?._id, {
       enabled: open && !!selectedPost?._id,
     });
 
-  // Sử dụng comments từ API hoặc fallback về selectedPost.comments
   const comments = commentsData?.comments || selectedPost?.comments || [];
 
   const changeEventHandler = (e) => {
@@ -40,7 +38,7 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
         className="max-w-4xl p-0 flex flex-col h-[600px] bg-black border-gray-700  "
       >
         <div className="flex flex-1 overflow-hidden">
-          {/* ===== PHẦN HÌNH ẢNH (LEFT) ===== */}
+          {}
           <div className="w-1/2 flex items-center justify-center bg-black">
             <img
               src={selectedPost?.image}
@@ -49,9 +47,9 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
             />
           </div>
 
-          {/* ===== PHẦN BÌNH LUẬN (RIGHT) ===== */}
+          {}
           <div className="w-1/2 flex flex-col bg-black text-white border-l border-gray-700">
-            {/* HEADER: Thông tin tác giả */}
+            {}
             {selectedPost?.caption && (
               <div className="px-4 py-3 border-b border-gray-700">
                 <div className="flex gap-2">
@@ -83,7 +81,7 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
               </div>
             )}
 
-            {/* COMMENTS SECTION: Danh sách bình luận */}
+            {}
             <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
               {isLoadingComments ? (
                 <div className="flex justify-center items-center py-8">
@@ -110,10 +108,10 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
                         <div className="text-sm text-gray-300">{cmt?.text}</div>
                       </div>
                       <div className="text-gray-500 text-xs mt-1 px-3">
-                        {/* NEW: Có thể thêm timestamp */}
+                        {}
                       </div>
                     </div>
-                    {/* NEW: Like button cho comment */}
+                    {}
                     <Heart
                       size={16}
                       className="text-gray-500 cursor-pointer hover:text-red-600 mt-2"
@@ -127,7 +125,7 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
               )}
             </div>
 
-            {/* ACTION BAR: Like, Comment, Share */}
+            {}
             <div className="px-4 py-3 border-t border-b border-gray-700 flex gap-4">
               <Heart size={20} className="cursor-pointer hover:text-gray-400" />
               <MessageCircle
@@ -140,12 +138,12 @@ const CommentDialog = ({ open, setOpen, addCommentAtDialog, currentUser }) => {
               />
             </div>
 
-            {/* LIKES COUNT */}
+            {}
             <div className="px-4 py-2 text-sm font-semibold">
               {selectedPost?.likes?.length || 0} lượt thích
             </div>
 
-            {/* INPUT COMMENT: Nhập bình luận */}
+            {}
             <div className="px-4 py-3 border-t border-gray-700">
               <div className="flex items-center gap-2">
                 <Avatar className="w-8 h-8">

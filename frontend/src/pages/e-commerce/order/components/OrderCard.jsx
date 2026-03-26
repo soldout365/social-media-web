@@ -112,7 +112,7 @@ const OrderCard = ({ order, onCancel }) => {
         order.status === "cancelled" ? "opacity-90" : ""
       }`}
     >
-      {/* Card Header */}
+      {}
       <header className="px-8 py-5 flex flex-wrap justify-between items-center bg-zinc-50/50 border-b border-zinc-100/50">
         <div className="flex items-center gap-8">
           <div className="flex flex-col">
@@ -140,7 +140,7 @@ const OrderCard = ({ order, onCancel }) => {
         </span>
       </header>
 
-      {/* Product List */}
+      {}
       <div className="p-8 space-y-8">
         {order.products.map((p, idx) => (
           <div
@@ -185,7 +185,7 @@ const OrderCard = ({ order, onCancel }) => {
         ))}
       </div>
 
-      {/* Footer & Actions */}
+      {}
       <footer className="px-8 py-6 bg-zinc-50/50 border-t border-zinc-100/50 flex flex-col md:flex-row md:justify-between md:items-center gap-8">
         <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
@@ -217,13 +217,13 @@ const OrderCard = ({ order, onCancel }) => {
                     variant="ghost"
                     className="group relative flex-1 md:flex-none h-12 px-8 font-bold text-[11px] uppercase  text-rose-500 hover:text-white rounded-2xl overflow-hidden transition-all duration-500"
                   >
-                    {/* Background Layer */}
+                    {}
                     <div className="absolute inset-0 bg-rose-50/50 group-hover:bg-rose-500 transition-colors duration-500" />
 
-                    {/* Animated Border */}
+                    {}
                     <div className="absolute inset-0 border border-rose-200/50 group-hover:border-rose-500 rounded-2xl transition-colors duration-500" />
 
-                    {/* Content Layer */}
+                    {}
                     <div className="relative flex items-center justify-center">
                       <Ban
                         size={16}

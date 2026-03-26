@@ -25,15 +25,12 @@ const ChatHeader = () => {
       if (event.key === "Escape") setSelectedUser(null);
     };
     globalThis.addEventListener("keydown", handleEscKey);
-    // cleanup function
+
     return () => globalThis.removeEventListener("keydown", handleEscKey);
   }, [setSelectedUser]);
 
-  // ============================================
-  // XỬ LÝ KHI BẮT ĐẦU GỌI VIDEO (CALLER)
-  // ============================================
   const handleVideoCall = () => {
-    // Kiểm tra điều kiện để gọi
+
     if (!socket || !client || !selectedUser) {
       toast.error("Không thể bắt đầu cuộc gọi");
       return;
@@ -43,10 +40,8 @@ const ChatHeader = () => {
       return;
     }
 
-    // Tạo callId tạm (chưa tạo Stream call)
     const callId = `${authUser._id}-${selectedUser._id}-${Date.now()}`;
 
-    // Gửi invitation qua socket
     socket.emit("video_call_request", {
       to: selectedUser._id,
       from: authUser._id,
@@ -58,19 +53,16 @@ const ChatHeader = () => {
       },
     });
 
-    // Lưu vào store và hiển thị WaitingModal
     startWaiting({
       callId,
       peer: selectedUser,
       timestamp: Date.now(),
     });
 
-    // Hủy cuộc gọi (khi đang đợi)
     const handleCancelCall = () => {
       const { pendingCall } = useVideoCallStore.getState();
       if (!pendingCall || !socket) return;
 
-      // Gửi signal cancel đến callee
       socket.emit("video_call_cancelled", {
         callId: pendingCall.callId,
         to: pendingCall.peer._id,
@@ -78,7 +70,6 @@ const ChatHeader = () => {
       clearWaiting();
     };
 
-    // Timeout 60 giây (để có thời gian cho network delay)
     const timeout = setTimeout(() => {
       handleCancelCall();
       toast.error("Không có phản hồi từ người nhận");
@@ -87,16 +78,12 @@ const ChatHeader = () => {
     setTimeoutId(timeout);
   };
 
-  // ============================================
-  // SOCKET LISTENERS CHO VIDEO CALL
-  // ============================================
   useEffect(() => {
     if (!socket) return;
 
-    // Listener: Callee đã chấp nhận → Tạo Stream call và navigate
     const handlePeerAccepted = async ({ callId }) => {
       try {
-        // Bây giờ mới tạo Stream call (khi chắc chắn sẽ dùng)
+
         const call = client.call("default", callId);
         await call.getOrCreate({
           ring: false,
@@ -105,13 +92,11 @@ const ChatHeader = () => {
           },
         });
 
-        // Notify callee rằng call đã sẵn sàng
         socket.emit("video_call_ready", {
           callId,
           to: selectedUser._id,
         });
 
-        // Clear waiting state và navigate
         startCall(callId);
         navigate(`/streams/${callId}`);
       } catch (error) {
@@ -121,13 +106,11 @@ const ChatHeader = () => {
       }
     };
 
-    // Listener: Callee đã từ chối
     const handlePeerRejected = () => {
       clearWaiting();
       toast.error(`${selectedUser.fullName} đã từ chối cuộc gọi`);
     };
 
-    // Listener: Không thể gọi (user offline)
     const handleCallFailed = ({ reason }) => {
       clearWaiting();
       toast.error(
@@ -137,12 +120,10 @@ const ChatHeader = () => {
       );
     };
 
-    // Đăng ký listeners
     socket.on("video_call_peer_accepted", handlePeerAccepted);
     socket.on("video_call_peer_rejected", handlePeerRejected);
     socket.on("video_call_failed", handleCallFailed);
 
-    // Cleanup
     return () => {
       socket.off("video_call_peer_accepted", handlePeerAccepted);
       socket.off("video_call_peer_rejected", handlePeerRejected);
@@ -193,7 +174,7 @@ const ChatHeader = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        {/* NÚT CALL VIDEO */}
+        {}
         <button
           onClick={handleVideoCall}
           disabled={!isUserOnline}

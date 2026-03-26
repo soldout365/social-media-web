@@ -15,7 +15,7 @@ export default function FilterSidebar({ categories = [], brands = [] }) {
     } else {
       params[key] = value;
     }
-    // Reset page to 1 when filter changes if pagination exists
+
     if (params._page) params._page = 1;
 
     setSearchParams(createSearchParams(params), { replace: true });
@@ -23,7 +23,7 @@ export default function FilterSidebar({ categories = [], brands = [] }) {
   return (
     <aside className="w-full md:w-[260px] shrink-0">
       <div className="sticky top-28 space-y-10 bg-container-dark/40 border border-border-dark p-6 rounded-2xl shadow-lg">
-        {/* Category Filter */}
+        {}
         <div>
           <h3 className="font-bold mb-5 uppercase text-base  bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
             Danh mục
@@ -33,7 +33,7 @@ export default function FilterSidebar({ categories = [], brands = [] }) {
             onValueChange={(val) => handleFilterChange("category", val)}
             className="gap-4"
           >
-            {/* Tất cả Category */}
+            {}
             <label className="flex items-center gap-3 cursor-pointer group">
               <RadioGroupItem
                 value="all"
@@ -73,7 +73,7 @@ export default function FilterSidebar({ categories = [], brands = [] }) {
           </RadioGroup>
         </div>
 
-        {/* Brand Filter */}
+        {}
         <div>
           <h3 className=" font-bold mb-5 uppercase text-base bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
             Thương hiệu
@@ -83,7 +83,7 @@ export default function FilterSidebar({ categories = [], brands = [] }) {
             onValueChange={(val) => handleFilterChange("brand", val)}
             className="gap-4"
           >
-            {/* Tất cả Brand */}
+            {}
             <label className="flex items-center gap-3 cursor-pointer group">
               <RadioGroupItem
                 value="all"

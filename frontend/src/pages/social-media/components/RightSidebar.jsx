@@ -1,4 +1,4 @@
-// lam luon logic suggest user trong nay
+
 import { useAuthStore } from "@/store/auth.store";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,7 +14,6 @@ const RightSidebar = () => {
   const { data: suggestedUsers = [], isLoading } = useGetSuggestedUsers();
   const { mutate: followOrUnfollow, isPending } = useFollowOrUnfollowUser();
 
-  // Lọc chỉ hiển thị những user chưa được follow
   const unfollowedUsers = useMemo(() => {
     if (!authUser?.following || !suggestedUsers) return suggestedUsers;
 
@@ -29,7 +28,7 @@ const RightSidebar = () => {
 
   return (
     <div className="w-full max-w-[300px]">
-      {/* Current User Section */}
+      {}
       <div className="flex items-center justify-between mb-4">
         <Link
           to={`/profile/${authUser?._id}`}
@@ -60,7 +59,7 @@ const RightSidebar = () => {
         </button>
       </div>
 
-      {/* Suggested Users Header */}
+      {}
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm font-semibold text-gray-400">Gợi ý cho bạn</p>
         <button className="text-xs font-semibold text-white hover:opacity-70 transition-opacity">
@@ -68,7 +67,7 @@ const RightSidebar = () => {
         </button>
       </div>
 
-      {/* Suggested Users List */}
+      {}
       <div className="flex flex-col gap-2.5">
         {isLoading ? (
           <div className="text-sm text-gray-400">Đang tải...</div>
@@ -112,7 +111,7 @@ const RightSidebar = () => {
         )}
       </div>
 
-      {/* Footer */}
+      {}
       <div className="mt-8">
         <ul className="flex flex-wrap gap-x-1 gap-y-0.5 text-[11px] text-gray-500 opacity-70">
           <li className="hover:underline cursor-pointer">Giới thiệu</li>

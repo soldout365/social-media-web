@@ -25,7 +25,7 @@ export default function ProductGrid({ productsData }) {
   const queryQ = searchParams.get("q") || "";
 
   const products = productsData?.docs || [];
-  //
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -80,7 +80,7 @@ export default function ProductGrid({ productsData }) {
             variants={itemVariants}
             className="group bg-container-dark/60 rounded-2xl overflow-hidden border border-border-dark hover:border-pink-500/50 hover:shadow-[0_8px_30px_rgba(236,72,153,0.1)] transition-all duration-300 flex flex-col"
           >
-            {/* Image wrapper */}
+            {}
             <Link
               to={`/shopping/detail-product/${product._id || product.id}`}
               className="block aspect-[4/3] sm:aspect-square relative overflow-hidden bg-black/50"
@@ -97,7 +97,7 @@ export default function ProductGrid({ productsData }) {
               )}
             </Link>
 
-            {/* Product Info */}
+            {}
             <div className="p-5 flex flex-col flex-1">
               <p className="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">
                 {product.category?.nameCategory}
@@ -115,7 +115,7 @@ export default function ProductGrid({ productsData }) {
 
               <div className="mt-auto">
                 <div className="flex items-baseline gap-2.5 mb-5 flex-wrap">
-                  {/* Giá tiền - Điểm nhấn */}
+                  {}
                   <span className="font-black text-lg bg-gradient-to-tr from-yellow-400 to-pink-600 bg-clip-text text-transparent">
                     {product.price.toLocaleString("vi-VN")} vnđ
                   </span>
@@ -126,7 +126,7 @@ export default function ProductGrid({ productsData }) {
                   )}
                 </div>
 
-                {/* Add to cart Button - Gradient CTA */}
+                {}
                 <motion.div
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}

@@ -1,9 +1,9 @@
-import Home from "@/assets/home.svg?react"; //ko sai
-import Search from "@/assets/search.svg?react"; //ko sai
-import Heart from "@/assets/heart.svg?react"; //ko sai
-import Create from "@/assets/create.svg?react"; //ko sai
-import Explore from "@/assets/explore.svg?react"; //ko sai
-import Messenger from "@/assets/messenger.svg?react"; //ko sai
+import Home from "@/assets/home.svg?react"; 
+import Search from "@/assets/search.svg?react"; 
+import Heart from "@/assets/heart.svg?react"; 
+import Create from "@/assets/create.svg?react"; 
+import Explore from "@/assets/explore.svg?react"; 
+import Messenger from "@/assets/messenger.svg?react"; 
 
 import { LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 const LeftSidebar = () => {
-  const location = useLocation(); // lấy đường dẫn hiện tại
+  const location = useLocation(); 
   const { authUser, likeNotification, clearAllNotifications } = useAuthStore();
   const { setLogoutModalOpen } = useChatStore();
   const [open, setOpen] = useState(false);
@@ -42,7 +42,6 @@ const LeftSidebar = () => {
     }
   };
 
-  // Hàm check xem có đang active không
   const isActive = (text) => {
     if (text === "Home" && location.pathname === "/") return true;
     if (text === "Messages" && location.pathname === "/chat-page") return true;
@@ -90,9 +89,8 @@ const LeftSidebar = () => {
         </h1>
         <div>
           {sidebarItems.map((item, index) => {
-            const active = isActive(item.text); // check active
+            const active = isActive(item.text); 
 
-            //phần notifications
             if (item.text === "Notifications" && likeNotification.length > 0) {
               return (
                 <Popover key={index}>

@@ -14,7 +14,6 @@ function BackgroundEffect({ type = "rain" }) {
     let elements = [];
     let animationId;
 
-    // ✅ Class cho hiệu ứng hạt
     class Particle {
       constructor() {
         this.reset();
@@ -27,7 +26,7 @@ function BackgroundEffect({ type = "rain" }) {
         this.speedX = Math.random() * 2 - 1;
         this.speedY = Math.random() * 2 - 1;
         this.opacity = Math.random() * 0.5 + 0.3;
-        this.hue = Math.random() * 60 + 180; // Màu xanh dương -> tím
+        this.hue = Math.random() * 60 + 180; 
       }
       update() {
         this.x += this.speedX;
@@ -43,7 +42,6 @@ function BackgroundEffect({ type = "rain" }) {
       }
     }
 
-    // Khởi tạo
     for (let i = 0; i < 100; i++) {
       elements.push(new Particle());
     }

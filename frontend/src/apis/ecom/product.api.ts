@@ -14,7 +14,6 @@ export const productApi = {
     return response.data;
   },
 
-  // get detail product
   getProductById: async (id: string) => {
     const response = await axiosInstance.get<TResponseDetail<TProduct>>(
       `/product/get-product-by-id/${id}`,

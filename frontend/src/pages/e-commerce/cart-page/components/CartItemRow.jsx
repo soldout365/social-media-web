@@ -18,12 +18,9 @@ export default function CartItemRow({
   const [localQuantity, setLocalQuantity] = useState(item.quantity);
   const { mutation: updateQuantityMutation } = useUpdateQuantityInCart();
 
-  // Sync if external data changes (e.g. initial load or refetch)
   useEffect(() => {
     setLocalQuantity(item.quantity);
   }, [item.quantity]);
-
-  // Delete the debouncer logic
 
   const handleDecrease = () => {
     if (localQuantity > 1) {
@@ -76,7 +73,7 @@ export default function CartItemRow({
             isSelected ? "grayscale-0 scale-105" : "grayscale"
           }`}
           src={
-            item.productId.images?.[0]?.url || "https://via.placeholder.com/300"
+            item.productId.images?.[0]?.url || "https:
           }
         />
       </div>

@@ -7,7 +7,7 @@ export default function ShippingInfoForm({ shippingInfo, handleInputChange }) {
         Thông tin giao hàng
       </h2>
       <div className="space-y-4">
-        {/* Full Name */}
+        {}
         <div>
           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 ml-1">
             Họ và tên
@@ -22,7 +22,7 @@ export default function ShippingInfoForm({ shippingInfo, handleInputChange }) {
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Phone */}
+          {}
           <div>
             <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 ml-1">
               Số điện thoại
@@ -36,7 +36,7 @@ export default function ShippingInfoForm({ shippingInfo, handleInputChange }) {
               type="tel"
             />
           </div>
-          {/* Email */}
+          {}
           <div>
             <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 ml-1">
               Email
@@ -51,7 +51,7 @@ export default function ShippingInfoForm({ shippingInfo, handleInputChange }) {
             />
           </div>
         </div>
-        {/* Address */}
+        {}
         <div>
           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 ml-1">
             Địa chỉ
@@ -65,7 +65,7 @@ export default function ShippingInfoForm({ shippingInfo, handleInputChange }) {
             type="text"
           />
         </div>
-        {/* Order Note */}
+        {}
         <div>
           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 ml-1">
             Ghi chú đơn hàng

@@ -23,7 +23,7 @@ const OrderHeader = () => {
               className="w-8 h-8 rounded-full border-2 border-white bg-zinc-100 overflow-hidden shadow-sm"
             >
               <img
-                src={`https://i.pravatar.cc/100?img=${i + 15}`}
+                src={`https:
                 alt="user"
                 className="w-full h-full object-cover"
               />

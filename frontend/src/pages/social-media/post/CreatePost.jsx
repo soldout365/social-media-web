@@ -54,7 +54,7 @@ const CreatePost = ({ open, setOpen }) => {
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* User Info */}
+          {}
           <div className="flex gap-3 items-center">
             <Avatar className="h-12 w-12">
               <AvatarImage
@@ -76,7 +76,7 @@ const CreatePost = ({ open, setOpen }) => {
             </div>
           </div>
 
-          {/* Caption Input */}
+          {}
           <Textarea
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
@@ -84,7 +84,7 @@ const CreatePost = ({ open, setOpen }) => {
             placeholder="Bạn đang nghĩ gì?"
           />
 
-          {/* Image Preview */}
+          {}
           {imagePreview && (
             <div className="w-full rounded-lg overflow-hidden bg-gray-100">
               <img
@@ -95,7 +95,7 @@ const CreatePost = ({ open, setOpen }) => {
             </div>
           )}
 
-          {/* Hidden Input */}
+          {}
           <input
             ref={imageRef}
             type="file"
@@ -103,7 +103,7 @@ const CreatePost = ({ open, setOpen }) => {
             onChange={fileChangeHandler}
           />
 
-          {/* Action Buttons */}
+          {}
           <div className="space-y-3 pt-2 border-t">
             <Button
               onClick={() => imageRef.current.click()}
