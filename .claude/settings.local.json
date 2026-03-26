@@ -10,7 +10,10 @@
       "Skill(update-config)",
       "Bash(node -e \"JSON.parse\\(require\\(''fs''\\).readFileSync\\(''D:/project/Zhilingg-Donghua/.claude/settings.local.json'', ''utf8''\\)\\)\")",
       "Bash(claudekit hooks:*)",
-      "Bash(npx claudekit:*)"
+      "Bash(npx claudekit:*)",
+      "Bash(netstat -ano)",
+      "Bash(findstr :3000)",
+      "Bash(taskkill:*)"
     ]
   },
   "hooks": {
