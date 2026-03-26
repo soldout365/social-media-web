@@ -1,7 +1,7 @@
 import Cart from "../models/cart.model.js";
 
 export const cartService = {
-  // get carts by userId
+
   getCartsByUserId: async (query, params) => {
     console.log(query.userId);
     if (params) {
@@ -22,10 +22,10 @@ export const cartService = {
         },
       ]);
     }
-    // lấy giỏ hàng của user
+
     return Cart.findOne({ userId: query.userId });
   },
-  // createCart
+
   createCart: async (userId, carts) => {
     const newCart = new Cart({
       userId,

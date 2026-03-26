@@ -3,15 +3,15 @@ import Category from "../models/category.model.js";
 import Product from "../models/product.model.js";
 
 export const productService = {
-  // add product
+
   addProduct: async (body) => {
     return await Product.create(body);
   },
-  // get all product
+
   getAllProduct: async (option, query) => {
     return await Product.paginate(query, option);
   },
-  // get product by id
+
   getProductById: async (id) => {
     return await Product.findById(id).populate([
       {
@@ -24,7 +24,7 @@ export const productService = {
       },
     ]);
   },
-  // update status
+
   updateStatus: async (productId, status) => {
     return await Product.findByIdAndUpdate(
       { _id: productId },
@@ -32,7 +32,7 @@ export const productService = {
       { new: true },
     );
   },
-  // update is_deleted
+
   updateDeleted: async (productId, is_deleted) => {
     return await Product.findByIdAndUpdate(
       { _id: productId },
@@ -40,13 +40,13 @@ export const productService = {
       { new: true },
     );
   },
-  // update product
+
   updateProduct: async (productId, body) => {
     return await Product.findByIdAndUpdate({ _id: productId }, body, {
       new: true,
     });
   },
-  // add product_id to category
+
   addProductToCategory: async (productId, categoryId) => {
     return await Category.findByIdAndUpdate(
       { _id: categoryId },
@@ -54,7 +54,7 @@ export const productService = {
       { new: true },
     );
   },
-  // add product_id to brand
+
   addProductToBrand: async (productId, brandId) => {
     return await Brand.findByIdAndUpdate(
       { _id: brandId },
@@ -62,7 +62,7 @@ export const productService = {
       { new: true },
     );
   },
-  // remove product_id from category
+
   removeProductFromCategory: async (productId, categoryId) => {
     return await Category.findByIdAndUpdate(
       { _id: categoryId },
@@ -70,7 +70,7 @@ export const productService = {
       { new: true },
     );
   },
-  // remove product_id from brand
+
   removeProductFromBrand: async (productId, brandId) => {
     return await Brand.findByIdAndUpdate(
       { _id: brandId },
@@ -78,20 +78,20 @@ export const productService = {
       { new: true },
     );
   },
-  //delete
+
   deleteProduct: async (productId) => {
     try {
       return await Product.findByIdAndDelete(productId);
     } catch (error) {
       console.error("Error deleting product:", error);
-      throw new Error("Product deletion failed"); // Explicitly throw an error for debugging
+      throw new Error("Product deletion failed"); 
     }
   },
-  // update quantity product when order
+
   updateQuantityProduct: async (productId, sizeId, quantity) => {
     return await Product.findOneAndUpdate(
       { _id: productId, "sizes._id": sizeId },
-      { $set: { "sizes.$.quantity": quantity } }, // sizes.$.quantity: giải thích cụ thể ở dòng 64: https://docs.mongodb.com/manual/reference/operator/update/positional-filtered/#up._S_
+      { $set: { "sizes.$.quantity": quantity } }, 
       { new: true },
     );
   },

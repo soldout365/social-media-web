@@ -16,21 +16,19 @@ const router = express.Router();
 
 router.use(arcjetProtection);
 
-// get all
 router.get("/get-all-brands", wrapRequestHandler(getBrands));
-// get by id
+
 router.get("/get-brand-by-id/:brandId", wrapRequestHandler(getBrandById));
 
 router.use(protectRoute);
 
-// create brand
 router.post(
   "/create-brand",
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(brandMiddleware),
   wrapRequestHandler(createBrand),
 );
-// update
+
 router.patch(
   "/update-brand/:brandId",
   wrapRequestHandler(checkPermission),

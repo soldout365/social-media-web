@@ -8,7 +8,6 @@ import {
 
 import { HTTP_STATUS } from "../common/http-status.common.js";
 
-// create category
 export const createCategory = async (req, res) => {
   const body = req.body;
 
@@ -26,7 +25,6 @@ export const createCategory = async (req, res) => {
   });
 };
 
-// get Categories
 export const getCategories = async (req, res) => {
   const { q } = req.query;
 
@@ -43,7 +41,6 @@ export const getCategories = async (req, res) => {
     .json({ message: "Get categories success!", success: true, data: result });
 };
 
-// get category by id
 export const getCategoryById = async (req, res) => {
   const { id } = req.params;
 
@@ -59,7 +56,6 @@ export const getCategoryById = async (req, res) => {
     .json({ message: "Get cateogry success!", success: true, data: result });
 };
 
-// update category
 export const updateCategory = async (req, res) => {
   const { id } = req.params;
   const body = req.body;
@@ -76,7 +72,6 @@ export const updateCategory = async (req, res) => {
     .json({ message: "Update category success!", success: true, data: result });
 };
 
-// delete category
 export const deleteCategory = async (req, res) => {
   const { id } = req.params;
 

@@ -10,18 +10,16 @@ const router = express.Router();
 
 router.use(arcjetProtection);
 
-//2
-// router to get all products
 router.get(
   "/get-all-product",
   wrapRequestHandler(productController.getAllProduct),
 );
-// 3 router to get product by id
+
 router.get(
   "/get-product-by-id/:id",
   wrapRequestHandler(productController.getProductById),
 );
-// 4 router get product with status
+
 router.get(
   "/get-product-with-status/:status/:deleted",
   wrapRequestHandler(productController.getProductWithStatus),
@@ -29,7 +27,6 @@ router.get(
 
 router.use(protectRoute);
 
-// add product
 router.post(
   "/add-product",
   wrapRequestHandler(checkPermission),
@@ -37,14 +34,12 @@ router.post(
   wrapRequestHandler(productController.addProduct),
 );
 
-//5  router update status product
 router.patch(
   "/update-product-status/:productId",
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(productController.updateStatus),
 );
-// 6
-// router update product by id
+
 router.put(
   "/update-product/:productId",
   wrapRequestHandler(checkPermission),
@@ -52,21 +47,18 @@ router.put(
   wrapRequestHandler(productController.updateProduct),
 );
 
-// 7 router delete product
 router.delete(
   "/delete-product/:productId",
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(productController.deleteProduct),
 );
 
-// 8 xoá cứng nhiều sản phẩm
 router.delete(
   `/hard-delete-multiple-product`,
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(productController.deleteMultiple),
 );
 
-//10 xóa mềm 1 sản phẩm
 router.patch(
   "/soft-delete-product/:productId",
   wrapRequestHandler(checkPermission),

@@ -61,7 +61,6 @@ const userSchema = new mongoose.Schema(
       },
     ],
 
-    // --- CÁC TRƯỜNG CHO CHỨC NĂNG (SHOP) ---
     phone: {
       type: String,
       default: "",
@@ -89,8 +88,3 @@ userSchema.plugin(mongoosePaginate);
 const User = mongoose.model("User", userSchema);
 
 export default User;
-
-// Tên đầy đủ: Social dùng fullName (camelCase) ⚡ Flower dùng fullname (lowercase).
-// 👉 Cách xử lý: Giữ nguyên fullName của Social. Khi copy code controller, nhớ sửa fullname -> fullName.
-// Ảnh đại diện: Social dùng profilePic ⚡ Flower dùng avatar.
-// 👉 Cách xử lý: Giữ nguyên profilePic. Sửa code controller từ avatar -> profilePic.

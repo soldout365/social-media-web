@@ -15,17 +15,14 @@ router.post(
   wrapRequestHandler(voucherController.createVoucher),
 );
 
-// lấy danh sách voucher
 router.get("/get-vouchers", wrapRequestHandler(voucherController.getVouchers));
 
-// update voucher
 router.patch(
   "/update-voucher/:id",
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(voucherController.updateVoucher),
 );
 
-// xem chi tiết voucher by id
 router.get(
   "/get-voucher/:id",
   wrapRequestHandler(voucherController.getVoucherById),

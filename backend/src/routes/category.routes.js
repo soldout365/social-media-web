@@ -17,28 +17,25 @@ const router = express.Router();
 
 router.use(arcjetProtection);
 
-// get all
 router.get("/get-categories", wrapRequestHandler(getCategories));
-// get by id
+
 router.get("/get-category-by-id/:id", wrapRequestHandler(getCategoryById));
 
 router.use(protectRoute);
 
-// create brand
 router.post(
   "/create-category",
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(categoryMiddleware),
   wrapRequestHandler(createCategory),
 );
-// update
+
 router.patch(
   "/update-category-by-id/:id",
   wrapRequestHandler(checkPermission),
   wrapRequestHandler(updateCategory),
 );
 
-// delete
 router.delete(
   "/delete-category-by-id/:id",
   wrapRequestHandler(checkPermission),

@@ -37,7 +37,7 @@ export const orderController = {
     };
     return { option, query };
   },
-  // create order
+
   createOrder: async (req, res) => {
     try {
       const { _id: userId } = req.user;
@@ -49,7 +49,6 @@ export const orderController = {
         note,
       } = req.body;
 
-      // 1. TÍNH TOÁN GIÁ VÀ KIỂM TRA TỒN KHO TẠI SERVER
       let subTotal = 0;
       const verifiedProducts = [];
       const stockUpdates = [];
@@ -83,7 +82,6 @@ export const orderController = {
           });
         }
 
-        // Lấy giá từ DB
         const itemPrice = dbProduct.price;
         subTotal += itemPrice * quantity;
 
@@ -104,7 +102,6 @@ export const orderController = {
         });
       }
 
-      // 2. TÍNH VOUCHER
       let voucherDiscount = 0;
       if (voucherId) {
         const voucherDoc = await voucherService.findVoucherById(voucherId);
@@ -114,20 +111,19 @@ export const orderController = {
           voucherDoc.discount > 0
         ) {
           voucherDiscount = voucherDoc.voucherPrice;
-          // Cập nhật lượt dùng voucher
+
           await voucherService.updateVoucher(voucherId, {
             discount: voucherDoc.discount - 1,
           });
         }
       }
 
-      const shippingPrice = 0; // Có thể hardcode hoặc lấy từ logic ship
+      const shippingPrice = 0; 
       const finalTotal = Math.max(
         0,
         subTotal + shippingPrice - voucherDiscount,
       );
 
-      // 3. TẠO ORDER (Pending status)
       const newOrder = await orderService.createOrder({
         userId,
         products: verifiedProducts,
@@ -141,13 +137,11 @@ export const orderController = {
         status: "pending",
       });
 
-      // 4. XỬ LÝ THANH TOÁN VNPAY NẾU CẦN
       let paymentUrl = null;
       if (paymentMethod === "vnpay") {
         paymentUrl = generateVnPayUrl(req, newOrder._id.toString(), finalTotal);
       }
 
-      // 5. CẬP NHẬT KHO
       await Promise.all(
         stockUpdates.map((u) =>
           productService.updateQuantityProduct(
@@ -190,7 +184,6 @@ export const orderController = {
     });
   },
 
-  // get all orders
   getAllOrders: async (req, res) => {
     const { _limit = 10, _page = 1, q, status } = req.query;
     const { option, query } = orderController.optionOrder({
@@ -215,7 +208,6 @@ export const orderController = {
     });
   },
 
-  // check status
   checkStatus: (previousStatus, currentStatus) => {
     switch (currentStatus) {
       case "confirmed":
@@ -243,7 +235,6 @@ export const orderController = {
     }
   },
 
-  // cập nhật đơn hàng trạng thái đơn hàng
   updateOrder: async (req, res) => {
     const { _id } = req.user;
     const userRole = req.user?.role;
@@ -251,15 +242,12 @@ export const orderController = {
     const { orderId } = req.params;
     const { status, message } = req.body;
 
-    // lấy ra thông tin đơn hàng theo orderId
     const order = await orderService.getOrderById(orderId);
 
-    // Admin có thể cập nhật mọi đơn hàng mà không cần assignee
     const isAdmin = userRole === "admin";
 
-    // check xem có trường assignee không
     if (!order.assignee && order.status === "pending") {
-      // gán _id của user hiện tại vào trường assignee và cập nhật trạng thái đơn hàng => confirmed
+
       const updateData = isAdmin ? { status } : { assignee: _id, status };
       const updateOrder = await orderService.updateOrder(
         { _id: orderId },
@@ -275,9 +263,8 @@ export const orderController = {
         .json({ message: "Cập nhật đơn hàng thành công!", success: true });
     }
 
-    // Admin được phép cập nhật mọi đơn hàng (bỏ qua kiểm tra assignee)
     if (!isAdmin) {
-      // check xem có phải là người được gán đơn hàng không
+
       if (order.assignee && order.assignee._id.toString() !== _id) {
         return res.status(HTTP_STATUS.FORBIDDEN).json({
           message: "Bạn không có quyền cập nhật đơn hàng này!",
@@ -286,7 +273,6 @@ export const orderController = {
       }
     }
 
-    // check xem trạng thái đơn hàng có hợp lệ không
     const checkStatusInvalid = orderController.checkStatus(
       order.status,
       status,
@@ -297,8 +283,6 @@ export const orderController = {
         .json({ message: "Trạng thái đơn hàng không hợp lệ!", success: false });
     }
 
-    // trim() => tác dụng xoá các khoảng trắng ở đầu và cuối chuỗi
-    // kiểm tra xem trạng thái đơn hàng có phải là cancelled không và message có giá trị không
     if (status === "cancelled" && (!message || message.trim() === "")) {
       return res
         .status(HTTP_STATUS.BAD_REQUEST)
@@ -306,7 +290,7 @@ export const orderController = {
     }
 
     if (status === "cancelled" && message.trim() !== "") {
-      // cập nhật trạng thái đơn hàng và lý do hủy đơn hàng
+
       const updateOrder = await orderService.updateOrder(
         { _id: orderId },
         { status, reasonCancel: message },
@@ -321,7 +305,6 @@ export const orderController = {
         .json({ message: "Cập nhật đơn hàng thành công!", success: true });
     }
 
-    // cập nhật trạng thái đơn hàng
     const updateOrder = await orderService.updateOrder(
       { _id: orderId },
       { status, reasonCancel: "" },
@@ -336,14 +319,12 @@ export const orderController = {
       .json({ message: "Cập nhật đơn hàng thành công!", success: true });
   },
 
-  // cancel order
   cancelOrder: async (req, res) => {
     try {
       const { role } = req.user;
       const { orderId } = req.params;
       const { message, status } = req.body;
 
-      // 1. Lấy thông tin đơn hàng
       const order = await orderService.getOrderById(orderId);
       if (!order) {
         return res.status(HTTP_STATUS.NOT_FOUND).json({
@@ -352,9 +333,8 @@ export const orderController = {
         });
       }
 
-      // 2. Kiểm tra quyền hạn (Role check)
       if (role === "customer") {
-        // Khách hàng chỉ được hủy đơn của chính mình
+
         if (order.userId._id.toString() !== req.user._id.toString()) {
           return res.status(HTTP_STATUS.FORBIDDEN).json({
             message: "Bạn không có quyền hủy đơn hàng này!",
@@ -362,7 +342,6 @@ export const orderController = {
           });
         }
 
-        // Khách hàng chỉ được hủy đơn ở trạng thái 'pending' (chờ xác nhận)
         if (order.status !== "pending") {
           return res.status(HTTP_STATUS.BAD_REQUEST).json({
             message: "Đơn hàng đã được xử lý, không thể hủy!",
@@ -371,7 +350,6 @@ export const orderController = {
         }
       }
 
-      // 3. Kiểm tra dữ liệu đầu vào
       if (status !== "cancelled" || !message || message.trim() === "") {
         return res.status(HTTP_STATUS.BAD_REQUEST).json({
           message: "Vui lòng cung cấp trạng thái 'cancelled' và lý do hủy đơn!",
@@ -379,7 +357,6 @@ export const orderController = {
         });
       }
 
-      // 4. Cập nhật trạng thái đơn hàng
       const updateOrder = await orderService.updateOrder(
         { _id: orderId },
         { status: "cancelled", reasonCancel: message },
@@ -392,8 +369,6 @@ export const orderController = {
         });
       }
 
-      // 5. Cập nhật lại số lượng sản phẩm trong kho (Sử dụng for...of thay cho forEach để await đúng)
-      // Chúng ta cần hoàn trả số lượng sản phẩm về kho
       for (const item of order.products) {
         try {
           const productInfo = await productService.getProductById(
@@ -417,8 +392,7 @@ export const orderController = {
             `Lỗi trả hàng về kho cho sản phẩm ${item.productId}:`,
             error,
           );
-          // Không return res ở đây để tránh gián đoạn các sản phẩm khác,
-          // nhưng lỗi này nên được log lại để kiểm tra thủ công nế cần.
+
         }
       }
 

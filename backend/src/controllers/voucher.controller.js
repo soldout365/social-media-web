@@ -33,9 +33,9 @@ export const voucherController = {
     };
     return { option, query };
   },
-  // create voucher
+
   createVoucher: async (req, res) => {
-    // Tự động gán người tạo voucher là user đang đăng nhập (từ token)
+
     req.body.createdBy = req.user._id;
 
     const voucher = await voucherService.createVoucher(req.body);
@@ -53,7 +53,6 @@ export const voucherController = {
     });
   },
 
-  // get all vouchers
   getVouchers: async (req, res) => {
     const { status } = req.query;
 
@@ -74,7 +73,7 @@ export const voucherController = {
     }
 
     const result = vouchers.map((item) => {
-      // loại bỏ đi createdBy
+
       const rest = _.omit(item._doc, ["createdBy"]);
       return rest;
     });
@@ -86,7 +85,6 @@ export const voucherController = {
     });
   },
 
-  // update voucher
   updateVoucher: async (req, res) => {
     const { id } = req.params;
     const voucher = await voucherService.updateVoucher(id, req.body);
@@ -104,7 +102,6 @@ export const voucherController = {
     });
   },
 
-  // get voucher by id
   getVoucherById: async (req, res) => {
     const { id } = req.params;
     const voucher = await voucherService.findVoucherById(id);

@@ -16,14 +16,12 @@ export const voucherMiddleware = (req, res, next) => {
       .json({ message: errors, success: false });
   }
 
-  // check code đúng với cái regex đã định nghĩa /^COL\d{10}$/;
   if (!regex.test(code)) {
     return res
       .status(HTTP_STATUS.BAD_REQUEST)
       .json({ message: "Code is invalid", success: false });
   }
 
-  // check startDate và endDate
   const start = dayjs(startDate);
   const end = dayjs(endDate);
 

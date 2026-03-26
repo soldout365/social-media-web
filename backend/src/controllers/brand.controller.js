@@ -7,7 +7,6 @@ import {
 
 import { HTTP_STATUS } from "../common/http-status.common.js";
 
-// create brand
 export const createBrand = async (req, res) => {
   const body = req.body;
 
@@ -23,7 +22,6 @@ export const createBrand = async (req, res) => {
     .json({ message: "Create brand success!", success: true, brand: newBrand });
 };
 
-// get brands
 export const getBrands = async (_, res) => {
   const result = await getAllBrands();
 
@@ -38,7 +36,6 @@ export const getBrands = async (_, res) => {
     .json({ message: "Get brands success!", success: true, data: result });
 };
 
-// get brand by id
 export const getBrandById = async (req, res) => {
   const { brandId } = req.params;
 
@@ -54,7 +51,6 @@ export const getBrandById = async (req, res) => {
     .json({ message: "Get brand success!", success: true, data: result });
 };
 
-// update brand
 export const updateBrand = async (req, res) => {
   const { brandId } = req.params;
   const body = req.body;

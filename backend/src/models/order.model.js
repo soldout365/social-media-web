@@ -66,7 +66,7 @@ const orderSchema = new mongoose.Schema(
       required: true,
       enum: ["cod", "vnpay"],
       default: "cod",
-    }, // cod, payment
+    }, 
     total: {
       type: Number,
       required: true,

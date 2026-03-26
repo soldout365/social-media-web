@@ -6,7 +6,6 @@ export const createCategoryService = async (body) => {
   return newBrand;
 };
 
-// get all categories
 export const getAllCategories = async (q) => {
   const query = {
     nameCategory: { $regex: q || "", $options: "i" },
@@ -17,14 +16,12 @@ export const getAllCategories = async (q) => {
   return categories;
 };
 
-// get category by id
 export const getCategoryByIdService = async (id) => {
   const category = await Category.findById({ _id: id });
 
   return category;
 };
 
-// update category
 export const updateCategoryService = async (id, body) => {
   const category = await Category.findByIdAndUpdate({ _id: id }, body, {
     new: true,

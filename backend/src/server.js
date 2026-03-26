@@ -28,21 +28,18 @@ const PORT = process.env.PORT || 3000;
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
-// CORS - phải đặt trước các middleware khác
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: ["http:
     credentials: true,
   }),
 );
 
-// Body parser với limit 10mb
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use(cookieParser());
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/stream", streamRoutes);
@@ -55,7 +52,6 @@ app.use("/api/order", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/payment", paymentRoutes);
 
-// Make ready for deployment
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 

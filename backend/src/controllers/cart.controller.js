@@ -11,15 +11,13 @@ const checkUserExist = async (userId) => {
 };
 
 export const cartController = {
-  // add to cart
+
   addCart: async (req, res) => {
     const { _id } = req.user;
     const { userId: bodyUserId, ...product } = req.body;
 
-    // Tự động lấy ID người dùng từ token (KHÔNG CẦN GỬI LÊN TỪ BODY NỮA)
     const userId = _id.toString();
 
-    // check user tồn tại hay không
     const userExist = await checkUserExist(userId);
     if (!userExist) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
@@ -27,7 +25,7 @@ export const cartController = {
         success: false,
       });
     }
-    // check product tồn tại hay không
+
     const productExist = await productService.getProductById(product.productId);
     if (!productExist) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -36,18 +34,15 @@ export const cartController = {
       });
     }
 
-    // lấy giỏ hàng của user
     const result = await cartService.getCartsByUserId({
       userId,
     });
     if (!result) {
-      // tạo mới giỏ hàng
+
       const newCart = await cartService.createCart(userId, []);
 
-      // thêm sản phẩm vào giỏ hàng
       newCart.carts.push(product);
 
-      // tính tổng tiền
       const total =
         productExist.sale > 0
           ? product.quantity * (productExist.price - productExist.sale)
@@ -62,23 +57,20 @@ export const cartController = {
       });
     }
 
-    // lấy giỏ hàng của user nếu user đã có giỏ hàng
     const { carts } = result;
 
-    // check product tồn tại trong giỏ hàng hay chưa
     const productExitInCarts = carts.filter(
       (item) => item.productId.toString() === product.productId,
     );
 
-    // nếu tồn tại rồi thì cập nhật số lượng
     if (productExitInCarts && productExitInCarts.length > 0) {
-      // tìm ra xem có sản phẩm nào trùng màu và size không
+
       const itemExist = productExitInCarts.find(
         (item) => item.size === product.size && item.color === product.color,
       );
       if (itemExist) {
         itemExist.quantity += product.quantity;
-        // tính tổng tiền
+
         const total =
           productExist.sale > 0
             ? product.quantity * (productExist.price - productExist.sale)
@@ -90,10 +82,9 @@ export const cartController = {
           success: true,
         });
       } else {
-        // thêm sản phẩm vào giỏ hàng
+
         carts.push(product);
 
-        // tính tổng tiền
         const total =
           productExist.sale > 0
             ? product.quantity * (productExist.price - productExist.sale)
@@ -108,12 +99,11 @@ export const cartController = {
         });
       }
     }
-    // nếu chưa chưa tồn tại thêm mới vào giỏ hàng
+
     else {
-      // thêm sản phẩm vào giỏ hàng
+
       carts.push(product);
 
-      // tính tổng tiền
       const total =
         productExist.sale > 0
           ? product.quantity * (productExist.price - productExist.sale)
@@ -130,14 +120,13 @@ export const cartController = {
     }
   },
 
-  // get cart by userId
   getCartByUserId: async (req, res) => {
     const { _id, role } = req.user;
     const params = req.query;
     const { statusUser } = params;
 
     let query = {};
-    // kiểm tra role của user vaf check params có là 1 obejct rỗng hay không
+
     if (role !== TypeRole.ADMIN && Object.keys(params).length > 0) {
       return res.status(HTTP_STATUS.FORBIDDEN).json({
         message: "You do not have permission to access",
@@ -152,7 +141,6 @@ export const cartController = {
     query = { ...query, userId: _id };
     console.log("🚀 ~ getCartByUserId: ~ query:", query);
 
-    // lấy giỏ hàng của user
     const result = await cartService.getCartsByUserId(query, params);
     if (!result) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({
@@ -168,7 +156,6 @@ export const cartController = {
     });
   },
 
-  // get all carts
   getAllCarts: async (req, res) => {
     const { role } = req.user;
     const params = req.query;
@@ -190,7 +177,7 @@ export const cartController = {
     };
 
     let query = {};
-    // kiểm tra role của user vaf check params có là 1 obejct rỗng hay không
+
     if (role !== TypeRole.ADMIN && Object.keys(params).length > 0) {
       return res.status(HTTP_STATUS.FORBIDDEN).json({
         message: "You do not have permission to access",
@@ -201,11 +188,10 @@ export const cartController = {
     if (q) {
       query = {
         ...query,
-        // $or: [{ userId: { $regex: new RegExp(q), $options: 'i' } }],
+
       };
     }
 
-    // lấy tất cả giỏ hàng
     const result = await Cart.paginate(query, option);
     if (!result) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({
@@ -221,16 +207,13 @@ export const cartController = {
     });
   },
 
-  // update quantity product in cart
   updateQuantityProductInCart: async (req, res) => {
     const { _id } = req.user;
     const { productId, productIdInCart } = req.body;
     const { status } = req.query;
 
-    // Tự động lấy ID người dùng từ token
     const userId = _id.toString();
 
-    // check user tồn tại hay không
     const userExist = await checkUserExist(userId);
     if (!userExist) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({
@@ -238,7 +221,7 @@ export const cartController = {
         success: false,
       });
     }
-    // check product tồn tại hay không
+
     const productExist = await productService.getProductById(productId);
     if (!productExist) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -247,7 +230,6 @@ export const cartController = {
       });
     }
 
-    // lấy giỏ hàng của user
     const result = await cartService.getCartsByUserId({
       userId,
     });
@@ -259,7 +241,6 @@ export const cartController = {
     }
     const { carts } = result;
 
-    // check productInCart tồn tại trong giỏ hàng hay không
     const productInCart = carts.find(
       (item) => item._id.toString() === productIdInCart,
     );
@@ -272,23 +253,21 @@ export const cartController = {
 
     let isMaxQuantity = false;
     if (!status || status === "increase") {
-      // tăng số lượng sản phẩm trong giỏ hàng
+
       carts.forEach((item) => {
         if (item._id.toString() === productIdInCart) {
           item.quantity += 1;
 
-          // nếu quantity sản phẩm lớn hơn số lượng tồn kho thì không cho tăng nữa
-          // lấy ra sizes có size và color giống với sản phẩm trong giỏ hàng
           const sizeExist = productExist.sizes.find(
             (size) => size.size === item.size && size.color === item.color,
           );
           if (sizeExist && sizeExist.quantity < item.quantity) {
-            // set lại quantity sản phẩm trong giỏ hàng
+
             item.quantity -= 1;
             isMaxQuantity = true;
           }
           if (!isMaxQuantity) {
-            // tính tổng tiền
+
             result.total =
               productExist.sale > 0
                 ? productExist.price - productExist.sale + result.total
@@ -312,25 +291,23 @@ export const cartController = {
         success: true,
       });
     } else {
-      // giảm số lượng sản phẩm trong giỏ hàng
+
       carts.forEach((item) => {
         if (item._id.toString() === productIdInCart) {
           item.quantity -= 1;
 
-          // quantity sản phẩm không thể nhỏ hơn 1
           if (item.quantity < 1) {
-            // xóa sản phẩm khỏi giỏ hàng
+
             result.carts = carts.filter(
               (item) => item._id.toString() !== productIdInCart,
             );
           }
 
-          // tính tổng tiền
           result.total =
             productExist.sale > 0
               ? result.total - (productExist.price - productExist.sale)
               : result.total - productExist.price;
-          // nếu tổng tiền nhỏ hơn 0 thì gán bằng 0
+
           if (result.total < 0) {
             result.total = 0;
           }
@@ -346,16 +323,13 @@ export const cartController = {
     }
   },
 
-  // delete product in cart
   deleteProductInCart: async (req, res) => {
     const { _id } = req.user;
-    // Expected productIdsInCart to be an array of strings
+
     const { productIdsInCart } = req.body;
 
-    // Tự động lấy ID người dùng từ token
     const userId = _id.toString();
 
-    // lấy giỏ hàng của user
     const result = await cartService.getCartsByUserId({
       userId,
     });
@@ -380,15 +354,12 @@ export const cartController = {
 
     let deductAmount = 0;
 
-    // Tìm các sản phẩm được yêu cầu xóa để trừ tiền
     for (const itemId of productIdsInCart) {
       const productInCart = carts.find(
         (item) => item._id.toString() === itemId,
       );
       if (productInCart) {
-        // Find existing product cache from populated fields or look it up
-        // Currently, cart items usually hold `productId` as ObjectId or populated object.
-        // The previous code retrieved product from DB. We do that here for accurate calculation:
+
         const productExist = await productService.getProductById(
           productInCart.productId,
         );
@@ -403,12 +374,10 @@ export const cartController = {
       }
     }
 
-    // xóa các sản phẩm khỏi giỏ hàng
     result.carts = carts.filter(
       (item) => !productIdsInCart.includes(item._id.toString()),
     );
 
-    // tính tổng tiền
     result.total -= deductAmount;
     if (result.total < 0) {
       result.total = 0;

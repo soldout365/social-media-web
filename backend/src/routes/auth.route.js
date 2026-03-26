@@ -15,7 +15,7 @@ import upload from "../middleware/multer.middleware.js";
 
 const router = express.Router();
 
-router.use(arcjetProtection); // Apply Arcjet protection to all auth routes
+router.use(arcjetProtection); 
 
 router.post("/login", login);
 

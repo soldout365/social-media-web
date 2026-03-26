@@ -5,14 +5,9 @@ import timezone from "dayjs/plugin/timezone.js";
 import { ENV } from "../lib/env.js";
 import { orderService } from "../services/order.service.js";
 
-// Extend dayjs với UTC + Timezone plugins
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// -------------------------------------------------------
-// HELPER: Sắp xếp object theo alphabet (chuẩn VNPay)
-// Keys được encode để sort đúng, values encode + đổi %20 → +
-// -------------------------------------------------------
 function sortObject(obj) {
   const sorted = {};
   const keys = Object.keys(obj)
@@ -29,19 +24,12 @@ function sortObject(obj) {
   return sorted;
 }
 
-// -------------------------------------------------------
-// HELPER: Build query string dùng native JS (không dùng qs)
-// Tránh lỗi format làm sai chữ ký HMAC-SHA512
-// -------------------------------------------------------
 function buildQueryString(sortedParams) {
   return Object.keys(sortedParams)
     .map((key) => `${key}=${sortedParams[key]}`)
     .join("&");
 }
 
-// -------------------------------------------------------
-// HELPER: Verify HMAC-SHA512 từ query params trả về
-// -------------------------------------------------------
 function verifySignature(queryParams) {
   const vnp_Params = { ...queryParams };
   const secureHash = vnp_Params["vnp_SecureHash"];
@@ -59,16 +47,12 @@ function verifySignature(queryParams) {
   return { isValid: secureHash === signed, vnp_Params, signData };
 }
 
-// -------------------------------------------------------
-// UTILITY: Tạo URL thanh toán (dùng nội bộ từ order.controller.js)
-// -------------------------------------------------------
 export const generateVnPayUrl = (req, orderId, amount, bankCode = "") => {
-  // Dùng dayjs timezone để tránh offset UTC (chuẩn VNPay yêu cầu giờ VN)
+
   const now = dayjs().tz("Asia/Ho_Chi_Minh");
   const createDate = now.format("YYYYMMDDHHmmss");
   const expireDate = now.add(15, "minute").format("YYYYMMDDHHmmss");
 
-  // Lấy IP – split comma để xử lý load balancer, trim whitespace
   let ipAddr = (
     req.headers["x-forwarded-for"] ||
     req.connection?.remoteAddress ||
@@ -105,11 +89,6 @@ export const generateVnPayUrl = (req, orderId, amount, bankCode = "") => {
     vnp_Params["vnp_BankCode"] = bankCode;
   }
 
-  // -------------------------------------------------------
-  // CRITICAL: Payload Sanitization
-  // Xóa mọi key có giá trị undefined / null / "" trước khi hash
-  // VNPay nghiêm cấm tham số rỗng trong chuỗi ký – đây là nguyên nhân Error 70
-  // -------------------------------------------------------
   for (const key of Object.keys(vnp_Params)) {
     const val = vnp_Params[key];
     if (val === undefined || val === null || val === "") {
@@ -119,12 +98,10 @@ export const generateVnPayUrl = (req, orderId, amount, bankCode = "") => {
 
   const sortedParams = sortObject(vnp_Params);
 
-  // Build string bằng native JS – không dùng qs để tránh lỗi format chữ ký
   const signData = buildQueryString(sortedParams);
   const hmac = crypto.createHmac("sha512", secretKey);
   const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 
-  // queryData giống hệt signData để VNPay verify khớp
   const queryData = buildQueryString(sortedParams);
   const paymentUrl = `${vnpUrl}?${queryData}&vnp_SecureHash=${signed}`;
 
@@ -138,9 +115,6 @@ export const generateVnPayUrl = (req, orderId, amount, bankCode = "") => {
   return paymentUrl;
 };
 
-// -------------------------------------------------------
-// ROUTE HANDLER: POST /api/payment/create_payment_url
-// -------------------------------------------------------
 export const CreatePaymentURL = async (req, res) => {
   try {
     const { orderId, bankCode = "" } = req.body;
@@ -158,9 +132,6 @@ export const CreatePaymentURL = async (req, res) => {
   }
 };
 
-// -------------------------------------------------------
-// ROUTE HANDLER: GET /api/payment/vnpay_ipn (IPN Webhook từ VNPay)
-// -------------------------------------------------------
 export const ValidatePayment = async (req, res) => {
   const { isValid, vnp_Params } = verifySignature(req.query);
 
@@ -179,7 +150,6 @@ export const ValidatePayment = async (req, res) => {
         .status(200)
         .json({ RspCode: "01", Message: "Order not found" });
 
-    // ⚠️ Kiểm tra số tiền để chống tấn công MITM (Amount Tampering)
     if (Math.floor(order.total * 100) !== vnpAmount) {
       return res.status(200).json({ RspCode: "04", Message: "Invalid amount" });
     }
@@ -203,9 +173,6 @@ export const ValidatePayment = async (req, res) => {
   }
 };
 
-// -------------------------------------------------------
-// ROUTE HANDLER: GET /api/payment/vnpay_return (Return URL từ VNPay)
-// -------------------------------------------------------
 export const VerifyPayment = async (req, res) => {
   const { isValid, vnp_Params } = verifySignature(req.query);
 
